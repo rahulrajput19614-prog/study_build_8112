@@ -60,15 +60,15 @@ class AppTheme {
       brightness: Brightness.light,
       primary: primaryLight,
       onPrimary: onPrimaryLight,
-      primaryContainer: primaryLight.withValues(alpha: 0.1),
+      primaryContainer: primaryLight.withOpacity(0.1),
       onPrimaryContainer: primaryLight,
       secondary: secondaryLight,
       onSecondary: onSecondaryLight,
-      secondaryContainer: secondaryLight.withValues(alpha: 0.1),
+      secondaryContainer: secondaryLight.withOpacity(0.1),
       onSecondaryContainer: secondaryLight,
       tertiary: accentLight,
       onTertiary: onPrimaryLight,
-      tertiaryContainer: accentLight.withValues(alpha: 0.1),
+      tertiaryContainer: accentLight.withOpacity(0.1),
       onTertiaryContainer: accentLight,
       error: errorLight,
       onError: onErrorLight,
@@ -76,7 +76,7 @@ class AppTheme {
       onSurface: onSurfaceLight,
       onSurfaceVariant: textSecondaryLight,
       outline: dividerLight,
-      outlineVariant: dividerLight.withValues(alpha: 0.5),
+      outlineVariant: dividerLight.withOpacity(0.5),
       shadow: const Color(0x33000000), // 20% opacity black for Material 3
       scrim: const Color(0x80000000),
       inverseSurface: surfaceDark,
@@ -106,7 +106,7 @@ class AppTheme {
     ),
 
     // Card theme with Material 3 elevation
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: surfaceLight,
       elevation: 2,
       shadowColor: const Color(0x33000000),
@@ -231,7 +231,7 @@ class AppTheme {
         fontWeight: FontWeight.w400,
       ),
       hintStyle: GoogleFonts.roboto(
-        color: textSecondaryLight.withValues(alpha: 0.6),
+        color: textSecondaryLight.withOpacity(0.6),
         fontSize: 16,
         fontWeight: FontWeight.w400,
       ),
@@ -244,30 +244,30 @@ class AppTheme {
 
     // Interactive elements
     switchTheme: SwitchThemeData(
-      thumbColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.selected)) return primaryLight;
+      thumbColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) return primaryLight;
         return textSecondaryLight;
       }),
-      trackColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.selected))
-          return primaryLight.withValues(alpha: 0.5);
+      trackColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected))
+          return primaryLight.withOpacity(0.5);
         return dividerLight;
       }),
     ),
 
     checkboxTheme: CheckboxThemeData(
-      fillColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.selected)) return primaryLight;
+      fillColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) return primaryLight;
         return Colors.transparent;
       }),
-      checkColor: WidgetStateProperty.all(onPrimaryLight),
+      checkColor: MaterialStateProperty.all(onPrimaryLight),
       side: BorderSide(color: dividerLight, width: 2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
     ),
 
     radioTheme: RadioThemeData(
-      fillColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.selected)) return primaryLight;
+      fillColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) return primaryLight;
         return textSecondaryLight;
       }),
     ),
@@ -282,7 +282,7 @@ class AppTheme {
     sliderTheme: SliderThemeData(
       activeTrackColor: primaryLight,
       thumbColor: primaryLight,
-      overlayColor: primaryLight.withValues(alpha: 0.2),
+      overlayColor: primaryLight.withOpacity(0.2),
       inactiveTrackColor: dividerLight,
       valueIndicatorColor: primaryLight,
       valueIndicatorTextStyle: GoogleFonts.robotoMono(
@@ -293,7 +293,7 @@ class AppTheme {
     ),
 
     // Tab bar theme
-    tabBarTheme: TabBarTheme(
+    tabBarTheme: TabBarThemeData(
       labelColor: primaryLight,
       unselectedLabelColor: textSecondaryLight,
       indicatorColor: primaryLight,
@@ -313,7 +313,7 @@ class AppTheme {
     // Tooltip theme
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
-        color: textPrimaryLight.withValues(alpha: 0.9),
+        color: textPrimaryLight.withOpacity(0.9),
         borderRadius: BorderRadius.circular(4),
       ),
       textStyle: GoogleFonts.roboto(
@@ -341,7 +341,7 @@ class AppTheme {
     ),
 
     // Dialog theme
-    dialogTheme: DialogTheme(
+    dialogTheme: DialogThemeData(
       backgroundColor: surfaceLight,
       elevation: 8,
       shadowColor: const Color(0x33000000),
@@ -376,15 +376,15 @@ class AppTheme {
       brightness: Brightness.dark,
       primary: primaryDark,
       onPrimary: onPrimaryDark,
-      primaryContainer: primaryDark.withValues(alpha: 0.2),
+      primaryContainer: primaryDark.withOpacity(0.2),
       onPrimaryContainer: primaryDark,
       secondary: secondaryDark,
       onSecondary: onSecondaryDark,
-      secondaryContainer: secondaryDark.withValues(alpha: 0.2),
+      secondaryContainer: secondaryDark.withOpacity(0.2),
       onSecondaryContainer: secondaryDark,
       tertiary: accentDark,
       onTertiary: onPrimaryDark,
-      tertiaryContainer: accentDark.withValues(alpha: 0.2),
+      tertiaryContainer: accentDark.withOpacity(0.2),
       onTertiaryContainer: accentDark,
       error: errorDark,
       onError: onErrorDark,
@@ -392,7 +392,7 @@ class AppTheme {
       onSurface: onSurfaceDark,
       onSurfaceVariant: textSecondaryDark,
       outline: dividerDark,
-      outlineVariant: dividerDark.withValues(alpha: 0.5),
+      outlineVariant: dividerDark.withOpacity(0.5),
       shadow: const Color(0x66000000),
       scrim: const Color(0x80000000),
       inverseSurface: surfaceLight,
@@ -418,7 +418,7 @@ class AppTheme {
       iconTheme: IconThemeData(color: textPrimaryDark),
       actionsIconTheme: IconThemeData(color: textPrimaryDark),
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: surfaceDark,
       elevation: 2,
       shadowColor: const Color(0x66000000),
@@ -531,7 +531,7 @@ class AppTheme {
         fontWeight: FontWeight.w400,
       ),
       hintStyle: GoogleFonts.roboto(
-        color: textSecondaryDark.withValues(alpha: 0.6),
+        color: textSecondaryDark.withOpacity(0.6),
         fontSize: 16,
         fontWeight: FontWeight.w400,
       ),
@@ -542,28 +542,28 @@ class AppTheme {
       ),
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.selected)) return primaryDark;
+      thumbColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) return primaryDark;
         return textSecondaryDark;
       }),
-      trackColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.selected))
-          return primaryDark.withValues(alpha: 0.5);
+      trackColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected))
+          return primaryDark.withOpacity(0.5);
         return dividerDark;
       }),
     ),
     checkboxTheme: CheckboxThemeData(
-      fillColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.selected)) return primaryDark;
+      fillColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) return primaryDark;
         return Colors.transparent;
       }),
-      checkColor: WidgetStateProperty.all(onPrimaryDark),
+      checkColor: MaterialStateProperty.all(onPrimaryDark),
       side: BorderSide(color: dividerDark, width: 2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
     ),
     radioTheme: RadioThemeData(
-      fillColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.selected)) return primaryDark;
+      fillColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) return primaryDark;
         return textSecondaryDark;
       }),
     ),
@@ -575,7 +575,7 @@ class AppTheme {
     sliderTheme: SliderThemeData(
       activeTrackColor: primaryDark,
       thumbColor: primaryDark,
-      overlayColor: primaryDark.withValues(alpha: 0.2),
+      overlayColor: primaryDark.withOpacity(0.2),
       inactiveTrackColor: dividerDark,
       valueIndicatorColor: primaryDark,
       valueIndicatorTextStyle: GoogleFonts.robotoMono(
@@ -584,7 +584,7 @@ class AppTheme {
         fontWeight: FontWeight.w500,
       ),
     ),
-    tabBarTheme: TabBarTheme(
+    tabBarTheme: TabBarThemeData(
       labelColor: primaryDark,
       unselectedLabelColor: textSecondaryDark,
       indicatorColor: primaryDark,
@@ -602,7 +602,7 @@ class AppTheme {
     ),
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
-        color: textPrimaryDark.withValues(alpha: 0.9),
+        color: textPrimaryDark.withOpacity(0.9),
         borderRadius: BorderRadius.circular(4),
       ),
       textStyle: GoogleFonts.roboto(
@@ -626,7 +626,7 @@ class AppTheme {
       ),
       elevation: 6,
     ),
-    dialogTheme: DialogTheme(
+    dialogTheme: DialogThemeData(
       backgroundColor: surfaceDark,
       elevation: 8,
       shadowColor: const Color(0x66000000),
@@ -840,6 +840,23 @@ class AppTheme {
         color: textSecondaryDark,
         letterSpacing: 0.5,
       ),
+    );
+  }
+}
+
+// Helper extension for Color to easily create variations
+extension ColorValues on Color {
+  Color withValues({
+    int? alpha,
+    int? red,
+    int? green,
+    int? blue,
+  }) {
+    return Color.fromARGB(
+      alpha ?? this.alpha,
+      red ?? this.red,
+      green ?? this.green,
+      blue ?? this.blue,
     );
   }
 }
