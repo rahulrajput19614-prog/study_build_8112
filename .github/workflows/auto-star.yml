@@ -1,0 +1,35 @@
+# यह GitHub Action का नाम है
+name: Auto Star Repository
+
+# यह एक्शन कब चलेगा, यह यहाँ बताया गया है
+on:
+  # जब भी main या master ब्रांच में कोई कोड push होगा
+  push:
+    branches:
+      - main
+      - master
+  
+  # आप Actions टैब में जाकर इसे मैन्युअल रूप से भी चला सकते हैं
+  workflow_dispatch:
+
+# एक्शन में होने वाले काम (Jobs)
+jobs:
+  star-repo:
+    # यह जॉब किस मशीन पर चलेगा (हमेशा लेटेस्ट Ubuntu का इस्तेमाल करें)
+    runs-on: ubuntu-latest
+    
+    # इस जॉब को रिपॉजिटरी स्टार करने की इजाज़त देना ज़रूरी है
+    permissions:
+      stars: write
+      
+    # काम करने के स्टेप्स
+    steps:
+      - name: Star the repository
+        # यह कमांड GitHub API को रिक्वेस्ट भेजकर रिपॉजिटरी को स्टार करता है
+        # ${{ github.repository }} अपने आप आपकी repo का नाम (जैसे ' आपका-नाम/आपकी-repo') ले लेता है
+        # ${{ secrets.GITHUB_TOKEN }} एक सुरक्षित टोकन है जो GitHub खुद देता है
+        run: |
+          curl -X PUT \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/user/starred/${{ github.repository }}
