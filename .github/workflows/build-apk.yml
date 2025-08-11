@@ -23,7 +23,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Java का सेटअप करता है, जो Android बिल्ड के लिए ज़रूरी है
+      # 2. Java का सेटअप करता है, जो Android बिल्ड के लिए ज़रूरी है
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -34,9 +34,9 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          # --- सबसे ज़रूरी ---
-          # अपने प्रोजेक्ट का Flutter वर्शन यहाँ डालें
-          flutter-version: '3.22.2' 
+          # --- यहाँ वर्शन को सही कर दिया गया है ---
+          # आपके प्रोजेक्ट के लिए ज़रूरी नया Flutter वर्शन
+          flutter-version: '3.25.0' 
           channel: 'stable'
           cache: true
 
@@ -44,7 +44,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # 5. रिलीज़ APK बनाता है
+      # 5. रिलीज़ APK बनाता है
       - name: Build APK
         run: flutter build apk --release
 
