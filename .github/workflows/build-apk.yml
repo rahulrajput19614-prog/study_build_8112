@@ -1,0 +1,56 @@
+# वर्कफ़्लो का नाम
+name: Build Android APK
+
+# यह एक्शन कब चलेगा
+on:
+  # 'Actions' टैब में एक बटन ("Run workflow") जोड़ने के लिए
+  workflow_dispatch:
+  
+  # (Optional) आप चाहें तो main ब्रांच में push होने पर भी चला सकते हैं
+  push:
+    branches:
+      - main
+      - master
+
+# एक्शन में होने वाले काम
+jobs:
+  build:
+    # यह जॉब किस मशीन पर चलेगा
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. रिपॉजिटरी का कोड डाउनलोड करता है
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Java का सेटअप करता है, जो Android बिल्ड के लिए ज़रूरी है
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3. Flutter का सेटअप करता है
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          # --- सबसे ज़रूरी ---
+          # अपने प्रोजेक्ट का Flutter वर्शन यहाँ डालें
+          flutter-version: '3.22.2' 
+          channel: 'stable'
+          cache: true
+
+      # 4. Flutter की dependencies (packages) को डाउनलोड करता है
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 5. रिलीज़ APK बनाता है
+      - name: Build APK
+        run: flutter build apk --release
+
+      # 6. बनी हुई APK फाइल को अपलोड करता है ताकि आप उसे डाउनलोड कर सकें
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
