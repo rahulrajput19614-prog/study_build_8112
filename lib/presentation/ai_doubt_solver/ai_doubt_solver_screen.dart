@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../services/gemini_client.dart';
+// --- यहाँ बदलाव किया गया है ---
+import '../../services/gemini_client.dart' as client;
 import '../../services/gemini_service.dart';
 import './widgets/chat_message_widget.dart';
 import './widgets/typing_indicator_widget.dart';
@@ -18,14 +19,16 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
   final ScrollController _scrollController = ScrollController();
   final List<ChatMessage> _messages = [];
   bool _isTyping = false;
-  late GeminiClient _geminiClient;
+  // --- यहाँ बदलाव किया गया है ---
+  late client.GeminiClient _geminiClient;
 
   @override
   void initState() {
     super.initState();
     try {
       final service = GeminiService();
-      _geminiClient = GeminiClient(service.dio, service.authApiKey);
+      // --- यहाँ बदलाव किया गया है ---
+      _geminiClient = client.GeminiClient(service.dio, service.authApiKey);
       _addWelcomeMessage();
     } catch (e) {
       _addErrorMessage(
@@ -83,7 +86,8 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
       final enhancedPrompt = _createEducationalPrompt(message);
 
       final response = await _geminiClient.createChat(
-        messages: [Message(role: 'user', content: enhancedPrompt)],
+        // --- यहाँ बदलाव किया गया है ---
+        messages: [client.Message(role: 'user', content: enhancedPrompt)],
         model: 'gemini-1.5-flash-002',
         maxTokens: 1024,
         temperature: 0.7,
@@ -99,7 +103,8 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
         );
         _isTyping = false;
       });
-    } on GeminiException catch (e) {
+      // --- यहाँ बदलाव किया गया है ---
+    } on client.GeminiException catch (e) {
       setState(() {
         _messages.add(
           ChatMessage(
@@ -178,7 +183,7 @@ Student's question: $userMessage
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                color: Theme.of(context).primaryColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
@@ -232,7 +237,7 @@ Student's question: $userMessage
                           color: Theme.of(context)
                               .colorScheme
                               .onSurfaceVariant
-                              .withValues(alpha: 0.5),
+                              .withOpacity(0.5),
                         ),
                         const SizedBox(height: 16),
                         Text(
@@ -252,7 +257,7 @@ Student's question: $userMessage
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurfaceVariant
-                                        .withValues(alpha: 0.7),
+                                        .withOpacity(0.7),
                                   ),
                         ),
                       ],
@@ -278,7 +283,7 @@ Student's question: $userMessage
               color: Theme.of(context).cardColor,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
+                  color: Colors.black.withOpacity(0.05),
                   blurRadius: 8,
                   offset: const Offset(0, -2),
                 ),
@@ -296,14 +301,14 @@ Student's question: $userMessage
                           color: Theme.of(context)
                               .colorScheme
                               .onSurfaceVariant
-                              .withValues(alpha: 0.6),
+                              .withOpacity(0.6),
                         ),
                         prefixIcon: Icon(
                           Icons.help_outline,
                           color: Theme.of(context)
                               .colorScheme
                               .onSurfaceVariant
-                              .withValues(alpha: 0.6),
+                              .withOpacity(0.6),
                         ),
                         filled: true,
                         fillColor: Theme.of(context).scaffoldBackgroundColor,
@@ -330,7 +335,7 @@ Student's question: $userMessage
                         ? Theme.of(context)
                             .colorScheme
                             .onSurfaceVariant
-                            .withValues(alpha: 0.3)
+                            .withOpacity(0.3)
                         : Theme.of(context).primaryColor,
                     child: _isTyping
                         ? SizedBox(
@@ -374,4 +379,21 @@ class ChatMessage {
     required this.timestamp,
     this.isError = false,
   });
+}
+
+// Helper extension for Color to easily create variations
+extension ColorValues on Color {
+  Color withValues({
+    int? alpha,
+    int? red,
+    int? green,
+    int? blue,
+  }) {
+    return Color.fromARGB(
+      alpha ?? this.alpha,
+      red ?? this.red,
+      green ?? this.green,
+      blue ?? this.blue,
+    );
+  }
 }
