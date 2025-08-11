@@ -6,7 +6,6 @@ on:
   # 'Actions' टैब में एक बटन ("Run workflow") जोड़ने के लिए
   workflow_dispatch:
   
-  # (Optional) आप चाहें तो main ब्रांच में push होने पर भी चला सकते हैं
   push:
     branches:
       - main
@@ -23,7 +22,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Java का सेटअप करता है, जो Android बिल्ड के लिए ज़रूरी है
+      # 2. Java का सेटअप करता है
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -34,10 +33,9 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          # --- यहाँ वर्शन को सही कर दिया गया है ---
-          # आपके प्रोजेक्ट के लिए ज़रूरी नया Flutter वर्शन
-          flutter-version: '3.25.0' 
-          channel: 'stable'
+          # --- यहाँ चैनल को सही कर दिया गया है ---
+          # 'beta' चैनल का इस्तेमाल करें ताकि नया Dart SDK मिल सके
+          channel: 'beta' 
           cache: true
 
       # 4. Flutter की dependencies (packages) को डाउनलोड करता है
@@ -48,7 +46,7 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      # 6. बनी हुई APK फाइल को अपलोड करता है ताकि आप उसे डाउनलोड कर सकें
+      # 6. बनी हुई APK फाइल को अपलोड करता है
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
