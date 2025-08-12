@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:file_picker/file_picker.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isDark = false;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'AI Doubt Solver',
-      theme: ThemeData(primarySwatch: Colors.indigo),
-      home: HomeScreen(),
+      theme: _isDark ? ThemeData.dark() : ThemeData.light(),
+      home: HomeScreen(toggleTheme: () {
+        setState(() {
+          _isDark = !_isDark;
+        });
+      }),
       routes: {
         '/ai': (context) => AIDoubtScreen(),
       },
@@ -21,10 +34,21 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
+  final VoidCallback toggleTheme;
+  HomeScreen({required this.toggleTheme});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Welcome Rahul')),
+      appBar: AppBar(
+        title: Text('Welcome Rahul'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.brightness_6),
+            onPressed: toggleTheme,
+          ),
+        ],
+      ),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
@@ -46,6 +70,14 @@ class _AIDoubtScreenState extends State<AIDoubtScreen> {
   TextEditingController _controller = TextEditingController();
   List<Map<String, String>> messages = [];
   bool _loading = false;
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _speech = stt.SpeechToText();
+  }
 
   Future<void> getAIAnswer(String question) async {
     setState(() {
@@ -56,7 +88,7 @@ class _AIDoubtScreenState extends State<AIDoubtScreen> {
     final response = await http.post(
       Uri.parse('https://api.openai.com/v1/chat/completions'),
       headers: {
-        'Authorization': 'Bearer YOUR_API_KEY', // ← यहाँ अपना OpenAI API key डालना है
+        'Authorization': 'Bearer YOUR_API_KEY', // ← अपना OpenAI API key डालो
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
@@ -74,6 +106,33 @@ class _AIDoubtScreenState extends State<AIDoubtScreen> {
     });
   }
 
+  void startListening() async {
+    bool available = await _speech.initialize();
+    if (available) {
+      setState(() => _isListening = true);
+      _speech.listen(onResult: (result) {
+        setState(() {
+          _controller.text = result.recognizedWords;
+        });
+      });
+    }
+  }
+
+  void stopListening() {
+    _speech.stop();
+    setState(() => _isListening = false);
+  }
+
+  Future<void> pickPDF() async {
+    final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
+    if (result != null) {
+      final fileName = result.files.single.name;
+      setState(() {
+        messages.add({"role": "user", "content": "PDF uploaded: $fileName"});
+      });
+    }
+  }
+
   Widget buildMessageBubble(String role, String content) {
     bool isUser = role == "user";
     return Align(
@@ -82,7 +141,7 @@ class _AIDoubtScreenState extends State<AIDoubtScreen> {
         margin: EdgeInsets.symmetric(vertical: 6),
         padding: EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isUser ? Colors.blue[100] : Colors.grey[200],
+          color: isUser ? Colors.blue[100] : Colors.grey[300],
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(content),
@@ -93,7 +152,15 @@ class _AIDoubtScreenState extends State<AIDoubtScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('AI Doubt Solver')),
+      appBar: AppBar(
+        title: Text('AI Doubt Solver'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.picture_as_pdf),
+            onPressed: pickPDF,
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Expanded(
@@ -111,6 +178,10 @@ class _AIDoubtScreenState extends State<AIDoubtScreen> {
             padding: const EdgeInsets.all(12.0),
             child: Row(
               children: [
+                IconButton(
+                  icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
+                  onPressed: _isListening ? stopListening : startListening,
+                ),
                 Expanded(
                   child: TextField(
                     controller: _controller,
