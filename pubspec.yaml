@@ -21,7 +21,8 @@ dependencies:
   http: ^1.1.0
 
   # New features
-  speech_to_text: ^5.0.4
+  speech_to_text:
+    path: plugins/speech_to_text
   file_picker: ^6.1.1
   video_player: ^2.7.2
 
@@ -45,6 +46,3 @@ flutter:
   assets:
     - assets/
     - assets/images/
-dependencies:
-  speech_to_text:
-    path: plugins/speech_to_text
