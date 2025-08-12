@@ -5,7 +5,7 @@ import 'package:sizer/sizer.dart';
 import '../core/app_export.dart';
 import '../widgets/custom_error_widget.dart';
 import '../presentation/bottom_nav.dart'; // ✅ BottomNav screen
-import '../presentation/ai_solver_screen.dart'; // ✅ AI screen import
+import '../presentation/ai_doubt_solver_screen.dart'; // ✅ Correct AI screen import
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           initialRoute: '/home', // ✅ Direct route
           routes: {
             '/home': (context) => const BottomNav(), // ✅ BottomNav screen
-            '/ai': (context) => const AISolverScreen(), // ✅ AI screen route
+            '/ai': (context) => const AiDoubtSolverScreen(), // ✅ Correct AI screen route
             // Add other routes here if needed
           },
           // 🚨 CRITICAL: NEVER REMOVE OR MODIFY
