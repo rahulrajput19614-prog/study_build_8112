@@ -1,163 +1,184 @@
+import 'dart:convert';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-import 'package:file_picker/file_picker.dart';
 
-void main() {
-  runApp(MyApp());
-}
+/// Reads the API key from --dart-define=OPENAI_API_KEY=xxx at build/run time.
+/// In GitHub Actions, pass via secrets and --dart-define.
+const String kOpenAIApiKey = String.fromEnvironment('OPENAI_API_KEY');
 
-class MyApp extends StatefulWidget {
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  bool _isDark = false;
+class AiDoubtSolverScreen extends StatefulWidget {
+  const AiDoubtSolverScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'AI Doubt Solver',
-      theme: _isDark ? ThemeData.dark() : ThemeData.light(),
-      home: HomeScreen(toggleTheme: () {
-        setState(() {
-          _isDark = !_isDark;
-        });
-      }),
-      routes: {
-        '/ai': (context) => AIDoubtScreen(),
-      },
-    );
-  }
+  State<AiDoubtSolverScreen> createState() => _AiDoubtSolverScreenState();
 }
 
-class HomeScreen extends StatelessWidget {
-  final VoidCallback toggleTheme;
-  HomeScreen({required this.toggleTheme});
+class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
+  final TextEditingController _controller = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Welcome Rahul'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.brightness_6),
-            onPressed: toggleTheme,
-          ),
-        ],
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/ai');
-          },
-          child: Text('Open AI Doubt Solver'),
-        ),
-      ),
-    );
-  }
-}
-
-class AIDoubtScreen extends StatefulWidget {
-  @override
-  _AIDoubtScreenState createState() => _AIDoubtScreenState();
-}
-
-class _AIDoubtScreenState extends State<AIDoubtScreen> {
-  TextEditingController _controller = TextEditingController();
-  List<Map<String, String>> messages = [];
+  final List<Map<String, String>> _messages = <Map<String, String>>[];
   bool _loading = false;
-  late stt.SpeechToText _speech;
+
+  late final stt.SpeechToText _speech;
   bool _isListening = false;
 
   @override
   void initState() {
     super.initState();
     _speech = stt.SpeechToText();
+    _addSystemMessage('Hi 👋 I’m your AI doubt solver. Ask me anything!');
   }
 
-  Future<void> getAIAnswer(String question) async {
+  void _addSystemMessage(String content, {bool isError = false}) {
     setState(() {
-      _loading = true;
-      messages.add({"role": "user", "content": question});
+      _messages.add({
+        'role': isError ? 'error' : 'assistant',
+        'content': content,
+      });
     });
+    _scrollToBottomSoon();
+  }
 
-    final response = await http.post(
-      Uri.parse('https://api.openai.com/v1/chat/completions'),
-      headers: {
-        'Authorization': 'Bearer YOUR_API_KEY', // ← अपना OpenAI API key डालो
+  void _addUserMessage(String content) {
+    setState(() {
+      _messages.add({'role': 'user', 'content': content});
+    });
+    _scrollToBottomSoon();
+  }
+
+  void _scrollToBottomSoon() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_scrollController.hasClients) return;
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent + 120,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOut,
+      );
+    });
+  }
+
+  Future<void> _sendToAI(String prompt) async {
+    if (prompt.trim().isEmpty) return;
+
+    // Add user message immediately
+    _addUserMessage(prompt);
+    setState(() => _loading = true);
+    _controller.clear();
+
+    // Guard: API key present?
+    if (kOpenAIApiKey.isEmpty) {
+      setState(() => _loading = false);
+      _addSystemMessage(
+        'API key missing. Please set OPENAI_API_KEY via --dart-define or CI secret.',
+        isError: true,
+      );
+      return;
+    }
+
+    try {
+      final uri = Uri.parse('https://api.openai.com/v1/chat/completions');
+      final headers = <String, String>{
+        'Authorization': 'Bearer $kOpenAIApiKey',
         'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        "model": "gpt-3.5-turbo",
-        "messages": messages,
-      }),
-    );
+      };
+      final body = jsonEncode({
+        'model': 'gpt-3.5-turbo',
+        'messages': _messages
+            .where((m) => m['role'] == 'user' || m['role'] == 'assistant')
+            .map((m) => {'role': m['role'], 'content': m['content']})
+            .toList(),
+        'temperature': 0.7,
+      });
 
-    final data = jsonDecode(response.body);
-    final aiReply = data['choices'][0]['message']['content'];
+      final resp = await http.post(uri, headers: headers, body: body);
 
-    setState(() {
-      messages.add({"role": "assistant", "content": aiReply});
-      _loading = false;
-    });
+      if (resp.statusCode >= 200 && resp.statusCode < 300) {
+        final data = jsonDecode(resp.body) as Map<String, dynamic>;
+        final choices = data['choices'] as List<dynamic>?;
+        final aiReply = choices != null &&
+                choices.isNotEmpty &&
+                choices.first['message'] != null
+            ? (choices.first['message']['content'] as String? ?? '')
+            : 'No response received.';
+        setState(() => _loading = false);
+        _addSystemMessage(aiReply.isEmpty ? 'No response received.' : aiReply);
+      } else {
+        setState(() => _loading = false);
+        String msg = 'AI error: ${resp.statusCode}';
+        try {
+          final err = jsonDecode(resp.body);
+          if (err is Map && err['error'] is Map && err['error']['message'] != null) {
+            msg = 'AI error: ${err['error']['message']}';
+          }
+        } catch (_) {}
+        _addSystemMessage(msg, isError: true);
+      }
+    } catch (e) {
+      setState(() => _loading = false);
+      _addSystemMessage('Network error: $e', isError: true);
+    }
   }
 
-  void startListening() async {
-    bool available = await _speech.initialize();
-    if (available) {
+  Future<void> _pickPDF() async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: const ['pdf'],
+      );
+      if (result != null) {
+        final fileName = result.files.single.name;
+        _addUserMessage('PDF uploaded: $fileName');
+      }
+    } catch (e) {
+      _addSystemMessage('PDF pick failed: $e', isError: true);
+    }
+  }
+
+  Future<void> _startListening() async {
+    try {
+      final available = await _speech.initialize();
+      if (!available) {
+        _addSystemMessage('Mic not available or permission denied.', isError: true);
+        return;
+      }
       setState(() => _isListening = true);
       _speech.listen(onResult: (result) {
         setState(() {
           _controller.text = result.recognizedWords;
         });
       });
+    } catch (e) {
+      _addSystemMessage('Speech error: $e', isError: true);
     }
   }
 
-  void stopListening() {
+  void _stopListening() {
     _speech.stop();
     setState(() => _isListening = false);
   }
 
-  Future<void> pickPDF() async {
-    final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
-    if (result != null) {
-      final fileName = result.files.single.name;
-      setState(() {
-        messages.add({"role": "user", "content": "PDF uploaded: $fileName"});
-      });
-    }
-  }
-
-  Widget buildMessageBubble(String role, String content) {
-    bool isUser = role == "user";
-    return Align(
-      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 6),
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: isUser ? Colors.blue[100] : Colors.grey[300],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Text(content),
-      ),
-    );
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    if (_isListening) _speech.stop();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('AI Doubt Solver'),
+        title: const Text('AI Doubt Solver'),
         actions: [
           IconButton(
-            icon: Icon(Icons.picture_as_pdf),
-            onPressed: pickPDF,
+            tooltip: 'Pick PDF',
+            icon: const Icon(Icons.picture_as_pdf),
+            onPressed: _pickPDF,
           ),
         ],
       ),
@@ -165,43 +186,81 @@ class _AIDoubtScreenState extends State<AIDoubtScreen> {
         children: [
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.all(16),
-              itemCount: messages.length,
+              controller: _scrollController,
+              padding: const EdgeInsets.all(16),
+              itemCount: _messages.length + (_loading ? 1 : 0),
               itemBuilder: (context, index) {
-                final msg = messages[index];
-                return buildMessageBubble(msg['role']!, msg['content']!);
+                if (_loading && index == _messages.length) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('AI is typing…'),
+                    ),
+                  );
+                }
+                final msg = _messages[index];
+                final role = msg['role'] ?? 'assistant';
+                final content = msg['content'] ?? '';
+                final isUser = role == 'user';
+                final isError = role == 'error';
+
+                final bubbleColor = isError
+                    ? Colors.red.shade100
+                    : isUser
+                        ? Theme.of(context).colorScheme.primaryContainer
+                        : Theme.of(context).colorScheme.surfaceVariant;
+
+                final align =
+                    isUser ? Alignment.centerRight : Alignment.centerLeft;
+
+                return Align(
+                  alignment: align,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: bubbleColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(content),
+                  ),
+                );
               },
             ),
           ),
-          if (_loading) CircularProgressIndicator(),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              children: [
-                IconButton(
-                  icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
-                  onPressed: _isListening ? stopListening : startListening,
-                ),
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: 'Apna sawal likhiye...',
-                      border: OutlineInputBorder(),
+          const Divider(height: 1),
+          SafeArea(
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+              child: Row(
+                children: [
+                  IconButton(
+                    tooltip: _isListening ? 'Stop listening' : 'Start listening',
+                    icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
+                    onPressed: _isListening ? _stopListening : _startListening,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      textInputAction: TextInputAction.send,
+                      onSubmitted: (_) => _sendToAI(_controller.text),
+                      decoration: const InputDecoration(
+                        hintText: 'Apna sawal likhiye...',
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_controller.text.trim().isNotEmpty) {
-                      getAIAnswer(_controller.text.trim());
-                      _controller.clear();
-                    }
-                  },
-                  child: Text('Ask'),
-                ),
-              ],
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () => _sendToAI(_controller.text),
+                    child: const Text('Ask'),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
