@@ -4,6 +4,7 @@ import 'package:sizer/sizer.dart';
 
 import '../core/app_export.dart';
 import '../widgets/custom_error_widget.dart';
+import '../presentation/bottom_nav.dart'; // ✅ BottomNav screen
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,8 +34,11 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.darkTheme,
           themeMode: ThemeMode.light,
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.initial,
-          routes: AppRoutes.routes,
+          initialRoute: '/home', // ✅ Direct route
+          routes: {
+            '/home': (context) => const BottomNav(), // ✅ BottomNav screen
+            // Add other routes here if needed
+          },
           // 🚨 CRITICAL: NEVER REMOVE OR MODIFY
           builder: (context, child) {
             final mediaQuery = MediaQuery.of(context);
@@ -45,7 +49,6 @@ class MyApp extends StatelessWidget {
               child: child!,
             );
           },
-          // 🚨 END CRITICAL SECTION
         );
       },
     );
