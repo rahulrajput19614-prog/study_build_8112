@@ -9,7 +9,6 @@ import '../presentation/ai_doubt_solver/ai_doubt_solver_screen.dart';
 import '../presentation/test_results_screen/test_results_screen.dart';
 
 class AppRoutes {
-  // TODO: Add your routes here
   static const String initial = '/';
   static const String splash = '/splash-screen';
   static const String testCategories = '/test-categories-screen';
@@ -28,8 +27,7 @@ class AppRoutes {
     login: (context) => const LoginScreen(),
     onboardingFlow: (context) => const OnboardingFlow(),
     registration: (context) => const RegistrationScreen(),
-    aiDoubtSolver: (context) => const AiDoubtSolverScreen(),
+    aiDoubtSolver: (context) => AiDoubtSolverScreen(), // ✅ FIXED: Removed const
     testResultsScreen: (context) => const TestResultsScreen(),
-    // TODO: Add your other routes here
   };
 }
