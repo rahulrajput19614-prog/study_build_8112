@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
-/// Reads the API key from --dart-define=OPENAI_API_KEY=xxx at build/run time.
-/// In GitHub Actions, pass via secrets and --dart-define.
-const String kOpenAIApiKey = String.fromEnvironment('OPENAI_API_KEY');
+/// ⚠️ For local testing only. Don't hardcode in production!
+const String kOpenAIApiKey = 'sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // ← Replace with your actual key
 
 class AiDoubtSolverScreen extends StatefulWidget {
   const AiDoubtSolverScreen({super.key});
@@ -64,12 +63,10 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
   Future<void> _sendToAI(String prompt) async {
     if (prompt.trim().isEmpty) return;
 
-    // Add user message immediately
     _addUserMessage(prompt);
     setState(() => _loading = true);
     _controller.clear();
 
-    // Guard: API key present?
     if (kOpenAIApiKey.isEmpty) {
       setState(() => _loading = false);
       _addSystemMessage(
@@ -218,53 +215,3 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
                   alignment: align,
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 6),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                    decoration: BoxDecoration(
-                      color: bubbleColor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(content),
-                  ),
-                );
-              },
-            ),
-          ),
-          const Divider(height: 1),
-          SafeArea(
-            top: false,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-              child: Row(
-                children: [
-                  IconButton(
-                    tooltip: _isListening ? 'Stop listening' : 'Start listening',
-                    icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
-                    onPressed: _isListening ? _stopListening : _startListening,
-                  ),
-                  Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      textInputAction: TextInputAction.send,
-                      onSubmitted: (_) => _sendToAI(_controller.text),
-                      decoration: const InputDecoration(
-                        hintText: 'Apna sawal likhiye...',
-                        border: OutlineInputBorder(),
-                        isDense: true,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () => _sendToAI(_controller.text),
-                    child: const Text('Ask'),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
