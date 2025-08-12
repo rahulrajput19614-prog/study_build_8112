@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class StudyReelsScreen extends StatefulWidget {
+  const StudyReelsScreen({super.key}); // ✅ Added const constructor
+
   @override
   _StudyReelsScreenState createState() => _StudyReelsScreenState();
 }
@@ -63,7 +65,7 @@ class _StudyReelsScreenState extends State<StudyReelsScreen> {
                         aspectRatio: controller.value.aspectRatio,
                         child: VideoPlayer(controller),
                       )
-                    : CircularProgressIndicator(),
+                    : const CircularProgressIndicator(),
               ),
               Positioned(
                 bottom: 30,
@@ -71,15 +73,15 @@ class _StudyReelsScreenState extends State<StudyReelsScreen> {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.thumb_up, color: Colors.white),
+                      icon: const Icon(Icons.thumb_up, color: Colors.white),
                       onPressed: () {},
                     ),
                     IconButton(
-                      icon: Icon(Icons.bookmark, color: Colors.white),
+                      icon: const Icon(Icons.bookmark, color: Colors.white),
                       onPressed: () {},
                     ),
                     IconButton(
-                      icon: Icon(Icons.share, color: Colors.white),
+                      icon: const Icon(Icons.share, color: Colors.white),
                       onPressed: () {},
                     ),
                   ],
