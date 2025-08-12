@@ -45,3 +45,6 @@ flutter:
   assets:
     - assets/
     - assets/images/
+dependencies:
+  speech_to_text:
+    path: plugins/speech_to_text
