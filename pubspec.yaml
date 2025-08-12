@@ -46,3 +46,9 @@ flutter:
   assets:
     - assets/
     - assets/images/
+
+  plugin:
+    platforms:
+      android:
+        package: com.plugin.speechtotext
+        pluginClass: SpeechToTextPlugin
