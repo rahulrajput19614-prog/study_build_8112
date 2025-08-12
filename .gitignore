@@ -46,3 +46,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 flutter_linux_*.tar.xz
+flutter_linux_3.7.12-stable.tar.xz
