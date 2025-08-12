@@ -1,0 +1,11 @@
+group 'com.plugin.speechtotext'
+
+android {
+    namespace 'com.plugin.speechtotext'
+    compileSdkVersion 33
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 33
+    }
+}
