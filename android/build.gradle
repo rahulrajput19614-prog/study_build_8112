@@ -1,3 +1,6 @@
+android {
+    namespace 'com.plugin.speechtotext'
+}
 buildscript {
     ext.kotlin_version = '2.1.0'
     repositories {
