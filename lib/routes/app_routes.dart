@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+// Screens
 import '../presentation/splash_screen/splash_screen.dart';
 import '../presentation/test_categories_screen/test_categories_screen.dart';
 import '../presentation/exam_category_dashboard/exam_category_dashboard.dart';
@@ -7,10 +9,12 @@ import '../presentation/onboarding_flow/onboarding_flow.dart';
 import '../presentation/registration_screen/registration_screen.dart';
 import '../presentation/ai_doubt_solver/ai_doubt_solver_screen.dart';
 import '../presentation/test_results_screen/test_results_screen.dart';
-import '../presentation/study_reels_screen.dart'; // ✅ Add this
-import '../presentation/home_screen.dart'; // ✅ Add this
+import '../presentation/study_reels_screen.dart';
+import '../presentation/profile_screen.dart';
+import '../presentation/home_screen.dart';
 
 class AppRoutes {
+  // Route names
   static const String initial = '/';
   static const String splash = '/splash-screen';
   static const String testCategories = '/test-categories-screen';
@@ -20,9 +24,12 @@ class AppRoutes {
   static const String registration = '/registration-screen';
   static const String aiDoubtSolver = '/ai-doubt-solver';
   static const String testResultsScreen = '/test-results-screen';
-  static const String studyReelsScreen = '/study-reels-screen'; // ✅ Add this
-  static const String homeScreen = '/home-screen'; // ✅ Add this
+  static const String studyReelsScreen = '/study-reels-screen';
+  static const String profileScreen = '/profile-screen';
+  static const String aiDoubtScreen = '/ai-doubt-screen';
+  static const String homeScreen = '/home-screen';
 
+  // Route map
   static Map<String, WidgetBuilder> routes = {
     initial: (context) => const SplashScreen(),
     splash: (context) => const SplashScreen(),
@@ -33,7 +40,9 @@ class AppRoutes {
     registration: (context) => const RegistrationScreen(),
     aiDoubtSolver: (context) => const AiDoubtSolverScreen(),
     testResultsScreen: (context) => const TestResultsScreen(),
-    studyReelsScreen: (context) => const StudyReelsScreen(), // ✅ FIXED
-    homeScreen: (context) => const HomeScreen(), // ✅ FIXED
+    studyReelsScreen: (context) => StudyReelsScreen(),
+    profileScreen: (context) => const ProfileScreen(),
+    aiDoubtScreen: (context) => const AiDoubtSolverScreen(),
+    homeScreen: (context) => const HomeScreen(),
   };
 }
