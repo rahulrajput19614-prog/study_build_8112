@@ -8,7 +8,12 @@ import '../presentation/registration_screen/registration_screen.dart';
 import '../presentation/ai_doubt_solver/ai_doubt_solver_screen.dart';
 import '../presentation/test_results_screen/test_results_screen.dart';
 
+<<<<<<< HEAD
 class AppRoutes {
+=======
+
+aiDoubtSolver: (context) => const AiDoubtSolverScreen(),  // TODO: Add your routes here
+>>>>>>> 1978886 (Fixed route: AiDoubtSolverScreen name corrected)
   static const String initial = '/';
   static const String splash = '/splash-screen';
   static const String testCategories = '/test-categories-screen';
