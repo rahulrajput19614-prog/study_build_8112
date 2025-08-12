@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.study_build.app" // ✅ Make sure this matches your AndroidManifest.xml
+    namespace = "com.study_build.app" // ✅ Must match AndroidManifest.xml
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
