@@ -7,23 +7,25 @@ environment:
   sdk: ^3.6.0
 
 dependencies:
-  flutter:       # 🚨 CRITICAL: Required for every Flutter project - DO NOT REMOVE
-    sdk: flutter # 🚨 CRITICAL: Required for every Flutter project - DO NOT REMOVE
+  flutter:
+    sdk: flutter
 
-  # 🚨 CRITICAL: Core UI and responsive design - DO NOT REMOVE OR MODIFY
+  # Core UI
   sizer: ^2.0.15
   flutter_svg: ^2.0.9
   google_fonts: ^6.1.0
   shared_preferences: ^2.2.2
   web: ^1.1.1
 
-  # ✅ Feature dependencies (added for new features)
-  http: ^0.13.5                  # For AI doubt solver API calls
-  speech_to_text: ^5.0.4        # For voice input
-  file_picker: ^6.1.1           # For PDF upload
-  video_player: ^2.7.2          # For Study Reels video playback
+  # ✅ Updated http version to fix conflict
+  http: ^1.1.0
 
-  # Existing feature dependencies
+  # New features
+  speech_to_text: ^5.0.4
+  file_picker: ^6.1.1
+  video_player: ^2.7.2
+
+  # Existing features
   cached_network_image: ^3.3.1
   connectivity_plus: ^6.1.4
   dio: ^5.4.0
@@ -34,7 +36,7 @@ dependencies:
   permission_handler: ^11.1.0
 
 dev_dependencies:
-  flutter_test:    # 🚨 CRITICAL: Required for Flutter project testing - DO NOT REMOVE
+  flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
 
