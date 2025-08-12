@@ -1,0 +1,14 @@
+name: speech_to_text
+description: Local copy of speech_to_text plugin
+version: 5.0.4
+homepage: https://github.com/csdcorp/speech_to_text
+
+environment:
+  sdk: ">=2.17.0 <4.0.0"
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.plugin.speechtotext
+        pluginClass: SpeechToTextPlugin
