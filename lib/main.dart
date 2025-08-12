@@ -7,9 +7,6 @@ import '../widgets/custom_error_widget.dart';
 import '../presentation/bottom_nav.dart'; // ✅ BottomNav screen
 import '../presentation/ai_solver_screen.dart'; // ✅ AI screen import
 
-// ✅ API Key from dart-define
-const openAiKey = String.fromEnvironment('OPENAI_API_KEY');
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
