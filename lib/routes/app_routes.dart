@@ -7,13 +7,10 @@ import '../presentation/onboarding_flow/onboarding_flow.dart';
 import '../presentation/registration_screen/registration_screen.dart';
 import '../presentation/ai_doubt_solver/ai_doubt_solver_screen.dart';
 import '../presentation/test_results_screen/test_results_screen.dart';
+import '../presentation/study_reels_screen.dart'; // ✅ Add this
+import '../presentation/home_screen.dart'; // ✅ Add this
 
-<<<<<<< HEAD
 class AppRoutes {
-=======
-
-aiDoubtSolver: (context) => const AiDoubtSolverScreen(),  // TODO: Add your routes here
->>>>>>> 1978886 (Fixed route: AiDoubtSolverScreen name corrected)
   static const String initial = '/';
   static const String splash = '/splash-screen';
   static const String testCategories = '/test-categories-screen';
@@ -23,6 +20,8 @@ aiDoubtSolver: (context) => const AiDoubtSolverScreen(),  // TODO: Add your rout
   static const String registration = '/registration-screen';
   static const String aiDoubtSolver = '/ai-doubt-solver';
   static const String testResultsScreen = '/test-results-screen';
+  static const String studyReelsScreen = '/study-reels-screen'; // ✅ Add this
+  static const String homeScreen = '/home-screen'; // ✅ Add this
 
   static Map<String, WidgetBuilder> routes = {
     initial: (context) => const SplashScreen(),
@@ -32,7 +31,9 @@ aiDoubtSolver: (context) => const AiDoubtSolverScreen(),  // TODO: Add your rout
     login: (context) => const LoginScreen(),
     onboardingFlow: (context) => const OnboardingFlow(),
     registration: (context) => const RegistrationScreen(),
-    aiDoubtSolver: (context) => AiDoubtSolverScreen(), // ✅ FIXED: Removed const
+    aiDoubtSolver: (context) => const AiDoubtSolverScreen(),
     testResultsScreen: (context) => const TestResultsScreen(),
+    studyReelsScreen: (context) => const StudyReelsScreen(), // ✅ FIXED
+    homeScreen: (context) => const HomeScreen(), // ✅ FIXED
   };
 }
