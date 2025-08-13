@@ -3,6 +3,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AiDoubtSolverScreen extends StatefulWidget {
   const AiDoubtSolverScreen({super.key});
@@ -25,6 +28,44 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
     super.initState();
     _speech = stt.SpeechToText();
     _addSystemMessage('Hi 👋 I’m your AI doubt solver. Ask me anything!');
+    _checkForUpdate(); // ✅ Trigger update check
+  }
+
+  Future<void> _checkForUpdate() async {
+    final remoteConfig = FirebaseRemoteConfig.instance;
+
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: const Duration(seconds: 10),
+      minimumFetchInterval: const Duration(hours: 1),
+    ));
+
+    await remoteConfig.fetchAndActivate();
+
+    final latestVersion = remoteConfig.getString('latest_app_version');
+    final updateLink = remoteConfig.getString('update_link');
+
+    final info = await PackageInfo.fromPlatform();
+    final currentVersion = info.version;
+
+    if (latestVersion != currentVersion) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('अपडेट उपलब्ध है'),
+          content: Text('नया वर्शन $latestVersion उपलब्ध है। क्या आप अपडेट करना चाहेंगे?'),
+          actions: [
+            TextButton(
+              onPressed: () => launchUrl(Uri.parse(updateLink)),
+              child: const Text('अभी अपडेट करें'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('बाद में'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   void _addSystemMessage(String content, {bool isError = false}) {
@@ -169,4 +210,69 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
                 }
                 final msg = _messages[index];
                 final role = msg['role'] ?? 'assistant';
-                final content =
+                final content = msg['content'] ?? '';
+                final isUser = role == 'user';
+                final isError = role == 'error';
+
+                final bubbleColor = isError
+                    ? Colors.red.shade100
+                    : isUser
+                        ? Theme.of(context).colorScheme.primaryContainer
+                        : Theme.of(context).colorScheme.surfaceVariant;
+
+                final align =
+                    isUser ? Alignment.centerRight : Alignment.centerLeft;
+
+                return Align(
+                  alignment: align,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: bubbleColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(content),
+                  ),
+                );
+              },
+            ),
+          ),
+          const Divider(height: 1),
+          SafeArea(
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+              child: Row(
+                children: [
+                  IconButton(
+                    tooltip: _isListening ? 'Stop listening' : 'Start listening',
+                    icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
+                    onPressed: _isListening ? _stopListening : _startListening,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      textInputAction: TextInputAction.send,
+                      onSubmitted: (_) => _sendToAI(_controller.text),
+                      decoration: const InputDecoration(
+                        hintText: 'Apna sawal likhiye...',
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () => _sendToAI(_controller.text),
+                    child: const Text('Ask'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
