@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
 
+// ✅ Import exam list screens
+import 'ssc_exam_list_screen.dart';
+import 'upsc_exam_list_screen.dart';
+import 'railway_exam_list_screen.dart';
+import 'banking_exam_list_screen.dart';
+
 class MainDashboardScreen extends StatefulWidget {
   const MainDashboardScreen({super.key});
 
@@ -133,6 +139,27 @@ class _MainDashboardScreenState extends State<MainDashboardScreen> {
     }
   }
 
+  void _handleCategoryTap(String title) {
+    Widget? screen;
+    switch (title) {
+      case 'SSC':
+        screen = const SscExamListScreen();
+        break;
+      case 'Railway':
+        screen = const RailwayExamListScreen();
+        break;
+      case 'UPSC':
+        screen = const UpscExamListScreen();
+        break;
+      case 'Banking':
+        screen = const BankingExamListScreen();
+        break;
+    }
+    if (screen != null) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,11 +184,7 @@ class _MainDashboardScreenState extends State<MainDashboardScreen> {
               itemBuilder: (context, index) {
                 final item = categories[index];
                 return GestureDetector(
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('${item['title']} selected')),
-                    );
-                  },
+                  onTap: () => _handleCategoryTap(item['title']!),
                   child: Card(
                     elevation: 6,
                     shape: RoundedRectangleBorder(
@@ -221,4 +244,4 @@ class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
   @override
   Widget build(BuildContext context) => const Center(child: Text('👤 Profile'));
-}
+  }
