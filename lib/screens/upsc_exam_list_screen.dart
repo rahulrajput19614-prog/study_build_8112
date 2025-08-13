@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'exam_options_screen.dart'; // ✅ Import the options screen
 
 class UpscExamListScreen extends StatelessWidget {
   const UpscExamListScreen({super.key});
@@ -31,8 +32,11 @@ class UpscExamListScreen extends StatelessWidget {
               subtitle: Text(exam['desc']!, style: TextStyle(fontSize: 11.sp)),
               trailing: const Icon(Icons.arrow_forward_ios, size: 16),
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('${exam['title']} tapped')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ExamOptionsScreen(examTitle: exam['title']!),
+                  ),
                 );
               },
             ),
