@@ -28,7 +28,7 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
     super.initState();
     _speech = stt.SpeechToText();
     _addSystemMessage('Hi 👋 I’m your AI doubt solver. Ask me anything!');
-    _checkForUpdate(); // ✅ Trigger update check
+    _checkForUpdate();
   }
 
   Future<void> _checkForUpdate() async {
@@ -43,6 +43,7 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
 
     final latestVersion = remoteConfig.getString('latest_app_version');
     final updateLink = remoteConfig.getString('update_link');
+    final changelog = remoteConfig.getString('update_changelog');
 
     final info = await PackageInfo.fromPlatform();
     final currentVersion = info.version;
@@ -52,10 +53,18 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
         context: context,
         builder: (_) => AlertDialog(
           title: const Text('अपडेट उपलब्ध है'),
-          content: Text('नया वर्शन $latestVersion उपलब्ध है। क्या आप अपडेट करना चाहेंगे?'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('नया वर्शन $latestVersion उपलब्ध है।'),
+              const SizedBox(height: 8),
+              Text('🔄 बदलाव:\n$changelog'),
+            ],
+          ),
           actions: [
             TextButton(
-              onPressed: () => launchUrl(Uri.parse(updateLink)),
+              onPressed: () => _openUpdateLink(updateLink),
               child: const Text('अभी अपडेट करें'),
             ),
             TextButton(
@@ -65,6 +74,15 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
           ],
         ),
       );
+    }
+  }
+
+  Future<void> _openUpdateLink(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      _addSystemMessage('Could not launch update link.', isError: true);
     }
   }
 
@@ -256,7 +274,7 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
                       textInputAction: TextInputAction.send,
                       onSubmitted: (_) => _sendToAI(_controller.text),
                       decoration: const InputDecoration(
-                        hintText: 'Apna sawal likhiye...',
+                        hintText: 'अपना सवाल लिखिए...',
                         border: OutlineInputBorder(),
                         isDense: true,
                       ),
