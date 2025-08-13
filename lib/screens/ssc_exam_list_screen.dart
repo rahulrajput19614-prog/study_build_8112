@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'exam_options_screen.dart'; // ✅ Import the options screen
 
 class SscExamListScreen extends StatelessWidget {
   const SscExamListScreen({super.key});
@@ -43,9 +44,11 @@ class SscExamListScreen extends StatelessWidget {
               ),
               trailing: const Icon(Icons.arrow_forward_ios, size: 16),
               onTap: () {
-                // TODO: Navigate to syllabus or AI doubt screen
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('${exam['title']} tapped')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ExamOptionsScreen(examTitle: exam['title']!),
+                  ),
                 );
               },
             ),
