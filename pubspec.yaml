@@ -17,8 +17,8 @@ dependencies:
   shared_preferences: ^2.2.2
   web: ^1.1.1
 
-  # ✅ Updated http version to fix conflict
-  http: ^1.1.0
+  # ✅ Updated http version
+  http: ^1.2.1
 
   # New features
   speech_to_text:
@@ -35,6 +35,12 @@ dependencies:
   camera: ^0.10.5+5
   image_picker: ^1.0.4
   permission_handler: ^11.1.0
+
+  # ✅ Firebase + Update System
+  firebase_core: ^2.27.0
+  firebase_remote_config: ^4.3.8
+  package_info_plus: ^5.0.1
+  url_launcher: ^6.2.5
 
 dev_dependencies:
   flutter_test:
