@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
+import 'package:firebase_core/firebase_core.dart'; // ✅ Add this
 
 import '../core/app_export.dart';
 import '../widgets/custom_error_widget.dart';
-import '../presentation/bottom_nav.dart'; // ✅ BottomNav screen
-import '../presentation/ai_doubt_solver/ai_doubt_solver_screen.dart'; // ✅ Corrected AI screen import
+import '../presentation/bottom_nav.dart';
+import '../presentation/ai_doubt_solver/ai_doubt_solver_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 🚨 CRITICAL: Custom error handling - DO NOT REMOVE
+  // ✅ Firebase initialization
+  await Firebase.initializeApp();
+
   ErrorWidget.builder = (FlutterErrorDetails details) =>
       CustomErrorWidget(errorDetails: details);
 
-  // 🚨 CRITICAL: Device orientation lock - DO NOT REMOVE
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
@@ -35,13 +37,11 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.darkTheme,
           themeMode: ThemeMode.light,
           debugShowCheckedModeBanner: false,
-          initialRoute: '/home', // ✅ Direct route
+          initialRoute: '/home',
           routes: {
-            '/home': (context) => const BottomNav(), // ✅ BottomNav screen
-            '/ai': (context) => AiDoubtSolverScreen(), // ✅ Removed const
-            // Add other routes here if needed
+            '/home': (context) => const BottomNav(),
+            '/ai': (context) => AiDoubtSolverScreen(),
           },
-          // 🚨 CRITICAL: NEVER REMOVE OR MODIFY
           builder: (context, child) {
             final mediaQuery = MediaQuery.of(context);
             return MediaQuery(
