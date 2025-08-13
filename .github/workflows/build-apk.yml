@@ -24,9 +24,8 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.6.0'   # ✅ Lock SDK version
-          channel: 'beta'
-          cache: true
+          flutter-version: '3.6.0'   # ✅ Stable SDK version
+          cache: true                # ✅ Enable caching
 
       - name: Install dependencies
         run: flutter pub get
