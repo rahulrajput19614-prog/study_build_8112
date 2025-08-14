@@ -16,7 +16,7 @@ As an AI tutor, analyze this student's test performance and provide personalized
 Overall Score: ${overallScore.toStringAsFixed(1)}%
 Subject Scores: $subjectScoreText
 Weak Topics: $weakTopicText
-Time Spent: ${timeSpent} minutes
+Time Spent: $timeSpent minutes
 Accuracy Rate: ${accuracyRate.toStringAsFixed(1)}%
 
 Please provide:
@@ -29,14 +29,16 @@ Keep recommendations concise and actionable for exam preparation.
 ''';
 
   try {
-    final message = Message(role: 'user', content: prompt);
-    final response = await createChat(
-      messages: [message],
+    // Use GenerativeModel directly instead of undefined functions
+    final model = GenerativeModel(
       model: 'gemini-1.5-flash-002',
-      maxTokens: 500,
-      temperature: 0.7,
+      apiKey: 'YOUR_API_KEY', // Add your API key here
     );
-    return response.text;
+    
+    final content = Content.text(prompt);
+    final response = await model.generateContent([content]);
+    
+    return response.text ?? 'No recommendations generated';
   } catch (e) {
     return 'Unable to generate AI recommendations at this time. Please focus on your weak topics: $weakTopicText';
   }
