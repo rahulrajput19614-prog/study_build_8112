@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// Agar ChatMessage model alag file me hai to yaha correct import lagao
 import '../ai_doubt_solver_screen.dart';
 
 class ChatMessageWidget extends StatelessWidget {
@@ -32,8 +33,8 @@ class ChatMessageWidget extends StatelessWidget {
               height: 32,
               decoration: BoxDecoration(
                 color: message.isError
-                    ? Theme.of(context).colorScheme.error.withValues(alpha: 0.1)
-                    : Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                    ? Theme.of(context).colorScheme.error.withOpacity(0.1)
+                    : Theme.of(context).primaryColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
@@ -59,7 +60,7 @@ class ChatMessageWidget extends StatelessWidget {
                           ? Theme.of(context)
                               .colorScheme
                               .error
-                              .withValues(alpha: 0.05)
+                              .withOpacity(0.05)
                           : Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(18).copyWith(
                     bottomRight:
@@ -72,7 +73,7 @@ class ChatMessageWidget extends StatelessWidget {
                           color: Theme.of(context)
                               .colorScheme
                               .error
-                              .withValues(alpha: 0.3),
+                              .withOpacity(0.3),
                           width: 1,
                         )
                       : null,
@@ -101,11 +102,11 @@ class ChatMessageWidget extends StatelessWidget {
                           style: GoogleFonts.roboto(
                             fontSize: 11,
                             color: message.isUser
-                                ? Colors.white.withValues(alpha: 0.7)
+                                ? Colors.white.withOpacity(0.7)
                                 : Theme.of(context)
                                     .colorScheme
                                     .onSurfaceVariant
-                                    .withValues(alpha: 0.6),
+                                    .withOpacity(0.6),
                           ),
                         ),
                       ],
@@ -124,7 +125,7 @@ class ChatMessageWidget extends StatelessWidget {
                 color: Theme.of(context)
                     .colorScheme
                     .secondary
-                    .withValues(alpha: 0.1),
+                    .withOpacity(0.1),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
