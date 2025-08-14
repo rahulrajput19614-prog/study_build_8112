@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 /// A class that contains all theme configurations for the application.
 /// Implements Contemporary Educational Minimalism design system with
 /// Professional Academic Palette optimized for exam preparation apps.
 class AppTheme {
   AppTheme._();
+
   // Professional Academic Palette - Color Specifications
   static const Color primaryLight =
       Color(0xFF1565C0); // Deep blue for trust and authority
@@ -21,6 +23,7 @@ class AppTheme {
   static const Color textPrimaryLight = Color(0xFF212121); // Near-black
   static const Color textSecondaryLight = Color(0xFF757575); // Medium gray
   static const Color dividerLight = Color(0xFFE0E0E0); // Subtle gray
+
   // Dark theme variants maintaining the same color relationships
   static const Color primaryDark =
       Color(0xFF42A5F5); // Lighter blue for dark mode
@@ -36,6 +39,7 @@ class AppTheme {
   static const Color textPrimaryDark = Color(0xFFFFFFFF); // White text
   static const Color textSecondaryDark = Color(0xFFB0B0B0); // Light gray text
   static const Color dividerDark = Color(0xFF2C2C2C); // Dark divider
+
   // Additional semantic colors
   static const Color onPrimaryLight = Color(0xFFFFFFFF);
   static const Color onSecondaryLight = Color(0xFFFFFFFF);
@@ -47,6 +51,7 @@ class AppTheme {
   static const Color onErrorDark = Color(0xFF000000);
   static const Color onSurfaceDark = Color(0xFFFFFFFF);
   static const Color onBackgroundDark = Color(0xFFFFFFFF);
+
   /// Light theme optimized for extended study sessions
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
@@ -68,6 +73,9 @@ class AppTheme {
       onError: onErrorLight,
       surface: surfaceLight,
       onSurface: onSurfaceLight,
+      background: backgroundLight,
+      onBackground: onBackgroundLight,
+      surfaceVariant: surfaceLight,
       onSurfaceVariant: textSecondaryLight,
       outline: dividerLight,
       outlineVariant: dividerLight.withOpacity(0.5),
@@ -80,6 +88,7 @@ class AppTheme {
     scaffoldBackgroundColor: backgroundLight,
     cardColor: surfaceLight,
     dividerColor: dividerLight,
+
     // AppBar theme for academic authority
     appBarTheme: AppBarTheme(
       backgroundColor: backgroundLight,
@@ -97,8 +106,9 @@ class AppTheme {
       iconTheme: IconThemeData(color: textPrimaryLight),
       actionsIconTheme: IconThemeData(color: textPrimaryLight),
     ),
+
     // Card theme with Material 3 elevation
-    cardTheme: CardThemeData(
+    cardTheme: CardTheme(
       color: surfaceLight,
       elevation: 2,
       shadowColor: const Color(0x33000000),
@@ -108,6 +118,7 @@ class AppTheme {
       ),
       margin: const EdgeInsets.all(8.0),
     ),
+
     // Bottom navigation optimized for educational apps
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: surfaceLight,
@@ -124,6 +135,7 @@ class AppTheme {
         fontWeight: FontWeight.w400,
       ),
     ),
+
     // FloatingActionButton for contextual actions
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: primaryLight,
@@ -136,6 +148,7 @@ class AppTheme {
         borderRadius: BorderRadius.circular(16.0),
       ),
     ),
+
     // Button themes with 8px border radius
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -154,6 +167,7 @@ class AppTheme {
         ),
       ),
     ),
+
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: primaryLight,
@@ -169,6 +183,7 @@ class AppTheme {
         ),
       ),
     ),
+
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: primaryLight,
@@ -183,8 +198,10 @@ class AppTheme {
         ),
       ),
     ),
+
     // Typography using Inter for headings and Roboto for body
     textTheme: _buildLightTextTheme(),
+
     // Input decoration optimized for exam forms
     inputDecorationTheme: InputDecorationTheme(
       fillColor: surfaceLight,
@@ -226,6 +243,7 @@ class AppTheme {
         fontWeight: FontWeight.w400,
       ),
     ),
+
     // Interactive elements
     switchTheme: SwitchThemeData(
       thumbColor: MaterialStateProperty.resolveWith((states) {
@@ -238,6 +256,7 @@ class AppTheme {
         return dividerLight;
       }),
     ),
+
     checkboxTheme: CheckboxThemeData(
       fillColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) return primaryLight;
@@ -247,18 +266,21 @@ class AppTheme {
       side: BorderSide(color: dividerLight, width: 2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
     ),
+
     radioTheme: RadioThemeData(
       fillColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) return primaryLight;
         return textSecondaryLight;
       }),
     ),
+
     // Progress indicators for test completion
     progressIndicatorTheme: ProgressIndicatorThemeData(
       color: primaryLight,
       linearTrackColor: dividerLight,
       circularTrackColor: dividerLight,
     ),
+
     sliderTheme: SliderThemeData(
       activeTrackColor: primaryLight,
       thumbColor: primaryLight,
@@ -271,8 +293,9 @@ class AppTheme {
         fontWeight: FontWeight.w500,
       ),
     ),
+
     // Tab bar theme
-    tabBarTheme: TabBarThemeData(
+    tabBarTheme: TabBarTheme(
       labelColor: primaryLight,
       unselectedLabelColor: textSecondaryLight,
       indicatorColor: primaryLight,
@@ -288,6 +311,7 @@ class AppTheme {
         letterSpacing: 0.1,
       ),
     ),
+
     // Tooltip theme
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
@@ -301,6 +325,7 @@ class AppTheme {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     ),
+
     // SnackBar theme
     snackBarTheme: SnackBarThemeData(
       backgroundColor: textPrimaryLight,
@@ -316,8 +341,9 @@ class AppTheme {
       ),
       elevation: 6,
     ),
+
     // Dialog theme
-    dialogTheme: DialogThemeData(
+    dialogTheme: DialogTheme(
       backgroundColor: surfaceLight,
       elevation: 8,
       shadowColor: const Color(0x33000000),
@@ -336,6 +362,7 @@ class AppTheme {
         color: textPrimaryLight,
       ),
     ),
+
     // Divider theme
     dividerTheme: DividerThemeData(
       color: dividerLight,
@@ -343,6 +370,7 @@ class AppTheme {
       space: 1,
     ),
   );
+
   /// Dark theme maintaining the same design principles
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
@@ -364,6 +392,9 @@ class AppTheme {
       onError: onErrorDark,
       surface: surfaceDark,
       onSurface: onSurfaceDark,
+      background: backgroundDark,
+      onBackground: onBackgroundDark,
+      surfaceVariant: surfaceDark,
       onSurfaceVariant: textSecondaryDark,
       outline: dividerDark,
       outlineVariant: dividerDark.withOpacity(0.5),
@@ -376,6 +407,7 @@ class AppTheme {
     scaffoldBackgroundColor: backgroundDark,
     cardColor: surfaceDark,
     dividerColor: dividerDark,
+
     appBarTheme: AppBarTheme(
       backgroundColor: backgroundDark,
       foregroundColor: textPrimaryDark,
@@ -392,7 +424,8 @@ class AppTheme {
       iconTheme: IconThemeData(color: textPrimaryDark),
       actionsIconTheme: IconThemeData(color: textPrimaryDark),
     ),
-    cardTheme: CardThemeData(
+
+    cardTheme: CardTheme(
       color: surfaceDark,
       elevation: 2,
       shadowColor: const Color(0x66000000),
@@ -402,6 +435,7 @@ class AppTheme {
       ),
       margin: const EdgeInsets.all(8.0),
     ),
+
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: surfaceDark,
       selectedItemColor: primaryDark,
@@ -417,6 +451,7 @@ class AppTheme {
         fontWeight: FontWeight.w400,
       ),
     ),
+
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: primaryDark,
       foregroundColor: onPrimaryDark,
@@ -428,6 +463,7 @@ class AppTheme {
         borderRadius: BorderRadius.circular(16.0),
       ),
     ),
+
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         foregroundColor: onPrimaryDark,
@@ -445,6 +481,7 @@ class AppTheme {
         ),
       ),
     ),
+
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: primaryDark,
@@ -460,6 +497,7 @@ class AppTheme {
         ),
       ),
     ),
+
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: primaryDark,
@@ -474,7 +512,9 @@ class AppTheme {
         ),
       ),
     ),
+
     textTheme: _buildDarkTextTheme(),
+
     inputDecorationTheme: InputDecorationTheme(
       fillColor: surfaceDark,
       filled: true,
@@ -515,6 +555,7 @@ class AppTheme {
         fontWeight: FontWeight.w400,
       ),
     ),
+
     switchTheme: SwitchThemeData(
       thumbColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) return primaryDark;
@@ -526,6 +567,7 @@ class AppTheme {
         return dividerDark;
       }),
     ),
+
     checkboxTheme: CheckboxThemeData(
       fillColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) return primaryDark;
@@ -535,17 +577,20 @@ class AppTheme {
       side: BorderSide(color: dividerDark, width: 2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
     ),
+
     radioTheme: RadioThemeData(
       fillColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.selected)) return primaryDark;
         return textSecondaryDark;
       }),
     ),
+
     progressIndicatorTheme: ProgressIndicatorThemeData(
       color: primaryDark,
       linearTrackColor: dividerDark,
       circularTrackColor: dividerDark,
     ),
+
     sliderTheme: SliderThemeData(
       activeTrackColor: primaryDark,
       thumbColor: primaryDark,
@@ -558,7 +603,8 @@ class AppTheme {
         fontWeight: FontWeight.w500,
       ),
     ),
-    tabBarTheme: TabBarThemeData(
+
+    tabBarTheme: TabBarTheme(
       labelColor: primaryDark,
       unselectedLabelColor: textSecondaryDark,
       indicatorColor: primaryDark,
@@ -574,6 +620,7 @@ class AppTheme {
         letterSpacing: 0.1,
       ),
     ),
+
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
         color: textPrimaryDark.withOpacity(0.9),
@@ -586,6 +633,7 @@ class AppTheme {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     ),
+
     snackBarTheme: SnackBarThemeData(
       backgroundColor: textPrimaryDark,
       contentTextStyle: GoogleFonts.roboto(
@@ -600,7 +648,8 @@ class AppTheme {
       ),
       elevation: 6,
     ),
-    dialogTheme: DialogThemeData(
+
+    dialogTheme: DialogTheme(
       backgroundColor: surfaceDark,
       elevation: 8,
       shadowColor: const Color(0x66000000),
@@ -619,12 +668,14 @@ class AppTheme {
         color: textPrimaryDark,
       ),
     ),
+
     dividerTheme: DividerThemeData(
       color: dividerDark,
       thickness: 1,
       space: 1,
     ),
   );
+
   /// Light theme text styles using Inter for headings and Roboto for body
   static TextTheme _buildLightTextTheme() {
     return TextTheme(
@@ -720,6 +771,7 @@ class AppTheme {
       ),
     );
   }
+
   /// Dark theme text styles
   static TextTheme _buildDarkTextTheme() {
     return TextTheme(
@@ -811,6 +863,7 @@ class AppTheme {
     );
   }
 }
+
 // Helper extension for Color to easily create variations
 extension ColorValues on Color {
   Color withValues({
@@ -826,3 +879,4 @@ extension ColorValues on Color {
       blue ?? this.blue,
     );
   }
+}
