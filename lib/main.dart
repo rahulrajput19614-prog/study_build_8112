@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
     final currentVersion = packageInfo.version;
 
     if (currentVersion != latestVersion) {
+      // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -83,13 +84,13 @@ class MyApp extends StatelessWidget {
               initialRoute: '/home',
               routes: {
                 '/home': (context) => const BottomNav(),
-                '/ai': (context) => AiDoubtSolverScreen(),
+                '/ai': (context) => const AiDoubtSolverScreen(),
               },
               builder: (context, child) {
                 final mediaQuery = MediaQuery.of(context);
                 return MediaQuery(
                   data: mediaQuery.copyWith(
-                    textScaleFactor: 1.0, // ✅ Stable alternative
+                    textScaleFactor: 1.0,
                   ),
                   child: child ?? const SizedBox.shrink(),
                 );
