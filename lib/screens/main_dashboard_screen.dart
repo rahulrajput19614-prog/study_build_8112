@@ -184,7 +184,7 @@ class _MainDashboardScreenState extends State<MainDashboardScreen> {
               itemBuilder: (context, index) {
                 final item = categories[index];
                 return GestureDetector(
-                  onTap: () => _handleCategoryTap(item['title']!),
+                  onTap: () => _handleCategoryTap(item['title'] as String),
                   child: Card(
                     elevation: 6,
                     shape: RoundedRectangleBorder(
@@ -193,7 +193,7 @@ class _MainDashboardScreenState extends State<MainDashboardScreen> {
                     color: item['color'] as Color,
                     child: Center(
                       child: Text(
-                        item['title']!,
+                        item['title'] as String,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
@@ -244,4 +244,4 @@ class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
   @override
   Widget build(BuildContext context) => const Center(child: Text('👤 Profile'));
-  }
+}
