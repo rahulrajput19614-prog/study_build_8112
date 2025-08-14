@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
@@ -71,7 +70,6 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation, deviceType) {
         return Builder(
           builder: (context) {
-            // ✅ Trigger update check after build
             WidgetsBinding.instance.addPostFrameCallback((_) {
               checkForUpdate(context);
             });
@@ -91,7 +89,7 @@ class MyApp extends StatelessWidget {
                 final mediaQuery = MediaQuery.of(context);
                 return MediaQuery(
                   data: mediaQuery.copyWith(
-                    textScaler: TextScaler.linear(1.0),
+                    textScaleFactor: 1.0, // ✅ Stable alternative
                   ),
                   child: child ?? const SizedBox.shrink(),
                 );
