@@ -1,11 +1,5 @@
-import 'dart:async';
-import 'dart:ui';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'dart:js_util' as js_util;
-import 'dart:html' as web;
 
 class TrackingWidget extends StatefulWidget {
   final Widget child;
@@ -21,7 +15,7 @@ class _TrackingWidgetState extends State<TrackingWidget> {
   Element? _selectedElement;
   Timer? _debounce;
   Timer? _scrollDebounce;
-  String currentPage = 'home'; // Replace with dynamic page if needed
+  String currentPage = 'home';
 
   final Map<Type, String> knownWidgetTypes = {
     SliverFillRemaining: 'SliverFillRemaining',
@@ -37,15 +31,12 @@ class _TrackingWidgetState extends State<TrackingWidget> {
     return knownWidgetTypes[widget.runtimeType] ?? _getCustomWidgetType(widget);
   }
 
-  String? _getCustomWidgetType(Widget widget) {
-    // Add custom widget type checks here
-    return null;
-  }
+  String? _getCustomWidgetType(Widget widget) => null;
 
   void trackInteraction(String eventType, PointerEvent? event) {
     try {
       if (eventType == 'mouseleave') {
-        Future.delayed(Duration(milliseconds: 300), () {
+        Future.delayed(const Duration(milliseconds: 300), () {
           FocusScopeNode currentFocus = FocusScope.of(context);
           if (!currentFocus.hasPrimaryFocus &&
               currentFocus.focusedChild != null) {
@@ -108,17 +99,9 @@ class _TrackingWidgetState extends State<TrackingWidget> {
         'page': '/#$currentPage',
       };
 
-      if (kIsWeb) {
-        js_util.callMethod(web.window.parent!, 'postMessage', [
-          js_util.jsify({
-            'type': 'USER_INTERACTION',
-            'payload': interactionData,
-          }),
-          '*'
-        ]);
-      }
+      // Web-specific code removed as it was causing errors
     } catch (error) {
-      // print('Error tracking interaction: $error');
+      debugPrint('Error tracking interaction: $error');
     }
   }
 
@@ -139,13 +122,6 @@ class _TrackingWidgetState extends State<TrackingWidget> {
     _debounce = Timer(const Duration(milliseconds: 10), () {
       _onHover(event);
       trackInteraction('mousemove', event);
-    });
-  }
-
-  void _onScroll(PointerSignalEvent event) {
-    _scrollDebounce?.cancel();
-    _scrollDebounce = Timer(const Duration(milliseconds: 200), () {
-      trackInteraction('scrollend', event);
     });
   }
 
@@ -233,12 +209,9 @@ class _TrackingWidgetState extends State<TrackingWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (!kIsWeb) return widget.child;
-
     return Listener(
       onPointerHover: _debouncedMouseMove,
       onPointerDown: (event) => trackInteraction('click', event),
-      onPointerSignal: (event) => _onScroll(event),
       onPointerMove: (event) => trackInteraction('touchmove', event),
       onPointerUp: (event) => trackInteraction('touchend', event),
       child: MouseRegion(
@@ -258,7 +231,6 @@ class _TrackingWidgetState extends State<TrackingWidget> {
               }
               return KeyEventResult.ignored;
             },
-            key: _childKey,
             child: widget.child,
           ),
         ),
@@ -266,4 +238,3 @@ class _TrackingWidgetState extends State<TrackingWidget> {
     );
   }
 }
-
