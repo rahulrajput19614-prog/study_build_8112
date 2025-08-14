@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'widgets/chat_message_widget.dart';
 
 class AiDoubtSolverScreen extends StatefulWidget {
   const AiDoubtSolverScreen({super.key});
@@ -16,13 +17,13 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
   late final stt.SpeechToText _speech;
   final TextEditingController _questionController = TextEditingController();
   late final FirebaseRemoteConfig _remoteConfig;
+  final List<ChatMessage> _messages = [];
 
   @override
   void initState() {
     super.initState();
     _speech = stt.SpeechToText();
     _remoteConfig = FirebaseRemoteConfig.instance;
-
     _setupRemoteConfig();
   }
 
@@ -78,7 +79,25 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
       );
       return;
     }
-    // Handle question submission
+
+    setState(() {
+      _messages.add(ChatMessage(
+        message: _questionController.text,
+        isUser: true,
+      ));
+    });
+
+    _questionController.clear();
+
+    // Example AI response (replace with actual API call)
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        _messages.add(ChatMessage(
+          message: "This is an AI-generated answer for your question.",
+          isUser: false,
+        ));
+      });
+    });
   }
 
   @override
@@ -104,6 +123,20 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
                 title: Text(_selectedFile!.path.split('/').last),
               ),
             const SizedBox(height: 12),
+
+            Expanded(
+              child: ListView.builder(
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  return ChatMessageWidget(
+                    message: _messages[index].message,
+                    isUser: _messages[index].isUser,
+                  );
+                },
+              ),
+            ),
+
+            const SizedBox(height: 12),
             TextField(
               controller: _questionController,
               decoration: InputDecoration(
@@ -111,9 +144,18 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.mic),
-                  onPressed: _startListening,
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.mic),
+                      onPressed: _startListening,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.stop),
+                      onPressed: _stopListening,
+                    ),
+                  ],
                 ),
               ),
             ),
