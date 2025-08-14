@@ -1,9 +1,12 @@
+import 'package:google_generative_ai/google_generative_ai.dart';
+
 Future<String> generateStudyRecommendations({
   required double overallScore,
   required Map<String, double> subjectScores,
   required List<String> weakTopics,
   required int timeSpent,
   required double accuracyRate,
+  required String apiKey,  // Add API key as required parameter
 }) async {
   final subjectScoreText = subjectScores.entries
       .map((e) => '${e.key}: ${e.value.toStringAsFixed(1)}%')
@@ -29,16 +32,18 @@ Keep recommendations concise and actionable for exam preparation.
 ''';
 
   try {
-    // Use GenerativeModel directly instead of undefined functions
+    // Initialize the GenerativeModel with your API key
     final model = GenerativeModel(
-      model: 'gemini-1.5-flash-002',
-      apiKey: 'YOUR_API_KEY', // Add your API key here
+      model: 'gemini-1.5-flash',
+      apiKey: apiKey,
     );
     
-    final content = Content.text(prompt);
-    final response = await model.generateContent([content]);
+    // Generate content using the prompt
+    final response = await model.generateContent(
+      [Content.text(prompt)],
+    );
     
-    return response.text ?? 'No recommendations generated';
+    return response.text ?? 'No recommendations generated. Please try again.';
   } catch (e) {
     return 'Unable to generate AI recommendations at this time. Please focus on your weak topics: $weakTopicText';
   }
