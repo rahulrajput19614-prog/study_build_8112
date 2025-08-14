@@ -1,3 +1,5 @@
+import 'dart:async'; // Timer ke liye
+import 'package:flutter/foundation.dart'; // DiagnosticsTreeStyle ke liye
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -99,7 +101,9 @@ class _TrackingWidgetState extends State<TrackingWidget> {
         'page': '/#$currentPage',
       };
 
-      // Web-specific code removed as it was causing errors
+      // Interaction data print to remove unused variable warning
+      debugPrint(interactionData.toString());
+
     } catch (error) {
       debugPrint('Error tracking interaction: $error');
     }
