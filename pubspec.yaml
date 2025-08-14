@@ -26,8 +26,7 @@ dependencies:
   video_player: ^2.7.2
   image_picker: ^1.0.4
   camera: ^0.10.5+5
-  speech_to_text:
-    path: plugins/speech_to_text
+  speech_to_text: ^5.0.4   # ✅ Fixed: using official plugin from pub.dev
 
   # 🔹 Charts & UI Feedback
   fl_chart: ^0.65.0
@@ -52,9 +51,3 @@ flutter:
   assets:
     - assets/
     - assets/images/
-
-  plugin:
-    platforms:
-      android:
-        package: com.plugin.speechtotext
-        pluginClass: SpeechToTextPlugin
