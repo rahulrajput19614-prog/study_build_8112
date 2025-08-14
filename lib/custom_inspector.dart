@@ -4305,7 +4305,7 @@ Map<String, dynamic> _extractWidgetProperties(
       properties['text'] = widget.controller?.text ?? 'null';
       properties['enabled'] = widget.enabled.toString();
       properties['autovalidateMode'] = widget.autovalidateMode.toString();
-      properties['forceErrorText'] = widget.forceErrorText ?? 'null';
+      properties['errorText'] = widget.errorText ?? 'null';
 
       // Try to find the internal TextField and extract its properties
       Element? textFieldElement = _findInternalTextField(element);
@@ -4330,7 +4330,6 @@ Map<String, dynamic> _extractWidgetProperties(
       properties['mainAxisSize'] = widget.mainAxisSize.toString();
       properties['spacing'] = widget.spacing.toString();
       break;
-
     case 'RichText':
       final widget = element.widget as RichText;
       properties['type'] = 'RichText';
@@ -4367,7 +4366,7 @@ Map<String, dynamic> _extractWidgetProperties(
       properties['value'] = widget.value.toString();
       properties['tristate'] = widget.tristate.toString();
       final activeColor = defaultStyle.fillColor?.resolve({
-        WidgetState.selected,
+        MaterialState.selected
       });
       properties['activeColor'] = widget.activeColor != null
           ? colorToHex(widget.activeColor!)
@@ -4407,7 +4406,7 @@ Map<String, dynamic> _extractWidgetProperties(
 
       // activeColor with theme default
       final defaultActiveColor = defaultStyle.thumbColor?.resolve({
-        WidgetState.selected,
+        MaterialState.selected
       });
       properties['activeColor'] = widget.activeColor != null
           ? colorToHex(widget.activeColor!)
@@ -4425,7 +4424,7 @@ Map<String, dynamic> _extractWidgetProperties(
 
       // activeTrackColor with theme default
       final defaultActiveTrackColor = defaultStyle.trackColor?.resolve({
-        WidgetState.selected,
+        MaterialState.selected
       });
       properties['activeTrackColor'] = widget.activeTrackColor != null
           ? colorToHex(widget.activeTrackColor!)
@@ -4461,7 +4460,7 @@ Map<String, dynamic> _extractWidgetProperties(
 
       // Visual properties with theme fallbacks
       final activeColor = defaultStyle.fillColor?.resolve({
-        WidgetState.selected,
+        MaterialState.selected
       });
       properties['activeColor'] = widget.activeColor != null
           ? colorToHex(widget.activeColor!)
