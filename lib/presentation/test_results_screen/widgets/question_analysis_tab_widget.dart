@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
-import '../../../models/test_result_model.dart';
+import '../../../models/testresultmodel.dart';
 import '../../../theme/app_theme.dart';
 
 class QuestionAnalysisTabWidget extends StatefulWidget {
@@ -50,41 +50,33 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
                 ),
               ),
               SizedBox(height: 1.h),
-              SizedBox(
-                height: 6.h,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: filterOptions.length,
-                  itemBuilder: (context, index) {
-                    final option = filterOptions[index];
-                    final isSelected = selectedFilter == option;
-
-                    return Container(
-                      margin: EdgeInsets.only(right: 2.w),
-                      child: FilterChip(
-                        selected: isSelected,
-                        label: Text(
-                          option,
-                          style: GoogleFonts.roboto(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w500,
-                            color: isSelected
-                                ? AppTheme.backgroundLight
-                                : AppTheme.textSecondaryLight,
-                          ),
-                        ),
-                        backgroundColor: AppTheme.surfaceLight,
-                        selectedColor: AppTheme.primaryLight,
-                        checkmarkColor: AppTheme.backgroundLight,
-                        onSelected: (selected) {
-                          setState(() {
-                            selectedFilter = option;
-                          });
-                        },
+              Wrap(
+                spacing: 2.w,
+                runSpacing: 1.h,
+                children: filterOptions.map((option) {
+                  final isSelected = selectedFilter == option;
+                  return FilterChip(
+                    selected: isSelected,
+                    label: Text(
+                      option,
+                      style: GoogleFonts.roboto(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500,
+                        color: isSelected
+                            ? AppTheme.backgroundLight
+                            : AppTheme.textSecondaryLight,
                       ),
-                    );
-                  },
-                ),
+                    ),
+                    backgroundColor: AppTheme.surfaceLight,
+                    selectedColor: AppTheme.primaryLight,
+                    checkmarkColor: AppTheme.backgroundLight,
+                    onSelected: (_) {
+                      setState(() {
+                        selectedFilter = option;
+                      });
+                    },
+                  );
+                }).toList(),
               ),
             ],
           ),
@@ -96,6 +88,7 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
               ? _buildEmptyState()
               : ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 4.w),
+                  physics: BouncingScrollPhysics(),
                   itemCount: filteredQuestions.length,
                   itemBuilder: (context, index) {
                     final question = filteredQuestions[index];
@@ -135,6 +128,7 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
             Icons.filter_list_off,
             size: 15.w,
             color: AppTheme.textSecondaryLight,
+            semanticLabel: 'No questions found',
           ),
           SizedBox(height: 2.h),
           Text(
@@ -183,8 +177,8 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
                 padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
                 decoration: BoxDecoration(
                   color: question.isCorrect
-                      ? AppTheme.secondaryLight.withValues(alpha: 0.1)
-                      : AppTheme.errorLight.withValues(alpha: 0.1),
+                      ? AppTheme.secondaryLight.withOpacity(0.1)
+                      : AppTheme.errorLight.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(2.w),
                 ),
                 child: Text(
@@ -199,12 +193,11 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
                 ),
               ),
               SizedBox(width: 2.w),
-
               // Subject Tag
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryLight.withValues(alpha: 0.1),
+                  color: AppTheme.primaryLight.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(1.w),
                 ),
                 child: Text(
@@ -215,15 +208,13 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
                   ),
                 ),
               ),
-
               const Spacer(),
-
               // Difficulty Badge
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
                 decoration: BoxDecoration(
                   color: _getDifficultyColor(question.difficulty)
-                      .withValues(alpha: 0.1),
+                      .withOpacity(0.1),
                   borderRadius: BorderRadius.circular(1.w),
                 ),
                 child: Text(
@@ -235,9 +226,7 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
                   ),
                 ),
               ),
-
               SizedBox(width: 2.w),
-
               // Bookmark Button
               GestureDetector(
                 onTap: () {
@@ -255,11 +244,11 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
                       ? AppTheme.accentLight
                       : AppTheme.textSecondaryLight,
                   size: 5.w,
+                  semanticLabel: 'Bookmark question',
                 ),
               ),
             ],
           ),
-
           SizedBox(height: 2.h),
 
           // Question Text
@@ -271,7 +260,6 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
               height: 1.4,
             ),
           ),
-
           SizedBox(height: 2.h),
 
           // Answer Section
@@ -286,7 +274,6 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
             ),
             SizedBox(height: 1.h),
           ],
-
           if (!question.isCorrect) ...[
             _buildAnswerRow(
               'Correct Answer:',
@@ -304,6 +291,7 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
                 Icons.timer_outlined,
                 size: 4.w,
                 color: AppTheme.textSecondaryLight,
+                semanticLabel: 'Time spent',
               ),
               SizedBox(width: 1.w),
               Text(
@@ -322,10 +310,10 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
             Container(
               padding: EdgeInsets.all(3.w),
               decoration: BoxDecoration(
-                color: AppTheme.primaryLight.withValues(alpha: 0.05),
+                color: AppTheme.primaryLight.withOpacity(0.05),
                 borderRadius: BorderRadius.circular(2.w),
                 border: Border.all(
-                  color: AppTheme.primaryLight.withValues(alpha: 0.2),
+                  color: AppTheme.primaryLight.withOpacity(0.2),
                 ),
               ),
               child: Column(
@@ -337,6 +325,7 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
                         Icons.lightbulb_outline,
                         color: AppTheme.primaryLight,
                         size: 4.w,
+                        semanticLabel: 'Explanation icon',
                       ),
                       SizedBox(width: 2.w),
                       Text(
@@ -376,6 +365,7 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
           icon,
           color: color,
           size: 4.w,
+          semanticLabel: label,
         ),
         SizedBox(width: 2.w),
         Expanded(
