@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
-import '../../../models/test_result_model.dart';
+import '../../../models/testresultmodel.dart';
 import '../../../theme/app_theme.dart';
 
 class SubjectWiseTabWidget extends StatelessWidget {
@@ -20,7 +20,6 @@ class SubjectWiseTabWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Performance Chart
           Text(
             'Subject Performance',
             style: GoogleFonts.inter(
@@ -30,7 +29,6 @@ class SubjectWiseTabWidget extends StatelessWidget {
             ),
           ),
           SizedBox(height: 2.h),
-
           Container(
             height: 40.h,
             padding: EdgeInsets.all(4.w),
@@ -122,10 +120,7 @@ class SubjectWiseTabWidget extends StatelessWidget {
               ),
             ),
           ),
-
           SizedBox(height: 3.h),
-
-          // Subject Details List
           Text(
             'Detailed Analysis',
             style: GoogleFonts.inter(
@@ -135,11 +130,8 @@ class SubjectWiseTabWidget extends StatelessWidget {
             ),
           ),
           SizedBox(height: 2.h),
-
           ...testResult.subjectResults.entries
-              .map(
-                (entry) => _buildSubjectCard(entry.key, entry.value),
-              )
+              .map((entry) => _buildSubjectCard(entry.key, entry.value))
               .toList(),
         ],
       ),
@@ -150,7 +142,6 @@ class SubjectWiseTabWidget extends StatelessWidget {
     return testResult.subjectResults.entries.map((entry) {
       final index = testResult.subjectResults.keys.toList().indexOf(entry.key);
       final score = entry.value.score;
-
       return BarChartGroupData(
         x: index,
         barRods: [
@@ -197,7 +188,7 @@ class SubjectWiseTabWidget extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
                 decoration: BoxDecoration(
-                  color: _getSubjectColor(result.score).withValues(alpha: 0.1),
+                  color: _getSubjectColor(result.score).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(2.w),
                 ),
                 child: Text(
@@ -211,10 +202,7 @@ class SubjectWiseTabWidget extends StatelessWidget {
               ),
             ],
           ),
-
           SizedBox(height: 2.h),
-
-          // Progress Bar
           LinearProgressIndicator(
             value: result.score / 100,
             backgroundColor: AppTheme.dividerLight,
@@ -222,34 +210,31 @@ class SubjectWiseTabWidget extends StatelessWidget {
                 AlwaysStoppedAnimation<Color>(_getSubjectColor(result.score)),
             minHeight: 2.w,
           ),
-
           SizedBox(height: 2.h),
-
-          // Subject Stats
           Row(
             children: [
-              Expanded(
+              Flexible(
                 child: _buildStatColumn(
                   'Correct',
                   '${result.correctAnswers}/${result.totalQuestions}',
                   AppTheme.secondaryLight,
                 ),
               ),
-              Expanded(
+              Flexible(
                 child: _buildStatColumn(
                   'Accuracy',
-                  '${result.accuracyRate.toInt()}%',
+                  '${result.totalQuestions == 0 ? 0 : result.accuracyRate.toInt()}%',
                   AppTheme.accentLight,
                 ),
               ),
-              Expanded(
+              Flexible(
                 child: _buildStatColumn(
                   'Time',
                   '${result.timeSpent}m',
                   AppTheme.textPrimaryLight,
                 ),
               ),
-              Expanded(
+              Flexible(
                 child: _buildStatColumn(
                   'Level',
                   result.difficulty,
@@ -258,20 +243,20 @@ class SubjectWiseTabWidget extends StatelessWidget {
               ),
             ],
           ),
-
           SizedBox(height: 2.h),
-
-          // Performance Status
           Row(
             children: [
-              Icon(
-                result.score >= 80
-                    ? Icons.star
-                    : result.score >= 60
-                        ? Icons.thumb_up_outlined
-                        : Icons.info_outline,
-                color: _getSubjectColor(result.score),
-                size: 5.w,
+              Semantics(
+                label: 'Performance status: ${_getPerformanceMessage(result.score)}',
+                child: Icon(
+                  result.score >= 80
+                      ? Icons.star
+                      : result.score >= 60
+                          ? Icons.thumb_up_outlined
+                          : Icons.info_outline,
+                  color: _getSubjectColor(result.score),
+                  size: 5.w,
+                ),
               ),
               SizedBox(width: 2.w),
               Expanded(
