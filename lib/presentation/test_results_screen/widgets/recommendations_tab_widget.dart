@@ -37,7 +37,6 @@ class _RecommendationsTabWidgetState extends State<RecommendationsTabWidget> {
       final service = GeminiService();
       geminiClient = GeminiClient(service.dio, service.authApiKey);
     } catch (e) {
-      // Fallback to mock data if Gemini is not configured
       geminiClient = GeminiClient(
         GeminiService().dio,
         'mock_key',
@@ -52,7 +51,6 @@ class _RecommendationsTabWidgetState extends State<RecommendationsTabWidget> {
     });
 
     try {
-      // Generate AI recommendations
       final recommendations = await geminiClient.generateStudyRecommendations(
         overallScore: widget.testResult.overallScore,
         subjectScores: widget.testResult.subjectResults.map(
@@ -77,7 +75,6 @@ class _RecommendationsTabWidgetState extends State<RecommendationsTabWidget> {
         isLoadingInsights = false;
       });
     } catch (e) {
-      // Fallback recommendations
       setState(() {
         aiRecommendations = _generateFallbackRecommendations();
         performanceInsights = _generateFallbackInsights();
@@ -90,18 +87,12 @@ class _RecommendationsTabWidgetState extends State<RecommendationsTabWidget> {
   String _generateFallbackRecommendations() {
     final weakTopics = widget.testResult.weakTopics;
     final strongTopics = widget.testResult.strongTopics;
-
     return '''
 📚 Study Recommendations:
-
 1. Focus on weak areas: ${weakTopics.isNotEmpty ? weakTopics.join(', ') : 'Continue balanced practice'}
-
 2. Strengthen your foundation in subjects scoring below 70%
-
 3. Practice time management - aim for ${(widget.testResult.timeSpent / widget.testResult.totalQuestions).toStringAsFixed(1)} minutes per question
-
 4. Review explanations for incorrect answers to understand concepts better
-
 ✨ Your strong subjects: ${strongTopics.isNotEmpty ? strongTopics.join(', ') : 'Keep up consistent practice across all subjects'}
     ''';
   }
@@ -110,16 +101,11 @@ class _RecommendationsTabWidgetState extends State<RecommendationsTabWidget> {
     final isImprovement = widget.testResult.previousAttempt != null &&
         widget.testResult.overallScore >
             widget.testResult.previousAttempt!.score;
-
     return '''
 🎯 Performance Insights:
-
 Your current score of ${widget.testResult.overallScore.toStringAsFixed(1)}% places you in the ${widget.testResult.percentileRank}th percentile.
-
 ${isImprovement ? 'Great improvement since your last attempt! Keep up the momentum.' : 'Focus on consistent practice to improve your performance.'}
-
 Grade: ${widget.testResult.performanceGrade}
-
 Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and help others' : widget.testResult.overallScore >= 70 ? 'Work on weak areas to reach excellence' : 'Build strong fundamentals through regular practice'}
     ''';
   }
@@ -131,10 +117,8 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // AI-Powered Insights Section
           _buildSectionTitle('AI Performance Insights', Icons.psychology),
           SizedBox(height: 2.h),
-
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(4.w),
@@ -143,13 +127,14 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  AppTheme.primaryLight.withValues(alpha: 0.1),
-                  AppTheme.accentLight.withValues(alpha: 0.05),
+                  AppTheme.primaryLight.withOpacity(0.1),
+                  AppTheme.accentLight.withOpacity(0.05),
                 ],
               ),
               borderRadius: BorderRadius.circular(3.w),
               border: Border.all(
-                  color: AppTheme.primaryLight.withValues(alpha: 0.3)),
+                color: AppTheme.primaryLight.withOpacity(0.3),
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,13 +172,9 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
               ],
             ),
           ),
-
           SizedBox(height: 3.h),
-
-          // AI Study Recommendations
           _buildSectionTitle('Personalized Study Plan', Icons.school),
           SizedBox(height: 2.h),
-
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(4.w),
@@ -219,10 +200,7 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
               ],
             ),
           ),
-
           SizedBox(height: 3.h),
-
-          // Weak Topics Focus
           if (widget.testResult.weakTopics.isNotEmpty) ...[
             _buildSectionTitle('Priority Topics', Icons.priority_high),
             SizedBox(height: 2.h),
@@ -235,47 +213,40 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
             ),
             SizedBox(height: 3.h),
           ],
-
-          // Strong Areas
           if (widget.testResult.strongTopics.isNotEmpty) ...[
             _buildSectionTitle('Strong Areas', Icons.star),
             SizedBox(height: 2.h),
             ...widget.testResult.strongTopics.take(3).map(
-                  (topic) => _buildTopicCard(
-                    topic,
-                    widget.testResult.subjectResults[topic]?.score ?? 0,
-                    false,
-                  ),
-                ),
+              (topic) => _buildTopicCard(
+                topic,
+                widget.testResult.subjectResults[topic]?.score ?? 0,
+                false,
+              ),
+            ),
             SizedBox(height: 3.h),
           ],
-
-          // Suggested Actions
           _buildSectionTitle('Suggested Actions', Icons.assignment),
           SizedBox(height: 2.h),
-
           _buildActionCard(
             'Retake Test',
             'Take this test again to track improvement',
             Icons.replay,
             AppTheme.primaryLight,
-            () => _onRetakeTest(),
+            _onRetakeTest,
           ),
-
           _buildActionCard(
             'Practice Weak Topics',
             'Focus practice on ${widget.testResult.weakTopics.isNotEmpty ? widget.testResult.weakTopics.first : 'identified areas'}',
             Icons.fitness_center,
             AppTheme.accentLight,
-            () => _onPracticeWeakTopics(),
+            _onPracticeWeakTopics,
           ),
-
           _buildActionCard(
             'Study Schedule',
             'Create a personalized study plan',
             Icons.schedule,
             AppTheme.secondaryLight,
-            () => _onCreateSchedule(),
+            _onCreateSchedule,
           ),
         ],
       ),
@@ -322,59 +293,38 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
             color: AppTheme.textSecondaryLight,
             fontStyle: FontStyle.italic,
           ),
-        ),
       ],
     );
   }
 
   Widget _buildTopicCard(String topic, double score, bool isWeak) {
     return Container(
-      margin: EdgeInsets.only(bottom: 2.h),
+      margin: EdgeInsets.symmetric(vertical: 1.h),
       padding: EdgeInsets.all(3.w),
       decoration: BoxDecoration(
-        color: AppTheme.surfaceLight,
+        color: isWeak ? Colors.red.shade50 : Colors.green.shade50,
         borderRadius: BorderRadius.circular(2.w),
         border: Border.all(
-          color: isWeak ? AppTheme.errorLight : AppTheme.secondaryLight,
-          width: 1,
+          color: isWeak ? Colors.red.shade200 : Colors.green.shade200,
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(
-            isWeak ? Icons.trending_down : Icons.trending_up,
-            color: isWeak ? AppTheme.errorLight : AppTheme.secondaryLight,
-            size: 5.w,
-          ),
-          SizedBox(width: 3.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  topic,
-                  style: GoogleFonts.inter(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppTheme.textPrimaryLight,
-                  ),
-                ),
-                Text(
-                  isWeak ? 'Needs improvement' : 'Strong performance',
-                  style: GoogleFonts.roboto(
-                    fontSize: 11.sp,
-                    color: AppTheme.textSecondaryLight,
-                  ),
-                ),
-              ],
+          Text(
+            topic,
+            style: GoogleFonts.inter(
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: AppTheme.textPrimaryLight,
             ),
           ),
           Text(
-            '${score.toInt()}%',
+            '${score.toStringAsFixed(1)}%',
             style: GoogleFonts.inter(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
-              color: isWeak ? AppTheme.errorLight : AppTheme.secondaryLight,
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w600,
+              color: isWeak ? Colors.red : Colors.green,
             ),
           ),
         ],
@@ -382,82 +332,65 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
     );
   }
 
-  Widget _buildActionCard(String title, String subtitle, IconData icon,
-      Color color, VoidCallback onTap) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 2.h),
-      child: Material(
-        color: AppTheme.surfaceLight,
-        borderRadius: BorderRadius.circular(3.w),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(3.w),
-          child: Container(
-            padding: EdgeInsets.all(4.w),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(3.w),
-              border: Border.all(color: AppTheme.dividerLight),
+  Widget _buildActionCard(
+    String title,
+    String subtitle,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 1.h),
+        padding: EdgeInsets.all(3.w),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(2.w),
+          border: Border.all(color: color.withOpacity(0.3)),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: color, size: 6.w),
+            SizedBox(width: 3.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.inter(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.textPrimaryLight,
+                    ),
+                  ),
+                  SizedBox(height: 0.5.h),
+                  Text(
+                    subtitle,
+                    style: GoogleFonts.roboto(
+                      fontSize: 12.sp,
+                      color: AppTheme.textSecondaryLight,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            child: Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(2.w),
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(2.w),
-                  ),
-                  child: Icon(
-                    icon,
-                    color: color,
-                    size: 6.w,
-                  ),
-                ),
-                SizedBox(width: 3.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: GoogleFonts.inter(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppTheme.textPrimaryLight,
-                        ),
-                      ),
-                      Text(
-                        subtitle,
-                        style: GoogleFonts.roboto(
-                          fontSize: 12.sp,
-                          color: AppTheme.textSecondaryLight,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppTheme.textSecondaryLight,
-                  size: 4.w,
-                ),
-              ],
-            ),
-          ),
+          ],
         ),
       ),
     );
   }
 
   void _onRetakeTest() {
-    Navigator.pop(context);
-    // Navigate to test taking screen
+    // TODO: Implement navigation to retake test screen
   }
 
   void _onPracticeWeakTopics() {
-    // Navigate to practice screen with weak topics filter
+    // TODO: Implement navigation to topic-wise practice screen
   }
 
   void _onCreateSchedule() {
-    // Navigate to study schedule creation
+    // TODO: Implement navigation to study planner screen
   }
-}
+        }
