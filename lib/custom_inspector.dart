@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 
 class CustomInspector {
-  /// Inspect TextFormField properties
-  static Map<String, dynamic> inspectTextFormField(TextFormField widget) {
-    final decoration = widget.decoration;
+  /// Inspect TextFormField properties (constructor-based)
+  static Map<String, dynamic> inspectTextFormField({
+    InputDecoration? decoration,
+    bool? obscureText,
+    TextInputType? keyboardType,
+    int? maxLength,
+    bool? enabled,
+  }) {
     return {
       'type': 'TextFormField',
       'labelText': decoration?.labelText,
       'hintText': decoration?.hintText,
       'errorText': decoration?.errorText,
-      'obscureText': widget.obscureText,
-      'keyboardType': widget.keyboardType?.toString(),
-      'maxLength': widget.maxLength,
-      'enabled': widget.enabled,
+      'obscureText': obscureText,
+      'keyboardType': keyboardType?.toString(),
+      'maxLength': maxLength,
+      'enabled': enabled,
     };
   }
 
