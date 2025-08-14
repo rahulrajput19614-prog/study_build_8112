@@ -43,7 +43,7 @@ class GeminiClient {
           response.data['candidates'].isNotEmpty &&
           response.data['candidates'][0]['content'] != null) {
         final parts = response.data['candidates'][0]['content']['parts'];
-        final text = parts.isNotEmpty ? parts[0]['text'] : '';
+        final text = parts.isNotEmpty ? parts[0]['text'] as String? ?? '' : '';
         return Completion(text: text);
       } else {
         throw GeminiException(
@@ -107,7 +107,7 @@ class GeminiClient {
                 json['candidates'][0].containsKey('content') &&
                 json['candidates'][0]['content'].containsKey('parts') &&
                 json['candidates'][0]['content']['parts'].isNotEmpty) {
-              final text = json['candidates'][0]['content']['parts'][0]['text'];
+              final text = json['candidates'][0]['content']['parts'][0]['text'] as String?;
               if (text != null && text.isNotEmpty) {
                 yield text;
               }
