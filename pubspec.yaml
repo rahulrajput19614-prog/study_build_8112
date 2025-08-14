@@ -17,9 +17,9 @@ dependencies:
   shared_preferences: ^2.2.2
 
   # 🔹 Networking
-  http: ^1.2.1
+  http: ^1.0.0 # ✅ Compatible with Dart 3.1.0
   dio: ^5.4.0
-  connectivity_plus: ^5.0.2 # ✅ Fixed for Dart 3.1.0
+  connectivity_plus: ^5.0.2
 
   # 🔹 Media & Input
   file_picker: ^6.1.1
@@ -41,7 +41,7 @@ dependencies:
   firebase_core: ^2.27.0
   firebase_remote_config: ^4.3.8
   package_info_plus: ^4.1.0
-  url_launcher: ^6.1.10 # ✅ Fixed for Dart 3.1.0
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:
