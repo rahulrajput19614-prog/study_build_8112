@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import '../../../models/test_result_model.dart';
-import '../../../services/gemini_service.dart';
+// import '../../../services/gemini_service.dart'; // Gemini ka code missing hai
 import '../../../theme/app_theme.dart';
 
 class RecommendationsTabWidget extends StatefulWidget {
@@ -27,14 +27,16 @@ class _RecommendationsTabWidgetState extends State<RecommendationsTabWidget> {
   @override
   void initState() {
     super.initState();
-    try {
-      _loadRecommendations();
-    } catch (e) {
-      geminiClient = GeminiClient(
-        GeminiService().dio,
-        'mock_key',
-      );
-    }
+    // Gemini wala part comment kiya, kyunki GeminiClient & GeminiService missing hain
+    // try {
+    //   _loadRecommendations();
+    // } catch (e) {
+    //   geminiClient = GeminiClient(
+    //     GeminiService().dio,
+    //     'mock_key',
+    //   );
+    // }
+    _loadRecommendations();
   }
 
   Future<void> _loadRecommendations() async {
@@ -44,18 +46,21 @@ class _RecommendationsTabWidgetState extends State<RecommendationsTabWidget> {
     });
 
     try {
-      final recommendations = await generateStudyRecommendations(
-        apiKey: 'mock_key',
-        overallScore: widget.testResult.overallScore,
-        subjectScores: widget.testResult.subjectResults.map(
-          (key, value) => MapEntry(key, value.score),
-        ),
-        weakTopics: widget.testResult.weakTopics,
-        timeSpent: widget.testResult.timeSpent,
-        accuracyRate: widget.testResult.accuracyRate,
-      );
+      // Gemini wala part comment kiya
+      // final recommendations = await generateStudyRecommendations(
+      //   apiKey: 'mock_key',
+      //   overallScore: widget.testResult.overallScore,
+      //   subjectScores: widget.testResult.subjectResults.map(
+      //     (key, value) => MapEntry(key, value.score),
+      //   ),
+      //   weakTopics: widget.testResult.weakTopics,
+      //   timeSpent: widget.testResult.timeSpent,
+      //   accuracyRate: widget.testResult.accuracyRate,
+      // );
 
-      final insights = 'Performance insights unavailable';
+      final recommendations = _generateFallbackRecommendations();
+      final insights = _generateFallbackInsights();
+
       setState(() {
         aiRecommendations = recommendations;
         performanceInsights = insights;
