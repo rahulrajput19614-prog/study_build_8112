@@ -42,37 +42,39 @@ class HeroSectionWidget extends StatelessWidget {
           ),
           SizedBox(height: 3.h),
 
-          // Circular Progress Indicator with Score
+          // Circular Progress Indicator with Score (Animated)
           SizedBox(
             width: 40.w,
             height: 40.w,
             child: Stack(
               alignment: Alignment.center,
               children: [
-                SizedBox(
-                  width: 40.w,
-                  height: 40.w,
-                  child: PieChart(
-                    PieChartData(
-                      sections: [
-                        PieChartSectionData(
-                          value: testResult.overallScore,
-                          color: _getPerformanceColor(testResult.overallScore),
-                          title: '',
-                          radius: 4.w.toDouble(),
-                        ),
-                        PieChartSectionData(
-                          value: 100 - testResult.overallScore,
-                          color: AppTheme.dividerLight,
-                          title: '',
-                          radius: 4.w.toDouble(),
-                        ),
-                      ],
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 14.w.toDouble(),
-                      startDegreeOffset: -90,
-                    ),
-                  ),
+                TweenAnimationBuilder<double>(
+                  tween: Tween<double>(begin: 0, end: testResult.overallScore),
+                  duration: const Duration(seconds: 1),
+                  builder: (context, value, _) {
+                    return PieChart(
+                      PieChartData(
+                        sections: [
+                          PieChartSectionData(
+                            value: value,
+                            color: _getPerformanceColor(value),
+                            title: '',
+                            radius: 8.w,
+                          ),
+                          PieChartSectionData(
+                            value: 100 - value,
+                            color: AppTheme.dividerLight,
+                            title: '',
+                            radius: 8.w,
+                          ),
+                        ],
+                        sectionsSpace: 0,
+                        centerSpaceRadius: 14.w,
+                        startDegreeOffset: -90,
+                      ),
+                    );
+                  },
                 ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
@@ -116,7 +118,7 @@ class HeroSectionWidget extends StatelessWidget {
               ),
               _buildStatItem(
                 'Percentile',
-                '${testResult.percentileRank}th',
+                _ordinalSuffix(testResult.percentileRank),
                 AppTheme.accentLight,
               ),
               Container(
@@ -163,5 +165,19 @@ class HeroSectionWidget extends StatelessWidget {
     if (score >= 85) return AppTheme.secondaryLight;
     if (score >= 70) return AppTheme.accentLight;
     return AppTheme.errorLight;
+  }
+
+  String _ordinalSuffix(int number) {
+    if (number >= 11 && number <= 13) return '${number}th';
+    switch (number % 10) {
+      case 1:
+        return '${number}st';
+      case 2:
+        return '${number}nd';
+      case 3:
+        return '${number}rd';
+      default:
+        return '${number}th';
+    }
   }
 }
