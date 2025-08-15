@@ -23,11 +23,13 @@ class _RecommendationsTabWidgetState extends State<RecommendationsTabWidget> {
   String? performanceInsights;
   bool isLoadingRecommendations = false;
   bool isLoadingInsights = false;
+
   @override
   void initState() {
-    super.initState();_loadRecommendations();
-  }
-catch (e) {
+    super.initState();
+    try {
+      _loadRecommendations();
+    } catch (e) {
       geminiClient = GeminiClient(
         GeminiService().dio,
         'mock_key',
@@ -42,7 +44,9 @@ catch (e) {
     });
 
     try {
-      final recommendations = await generateStudyRecommendations(apiKey: 'mock_key', overallScore: widget.testResult.overallScore,
+      final recommendations = await generateStudyRecommendations(
+        apiKey: 'mock_key',
+        overallScore: widget.testResult.overallScore,
         subjectScores: widget.testResult.subjectResults.map(
           (key, value) => MapEntry(key, value.score),
         ),
@@ -52,7 +56,7 @@ catch (e) {
       );
 
       final insights = 'Performance insights unavailable';
-setState(() {
+      setState(() {
         aiRecommendations = recommendations;
         performanceInsights = insights;
         isLoadingRecommendations = false;
@@ -277,6 +281,7 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
             color: AppTheme.textSecondaryLight,
             fontStyle: FontStyle.italic,
           ),
+        ),
       ],
     );
   }
@@ -377,4 +382,4 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
   void _onCreateSchedule() {
     // TODO: Implement navigation to study planner screen
   }
-        }
+}
