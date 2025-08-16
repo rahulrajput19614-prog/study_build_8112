@@ -1,11 +1,11 @@
 plugins {
     id "com.android.application"
-    id "org.jetbrains.kotlin.android" // ✅ Updated plugin ID
+    id "org.jetbrains.kotlin.android"
     id "dev.flutter.flutter-gradle-plugin"
 }
 
 android {
-    namespace = "com.study_build.app" // ✅ Must match AndroidManifest.xml
+    namespace = "com.study_build.app" // Must match AndroidManifest.xml
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -13,25 +13,28 @@ android {
         applicationId = "com.study_build.app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+
+        // ✅ FIX: manually set karna hoga
+        versionCode 1
+        versionName "1.0.0"
+
         multiDexEnabled true
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17 // ✅ Recommended for Flutter 3.13+
+        sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "17" // ✅ Match Java version
+        jvmTarget = "17"
     }
 
     buildTypes {
         release {
             minifyEnabled false
             shrinkResources false
-            signingConfig = signingConfigs.debug // ✅ Replace with release signingConfig later
+            signingConfig = signingConfigs.debug // Replace with release signingConfig later
         }
     }
 }
