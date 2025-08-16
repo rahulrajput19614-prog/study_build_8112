@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.study_build.app">   <!-- ✅ yeh line add ki -->
+    package="com.study_build.app">   <!-- ✅ same as namespace -->
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -7,7 +7,7 @@
         android:label="study_build"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
