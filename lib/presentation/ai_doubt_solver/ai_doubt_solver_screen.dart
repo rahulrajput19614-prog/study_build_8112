@@ -86,7 +86,7 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
 
     setState(() {
       _messages.add(ChatMessage(
-        message: _questionController.text,
+        text: _questionController.text, // ✅ FIXED
         isUser: true,
       ));
     });
@@ -97,7 +97,7 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         _messages.add(ChatMessage(
-          message: "This is an AI-generated answer for your question.",
+          text: "This is an AI-generated answer for your question.", // ✅ FIXED
           isUser: false,
         ));
       });
@@ -133,8 +133,7 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
                 itemCount: _messages.length,
                 itemBuilder: (context, index) {
                   return ChatMessageWidget(
-                    message: _messages[index].message,
-                    isUser: _messages[index].isUser, // ✅ FIXED
+                    message: _messages[index], // ✅ FIXED (pass full object)
                   );
                 },
               ),
