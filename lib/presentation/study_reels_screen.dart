@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class StudyReelsScreen extends StatefulWidget {
-  const StudyReelsScreen({super.key}); // ✅ Added const constructor
+  const StudyReelsScreen({super.key}); // ✅ const constructor
 
   @override
   _StudyReelsScreenState createState() => _StudyReelsScreenState();
@@ -15,19 +15,21 @@ class _StudyReelsScreenState extends State<StudyReelsScreen> {
   ];
 
   late PageController _pageController;
-  List<VideoPlayerController> _videoControllers = [];
+  final List<VideoPlayerController> _videoControllers = [];
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+
     for (var url in reelUrls) {
-      final controller = VideoPlayerController.network(url)
+      final controller = VideoPlayerController.networkUrl(Uri.parse(url)) // ✅ FIXED
         ..initialize().then((_) {
-          setState(() {});
+          if (mounted) setState(() {});
         });
       _videoControllers.add(controller);
     }
+
     _videoControllers[0].play();
   }
 
