@@ -47,6 +47,9 @@ dependencies:
   # 🔹 Google Generative AI
   google_generative_ai: ^0.4.7
 
+dependencies:
+  patch: ^0.0.6
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
