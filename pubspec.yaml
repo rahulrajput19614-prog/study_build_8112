@@ -16,7 +16,7 @@ dependencies:
   google_fonts: ^6.1.0
   shared_preferences: ^2.2.2
 
-  # 🔹 Networking (Render backend)
+  # 🔹 Networking
   http: ^1.0.0
   dio: ^5.4.0
   connectivity_plus: ^5.0.2
@@ -26,9 +26,9 @@ dependencies:
   video_player: ^2.7.2
   image_picker: ^1.0.4
   camera: ^0.10.5+5
-  speech_to_text: ^5.6.1   # ✅ Latest version with namespace fix
+  speech_to_text: ^5.6.1
 
-  # 🔹 Charts & UI Feedback
+  # 🔹 Charts & Feedback
   fl_chart: ^0.65.0
   fluttertoast: ^8.2.4
   cached_network_image: ^3.3.1
@@ -36,20 +36,20 @@ dependencies:
   # 🔹 Permissions
   permission_handler: ^10.4.0
 
-  # 🔹 App Info & Utilities
+  # 🔹 Utilities
   package_info_plus: ^4.1.0
   url_launcher: ^6.1.10
 
-  # 🔹 Firebase (for update checker)
+  # 🔹 Firebase
   firebase_core: ^2.24.2
   firebase_remote_config: ^4.3.4
 
-  # 🔹 Google Generative AI
+  # 🔹 Generative AI
   google_generative_ai: ^0.4.7
 
-dependencies:
+  # ✅ PATCH PACKAGE
   patch: ^0.0.6
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
