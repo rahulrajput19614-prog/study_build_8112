@@ -1,6 +1,6 @@
 name: study_build
 description: A scalable, student-focused education app.
-publish_to: none
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
@@ -47,8 +47,8 @@ dependencies:
   # 🔹 Generative AI
   google_generative_ai: ^0.4.7
 
-  # ✅ PATCH PACKAGE
-  patch: ^0.0.6
+  # ❌ REMOVED: patch (not available on pub.dev)
+  # patch: ^0.0.6
 
 dev_dependencies:
   flutter_test:
