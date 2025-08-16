@@ -1,3 +1,7 @@
+android {
+    namespace "com.csdcorp.speech_to_text"  // ✅ plugin ka package name
+}
+
 buildscript {
     ext.kotlin_version = '1.8.22' // ✅ Stable kotlin version
     repositories {
