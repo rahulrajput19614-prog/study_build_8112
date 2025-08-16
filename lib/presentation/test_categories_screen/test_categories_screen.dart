@@ -34,7 +34,6 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
     'status': 'All',
   };
 
-  bool _isRefreshing = false;
   String _selectedExam = 'SSC CGL';
 
   // Mock data for test categories
@@ -66,23 +65,10 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
         'isPremium': true,
         'subject': 'All',
       },
-      {
-        'id': 3,
-        'name': 'SSC CGL Tier 1 Practice Test - Easy Level',
-        'duration': 45,
-        'questions': 75,
-        'difficulty': 'Easy',
-        'isAttempted': true,
-        'score': 65,
-        'percentile': 72.3,
-        'isOfflineAvailable': true,
-        'isPremium': false,
-        'subject': 'All',
-      },
     ],
     'Subject-wise Tests': [
       {
-        'id': 4,
+        'id': 3,
         'name': 'Quantitative Aptitude - Advanced Level',
         'duration': 30,
         'questions': 25,
@@ -95,7 +81,7 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
         'subject': 'Mathematics',
       },
       {
-        'id': 5,
+        'id': 4,
         'name': 'English Comprehension - Basic to Intermediate',
         'duration': 25,
         'questions': 20,
@@ -106,88 +92,6 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
         'isOfflineAvailable': false,
         'isPremium': false,
         'subject': 'English',
-      },
-      {
-        'id': 6,
-        'name': 'Logical Reasoning - Pattern Recognition',
-        'duration': 20,
-        'questions': 15,
-        'difficulty': 'Easy',
-        'isAttempted': false,
-        'score': null,
-        'percentile': null,
-        'isOfflineAvailable': true,
-        'isPremium': true,
-        'subject': 'Reasoning',
-      },
-    ],
-    'Previous Year Papers': [
-      {
-        'id': 7,
-        'name': 'SSC CGL 2023 Tier 1 - Shift 1',
-        'duration': 60,
-        'questions': 100,
-        'difficulty': 'Medium',
-        'isAttempted': true,
-        'score': 82,
-        'percentile': 88.7,
-        'isOfflineAvailable': true,
-        'isPremium': false,
-        'subject': 'All',
-      },
-      {
-        'id': 8,
-        'name': 'SSC CGL 2023 Tier 1 - Shift 2',
-        'duration': 60,
-        'questions': 100,
-        'difficulty': 'Hard',
-        'isAttempted': false,
-        'score': null,
-        'percentile': null,
-        'isOfflineAvailable': false,
-        'isPremium': false,
-        'subject': 'All',
-      },
-      {
-        'id': 9,
-        'name': 'SSC CGL 2022 Tier 1 - Complete Paper',
-        'duration': 60,
-        'questions': 100,
-        'difficulty': 'Medium',
-        'isAttempted': true,
-        'score': 75,
-        'percentile': 79.4,
-        'isOfflineAvailable': true,
-        'isPremium': false,
-        'subject': 'All',
-      },
-    ],
-    'Mock Series': [
-      {
-        'id': 10,
-        'name': 'Ultimate SSC CGL Test Series 2024',
-        'duration': 180,
-        'questions': 300,
-        'difficulty': 'Hard',
-        'isAttempted': false,
-        'score': null,
-        'percentile': null,
-        'isOfflineAvailable': false,
-        'isPremium': true,
-        'subject': 'All',
-      },
-      {
-        'id': 11,
-        'name': 'Weekly Challenge Series - Week 1',
-        'duration': 90,
-        'questions': 150,
-        'difficulty': 'Medium',
-        'isAttempted': true,
-        'score': 125,
-        'percentile': 82.1,
-        'isOfflineAvailable': true,
-        'isPremium': false,
-        'subject': 'All',
       },
     ],
   };
@@ -213,16 +117,9 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
   }
 
   Future<void> _onRefresh() async {
-    setState(() {
-      _isRefreshing = true;
-    });
-
     // Simulate API call
     await Future.delayed(const Duration(seconds: 2));
-
-    setState(() {
-      _isRefreshing = false;
-    });
+    setState(() {});
   }
 
   void _toggleSection(String sectionName) {
@@ -251,39 +148,37 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
       List<Map<String, dynamic>> tests) {
     List<Map<String, dynamic>> filteredTests = tests;
 
-    // Apply search filter
+    // Search filter
     if (_searchQuery.isNotEmpty) {
       filteredTests = filteredTests.where((test) {
         return (test['name'] as String).toLowerCase().contains(_searchQuery);
       }).toList();
     }
 
-    // Apply difficulty filter
+    // Difficulty filter
     if (_currentFilters['difficulty'] != 'All') {
       filteredTests = filteredTests.where((test) {
         return test['difficulty'] == _currentFilters['difficulty'];
       }).toList();
     }
 
-    // Apply subject filter
+    // Subject filter
     if (_currentFilters['subject'] != 'All') {
       filteredTests = filteredTests.where((test) {
         return test['subject'] == _currentFilters['subject'];
       }).toList();
     }
 
-    // Apply status filter
+    // Status filter
     if (_currentFilters['status'] != 'All') {
       switch (_currentFilters['status']) {
         case 'Attempted':
-          filteredTests = filteredTests
-              .where((test) => test['isAttempted'] == true)
-              .toList();
+          filteredTests =
+              filteredTests.where((test) => test['isAttempted'] == true).toList();
           break;
         case 'Not Attempted':
-          filteredTests = filteredTests
-              .where((test) => test['isAttempted'] == false)
-              .toList();
+          filteredTests =
+              filteredTests.where((test) => test['isAttempted'] == false).toList();
           break;
         case 'Offline Available':
           filteredTests = filteredTests
@@ -291,49 +186,6 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
               .toList();
           break;
       }
-    }
-
-    // Apply duration filter
-    if (_currentFilters['duration'] != 'All') {
-      filteredTests = filteredTests.where((test) {
-        final duration = test['duration'] as int;
-        switch (_currentFilters['duration']) {
-          case '< 30 min':
-            return duration < 30;
-          case '30-60 min':
-            return duration >= 30 && duration <= 60;
-          case '60-120 min':
-            return duration > 60 && duration <= 120;
-          case '> 120 min':
-            return duration > 120;
-          default:
-            return true;
-        }
-      }).toList();
-    }
-
-    // Apply sorting
-    switch (_currentFilters['sortBy']) {
-      case 'Duration':
-        filteredTests.sort(
-            (a, b) => (a['duration'] as int).compareTo(b['duration'] as int));
-        break;
-      case 'Difficulty':
-        final difficultyOrder = {'Easy': 1, 'Medium': 2, 'Hard': 3};
-        filteredTests.sort((a, b) {
-          final aOrder = difficultyOrder[a['difficulty']] ?? 0;
-          final bOrder = difficultyOrder[b['difficulty']] ?? 0;
-          return aOrder.compareTo(bOrder);
-        });
-        break;
-      case 'Alphabetical':
-        filteredTests.sort(
-            (a, b) => (a['name'] as String).compareTo(b['name'] as String));
-        break;
-      case 'Recent':
-      default:
-        // Keep original order for recent
-        break;
     }
 
     return filteredTests;
@@ -402,19 +254,17 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
                         final sectionName = _testData.keys.elementAt(index);
                         final sectionTests = _testData[sectionName]!;
                         final filteredTests = _getFilteredTests(sectionTests);
-                        final completionPercentage = sectionTests.isEmpty
-                            ? 0.0
-                            : (sectionTests
-                                    .where(
-                                        (test) => test['isAttempted'] == true)
-                                    .length /
-                                sectionTests.length *
-                                100);
 
                         return TestSectionWidget(
                           title: sectionName,
                           testCount: filteredTests.length,
-                          completionPercentage: completionPercentage,
+                          completionPercentage: sectionTests.isEmpty
+                              ? 0.0
+                              : (sectionTests
+                                      .where((t) => t['isAttempted'] == true)
+                                      .length /
+                                  sectionTests.length *
+                                  100),
                           tests: filteredTests,
                           isExpanded: _expandedSections[sectionName] ?? false,
                           onToggle: () => _toggleSection(sectionName),
@@ -475,8 +325,8 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
             padding: EdgeInsets.all(3.w),
             child: CustomIconWidget(
               iconName: 'search',
-              color: AppTheme.lightTheme.colorScheme.onSurface
-                  .withOpacity(0.6),
+              color:
+                  AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
               size: 20,
             ),
           ),
@@ -484,9 +334,7 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
               ? IconButton(
                   onPressed: () {
                     _searchController.clear();
-                    setState(() {
-                      _searchQuery = '';
-                    });
+                    setState(() => _searchQuery = '');
                   },
                   icon: CustomIconWidget(
                     iconName: 'clear',
@@ -497,13 +345,6 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
                 )
               : null,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: AppTheme.lightTheme.dividerColor,
-              width: 1,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(
               color: AppTheme.lightTheme.dividerColor,
