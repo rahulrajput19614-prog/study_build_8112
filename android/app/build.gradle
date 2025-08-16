@@ -1,7 +1,3 @@
-android {
-    namespace "com.csdcorp.speech_to_text"  // ✅ plugin ka package name
-}
-
 plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
@@ -9,13 +5,13 @@ plugins {
 }
 
 android {
-    namespace "com.study_build.app" // ✅ Match AndroidManifest.xml
-    compileSdkVersion 34            // ✅ Required (was missing)
+    namespace "com.study_build.app" // ✅ must match AndroidManifest.xml
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.study_build.app"
-        minSdkVersion 21
-        targetSdkVersion 34
+        minSdk 21
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -32,9 +28,9 @@ android {
 
     buildTypes {
         release {
+            signingConfig signingConfigs.debug
             minifyEnabled false
             shrinkResources false
-            signingConfig signingConfigs.debug
         }
     }
 }
