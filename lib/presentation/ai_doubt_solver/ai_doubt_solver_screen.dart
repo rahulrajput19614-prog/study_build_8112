@@ -1,8 +1,11 @@
+// lib/presentation/ai_doubt_solver/ai_doubt_solver_screen.dart
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+
 import 'models/chat_message.dart';
 import 'widgets/chat_message_widget.dart';
 
@@ -18,7 +21,7 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
   late final stt.SpeechToText _speech;
   final TextEditingController _questionController = TextEditingController();
   late final FirebaseRemoteConfig _remoteConfig;
-  final List<ChatMessage> _messages = []; // ✅ ab error nahi aayega
+  final List<ChatMessage> _messages = [];
 
   @override
   void initState() {
@@ -131,7 +134,7 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
                 itemBuilder: (context, index) {
                   return ChatMessageWidget(
                     message: _messages[index].message,
-                    isUser: _messages[index].isUser,
+                    isUser: _messages[index].isUser, // ✅ FIXED
                   );
                 },
               ),
