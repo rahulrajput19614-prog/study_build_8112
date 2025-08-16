@@ -1,0 +1,3 @@
+patches:
+  speech_to_text:
+    path: patches/speech_to_text_namespace.patch
