@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace "com.study_build.app" // ✅ must match AndroidManifest.xml
+    namespace "com.study_build.app"   // ✅ same as Manifest package
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.study_build.app"
+        applicationId "com.study_build.app"   // ✅ same as Manifest package
         minSdk 21
         targetSdk 34
         versionCode 1
