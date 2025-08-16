@@ -20,7 +20,6 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _textFadeAnimation;
   late Animation<Offset> _textSlideAnimation;
 
-  bool _isInitializing = true;
   String _loadingText = 'Preparing your exam journey...';
   bool _hasError = false;
 
@@ -32,19 +31,16 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _setupAnimations() {
-    // Logo animation controller
     _logoAnimationController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
 
-    // Text animation controller
     _textAnimationController = AnimationController(
       duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
 
-    // Logo scale animation
     _logoScaleAnimation = Tween<double>(
       begin: 0.5,
       end: 1.0,
@@ -53,7 +49,6 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.elasticOut,
     ));
 
-    // Logo fade animation
     _logoFadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -62,7 +57,6 @@ class _SplashScreenState extends State<SplashScreen>
       curve: const Interval(0.0, 0.8, curve: Curves.easeIn),
     ));
 
-    // Text fade animation
     _textFadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -71,7 +65,6 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.easeIn,
     ));
 
-    // Text slide animation
     _textSlideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.5),
       end: Offset.zero,
@@ -80,7 +73,6 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.easeOutCubic,
     ));
 
-    // Start animations
     _logoAnimationController.forward();
     Future.delayed(const Duration(milliseconds: 800), () {
       if (mounted) {
@@ -91,7 +83,6 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _initializeApp() async {
     try {
-      // Simulate app initialization tasks
       await Future.wait([
         _checkAuthenticationStatus(),
         _loadUserPreferences(),
@@ -99,7 +90,6 @@ class _SplashScreenState extends State<SplashScreen>
         _prepareCachedData(),
       ]);
 
-      // Minimum splash display time
       await Future.delayed(const Duration(milliseconds: 2500));
 
       if (mounted) {
@@ -110,42 +100,34 @@ class _SplashScreenState extends State<SplashScreen>
         setState(() {
           _hasError = true;
           _loadingText = 'Connection timeout. Tap to retry.';
-          _isInitializing = false;
         });
       }
     }
   }
 
   Future<void> _checkAuthenticationStatus() async {
-    // Simulate authentication check
     await Future.delayed(const Duration(milliseconds: 500));
   }
 
   Future<void> _loadUserPreferences() async {
-    // Simulate loading user preferences
     await Future.delayed(const Duration(milliseconds: 300));
   }
 
   Future<void> _fetchExamCategories() async {
-    // Simulate fetching exam categories
     await Future.delayed(const Duration(milliseconds: 700));
   }
 
   Future<void> _prepareCachedData() async {
-    // Simulate preparing cached test data
     await Future.delayed(const Duration(milliseconds: 400));
   }
 
   void _navigateToNextScreen() {
-    // Navigation logic based on user status
-    // For demo purposes, navigating to exam category dashboard
     Navigator.pushReplacementNamed(context, '/exam-category-dashboard');
   }
 
   void _retryInitialization() {
     setState(() {
       _hasError = false;
-      _isInitializing = true;
       _loadingText = 'Preparing your exam journey...';
     });
     _initializeApp();
@@ -209,8 +191,7 @@ class _SplashScreenState extends State<SplashScreen>
                                     borderRadius: BorderRadius.circular(4.w),
                                     boxShadow: [
                                       BoxShadow(
-                                        color:
-                                            Colors.black.withOpacity(0.2),
+                                        color: Colors.black.withOpacity(0.2),
                                         blurRadius: 20,
                                         offset: const Offset(0, 10),
                                       ),
@@ -259,7 +240,8 @@ class _SplashScreenState extends State<SplashScreen>
                                 // Tagline
                                 Text(
                                   'Master Your Government Exam',
-                                  style: AppTheme.lightTheme.textTheme.bodyLarge
+                                  style: AppTheme
+                                      .lightTheme.textTheme.bodyLarge
                                       ?.copyWith(
                                     color: Colors.white.withOpacity(0.9),
                                     fontSize: 12.sp,
@@ -275,13 +257,12 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                 ),
 
-                // Loading section
+                // Loading / Retry section
                 Expanded(
                   flex: 1,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Loading indicator or retry button
                       _hasError
                           ? GestureDetector(
                               onTap: _retryInitialization,
@@ -344,7 +325,8 @@ class _SplashScreenState extends State<SplashScreen>
                               child: Text(
                                 _loadingText,
                                 textAlign: TextAlign.center,
-                                style: AppTheme.lightTheme.textTheme.bodyMedium
+                                style: AppTheme
+                                    .lightTheme.textTheme.bodyMedium
                                     ?.copyWith(
                                   color: Colors.white.withOpacity(0.8),
                                   fontSize: 11.sp,
@@ -358,7 +340,6 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                 ),
 
-                // Bottom spacing
                 SizedBox(height: 4.h),
               ],
             ),
