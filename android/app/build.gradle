@@ -5,25 +5,21 @@ plugins {
 }
 
 android {
-    namespace = "com.study_build.app" // Must match AndroidManifest.xml
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    namespace "com.study_build.app" // ✅ Match AndroidManifest.xml
+    compileSdkVersion 34            // ✅ Required (was missing)
 
     defaultConfig {
-        applicationId = "com.study_build.app"
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-
-        // ✅ FIX: manually set karna hoga
+        applicationId "com.study_build.app"
+        minSdkVersion 21
+        targetSdkVersion 34
         versionCode 1
-        versionName "1.0.0"
-
+        versionName "1.0"
         multiDexEnabled true
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
@@ -34,7 +30,7 @@ android {
         release {
             minifyEnabled false
             shrinkResources false
-            signingConfig = signingConfigs.debug // Replace with release signingConfig later
+            signingConfig signingConfigs.debug
         }
     }
 }
