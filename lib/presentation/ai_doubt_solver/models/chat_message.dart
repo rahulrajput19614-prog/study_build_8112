@@ -1,12 +1,13 @@
-// lib/presentation/ai_doubt_solver/models/chat_message.dart
-
-/// Simple model class for chat messages in AI Doubt Solver.
 class ChatMessage {
-  final String message;
-  final bool isUser;
+  final String text;        // message text
+  final bool isUser;        // user ne bheja ya AI ne
+  final bool isError;       // error message hai ya nahi
+  final DateTime timestamp; // kab bheja gaya
 
   ChatMessage({
-    required this.message,
+    required this.text,
     required this.isUser,
-  });
+    this.isError = false,
+    DateTime? timestamp,
+  }) : timestamp = timestamp ?? DateTime.now();
 }
