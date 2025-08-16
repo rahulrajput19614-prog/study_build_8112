@@ -69,32 +69,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(
       builder: (context, orientation, deviceType) {
-        return Builder(
-          builder: (context) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              checkForUpdate(context);
-            });
-
-            return MaterialApp(
-              title: 'Study Build',
-              theme: AppTheme.lightTheme,
-              darkTheme: AppTheme.darkTheme,
-              themeMode: ThemeMode.light,
-              debugShowCheckedModeBanner: false,
-              initialRoute: '/home',
-              routes: {
-                '/home': (context) => const BottomNav(),
-                '/ai': (context) => const AiDoubtSolverScreen(),
-              },
-              builder: (context, child) {
-                final mediaQuery = MediaQuery.of(context);
-                return MediaQuery(
-                  data: mediaQuery.copyWith(
-                    textScaleFactor: 1.0,
-                  ),
-                  child: child ?? const SizedBox.shrink(),
-                );
-              },
+        return MaterialApp(
+          title: 'Study Build',
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: ThemeMode.light,
+          debugShowCheckedModeBanner: false,
+          home: const SplashScreen(), // ✅ पहले Splash दिखेगा
+          routes: {
+            '/home': (context) => const BottomNav(),
+            '/ai': (context) => const AiDoubtSolverScreen(),
+          },
+          builder: (context, child) {
+            final mediaQuery = MediaQuery.of(context);
+            return MediaQuery(
+              data: mediaQuery.copyWith(textScaleFactor: 1.0),
+              child: child ?? const SizedBox.shrink(),
             );
           },
         );
@@ -102,3 +92,36 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+/// ✅ Simple Splash Screen
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigate();
+  }
+
+  Future<void> _navigate() async {
+    await Future.delayed(const Duration(seconds: 2)); // splash delay
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, '/home');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(), // simple loader
+      ),
+    );
+  }
+}
+
