@@ -1,3 +1,5 @@
+// lib/screens/main_dashboard_screen.dart
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -155,9 +157,8 @@ class _MainDashboardScreenState extends State<MainDashboardScreen> {
         screen = const BankingExamListScreen();
         break;
     }
-    if (screen != null) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
-    }
+
+    Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
   }
 
   @override
