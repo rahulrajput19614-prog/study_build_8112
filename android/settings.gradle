@@ -3,7 +3,7 @@ pluginManagement {
         def properties = new Properties()
         file("local.properties").withInputStream { properties.load(it) }
         def flutterSdkPath = properties.getProperty("flutter.sdk")
-        assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
+        assert flutterSdkPath != null : "flutter.sdk not set in local.properties"
         return flutterSdkPath
     }()
 
@@ -14,14 +14,19 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+
+    plugins {
+        id "dev.flutter.flutter-gradle-plugin" version "1.0.0" apply false
+        id "com.android.application" version "8.2.1" apply false
+        id "org.jetbrains.kotlin.android" version "1.8.22" apply false
+    }
 }
 
-plugins {
-    id "dev.flutter.flutter-gradle-plugin" version "1.0.0" apply false
-    id "com.android.application" version "8.2.1" apply false
-    id "org.jetbrains.kotlin.android" version "1.8.22" apply false
-}
+include(":app")
 
-// ✅ Ye line Flutter plugins ko automatically load karegi
-include ":app"
+// ✅ Yahan dobara flutterSdkPath define karna hoga (scope ke liye)
+def properties = new Properties()
+file("local.properties").withInputStream { properties.load(it) }
+def flutterSdkPath = properties.getProperty("flutter.sdk")
+
 apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
