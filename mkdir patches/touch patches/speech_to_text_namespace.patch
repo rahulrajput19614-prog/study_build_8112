@@ -1,0 +1,6 @@
+--- a/android/build.gradle
++++ b/android/build.gradle
+@@
++android {
++    namespace 'com.example.speech_to_text'
++}
