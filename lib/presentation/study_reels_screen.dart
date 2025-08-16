@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class StudyReelsScreen extends StatefulWidget {
-  const StudyReelsScreen({super.key}); // ✅ const constructor
+  const StudyReelsScreen({super.key});
 
   @override
   _StudyReelsScreenState createState() => _StudyReelsScreenState();
@@ -23,14 +23,20 @@ class _StudyReelsScreenState extends State<StudyReelsScreen> {
     _pageController = PageController();
 
     for (var url in reelUrls) {
-      final controller = VideoPlayerController.networkUrl(Uri.parse(url)) // ✅ FIXED
+      final controller = VideoPlayerController.networkUrl(Uri.parse(url))
         ..initialize().then((_) {
           if (mounted) setState(() {});
         });
       _videoControllers.add(controller);
     }
 
-    _videoControllers[0].play();
+    // Play first video after init
+    _videoControllers.first.initialize().then((_) {
+      if (mounted) {
+        setState(() {});
+        _videoControllers.first.play();
+      }
+    });
   }
 
   @override
@@ -51,47 +57,49 @@ class _StudyReelsScreenState extends State<StudyReelsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView.builder(
-        scrollDirection: Axis.vertical,
-        controller: _pageController,
-        itemCount: reelUrls.length,
-        onPageChanged: onPageChanged,
-        itemBuilder: (context, index) {
-          final controller = _videoControllers[index];
-          return Stack(
-            children: [
-              Center(
-                child: controller.value.isInitialized
-                    ? AspectRatio(
-                        aspectRatio: controller.value.aspectRatio,
-                        child: VideoPlayer(controller),
-                      )
-                    : const CircularProgressIndicator(),
-              ),
-              Positioned(
-                bottom: 30,
-                left: 20,
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.thumb_up, color: Colors.white),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.bookmark, color: Colors.white),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.share, color: Colors.white),
-                      onPressed: () {},
-                    ),
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        body: PageView.builder(
+          scrollDirection: Axis.vertical,
+          controller: _pageController,
+          itemCount: reelUrls.length,
+          onPageChanged: onPageChanged,
+          itemBuilder: (context, index) {
+            final controller = _videoControllers[index];
+            return Stack(
+              children: [
+                Center(
+                  child: controller.value.isInitialized
+                      ? AspectRatio(
+                          aspectRatio: controller.value.aspectRatio,
+                          child: VideoPlayer(controller),
+                        )
+                      : const Center(child: CircularProgressIndicator()),
                 ),
-              ),
-            ],
-          );
-        },
+                Positioned(
+                  bottom: 30,
+                  left: 20,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.thumb_up, color: Colors.white),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.bookmark, color: Colors.white),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.share, color: Colors.white),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
