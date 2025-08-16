@@ -1,3 +1,7 @@
+android {
+    namespace "com.csdcorp.speech_to_text"  // ✅ plugin ka package name
+}
+
 plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
