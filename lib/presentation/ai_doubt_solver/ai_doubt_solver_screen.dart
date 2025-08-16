@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-  import 'models/chat_message.dart';
+import 'models/chat_message.dart';
 import 'widgets/chat_message_widget.dart';
 
 class AiDoubtSolverScreen extends StatefulWidget {
