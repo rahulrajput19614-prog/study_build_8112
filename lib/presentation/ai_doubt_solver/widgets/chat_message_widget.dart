@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// Agar ChatMessage model alag file me hai to yaha correct import lagao
-import '../ai_doubt_solver_screen.dart';
+// ✅ ab sahi model import karo
+import '../models/chat_message.dart';
 
 class ChatMessageWidget extends StatelessWidget {
   final ChatMessage message;
@@ -51,16 +51,12 @@ class ChatMessageWidget extends StatelessWidget {
             child: GestureDetector(
               onLongPress: () => _showMessageOptions(context),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   color: message.isUser
                       ? Theme.of(context).primaryColor
                       : message.isError
-                          ? Theme.of(context)
-                              .colorScheme
-                              .error
-                              .withOpacity(0.05)
+                          ? Theme.of(context).colorScheme.error.withOpacity(0.05)
                           : Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(18).copyWith(
                     bottomRight:
@@ -70,10 +66,7 @@ class ChatMessageWidget extends StatelessWidget {
                   ),
                   border: message.isError
                       ? Border.all(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .error
-                              .withOpacity(0.3),
+                          color: Theme.of(context).colorScheme.error.withOpacity(0.3),
                           width: 1,
                         )
                       : null,
@@ -122,10 +115,7 @@ class ChatMessageWidget extends StatelessWidget {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color: Theme.of(context)
-                    .colorScheme
-                    .secondary
-                    .withOpacity(0.1),
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
@@ -170,8 +160,7 @@ class ChatMessageWidget extends StatelessWidget {
                   Clipboard.setData(ClipboardData(text: message.text));
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Message copied to clipboard')),
+                    const SnackBar(content: Text('Message copied to clipboard')),
                   );
                 },
               ),
