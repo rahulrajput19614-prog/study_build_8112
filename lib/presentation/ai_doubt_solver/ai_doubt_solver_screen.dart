@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'widgets/chat_message_widget.dart';
+import 'models/chat_message.dart';  // ✅ add this import
 
 class AiDoubtSolverScreen extends StatefulWidget {
   const AiDoubtSolverScreen({super.key});
@@ -17,7 +18,7 @@ class _AiDoubtSolverScreenState extends State<AiDoubtSolverScreen> {
   late final stt.SpeechToText _speech;
   final TextEditingController _questionController = TextEditingController();
   late final FirebaseRemoteConfig _remoteConfig;
-  final List<ChatMessage> _messages = [];
+  final List<ChatMessage> _messages = []; // ✅ ab error nahi aayega
 
   @override
   void initState() {
