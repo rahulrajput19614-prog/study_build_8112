@@ -177,8 +177,10 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
                 padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
                 decoration: BoxDecoration(
                   color: question.isCorrect
-                      ? AppTheme.secondaryLight.withOpacity(0.1)
-                      : AppTheme.errorLight.withOpacity(0.1),
+                      ? AppTheme.secondaryLight.withValues(
+                          alpha: (0.1 * 255).toInt())
+                      : AppTheme.errorLight.withValues(
+                          alpha: (0.1 * 255).toInt()),
                   borderRadius: BorderRadius.circular(2.w),
                 ),
                 child: Text(
@@ -197,7 +199,8 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryLight.withOpacity(0.1),
+                  color: AppTheme.primaryLight.withValues(
+                      alpha: (0.1 * 255).toInt()),
                   borderRadius: BorderRadius.circular(1.w),
                 ),
                 child: Text(
@@ -213,8 +216,8 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
                 decoration: BoxDecoration(
-                  color: _getDifficultyColor(question.difficulty)
-                      .withOpacity(0.1),
+                  color: _getDifficultyColor(question.difficulty).withValues(
+                      alpha: (0.1 * 255).toInt()),
                   borderRadius: BorderRadius.circular(1.w),
                 ),
                 child: Text(
@@ -267,9 +270,7 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
             _buildAnswerRow(
               'Your Answer:',
               question.userAnswer,
-              question.isCorrect
-                  ? AppTheme.secondaryLight
-                  : AppTheme.errorLight,
+              question.isCorrect ? AppTheme.secondaryLight : AppTheme.errorLight,
               question.isCorrect ? Icons.check_circle : Icons.cancel,
             ),
             SizedBox(height: 1.h),
@@ -310,10 +311,10 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
             Container(
               padding: EdgeInsets.all(3.w),
               decoration: BoxDecoration(
-                color: AppTheme.primaryLight.withOpacity(0.05),
+                color: AppTheme.primaryLight.withValues(alpha: (0.05 * 255).toInt()),
                 borderRadius: BorderRadius.circular(2.w),
                 border: Border.all(
-                  color: AppTheme.primaryLight.withOpacity(0.2),
+                  color: AppTheme.primaryLight.withValues(alpha: (0.2 * 255).toInt()),
                 ),
               ),
               child: Column(
@@ -356,8 +357,7 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
     );
   }
 
-  Widget _buildAnswerRow(
-      String label, String answer, Color color, IconData icon) {
+  Widget _buildAnswerRow(String label, String answer, Color color, IconData icon) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
