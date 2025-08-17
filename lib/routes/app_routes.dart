@@ -23,11 +23,10 @@ class AppRoutes {
   static const String onboardingFlow = '/onboarding-flow';
   static const String registration = '/registration-screen';
   static const String aiDoubtSolver = '/ai-doubt-solver';
-  static const String testResultsScreen = '/test-results-screen';
-  static const String studyReelsScreen = '/study-reels-screen';
-  static const String profileScreen = '/profile-screen';
-  static const String aiDoubtScreen = '/ai-doubt-screen';
-  static const String homeScreen = '/home-screen';
+  static const String testResults = '/test-results-screen';
+  static const String studyReels = '/study-reels-screen';
+  static const String profile = '/profile-screen';
+  static const String home = '/home-screen';
 
   // Route map
   static Map<String, WidgetBuilder> routes = {
@@ -39,10 +38,9 @@ class AppRoutes {
     onboardingFlow: (context) => const OnboardingFlow(),
     registration: (context) => const RegistrationScreen(),
     aiDoubtSolver: (context) => const AiDoubtSolverScreen(),
-    testResultsScreen: (context) => const TestResultsScreen(),
-    studyReelsScreen: (context) => StudyReelsScreen(),
-    profileScreen: (context) => const ProfileScreen(),
-    aiDoubtScreen: (context) => const AiDoubtSolverScreen(),
-    homeScreen: (context) => const HomeScreen(),
+    testResults: (context) => const TestResultsScreen(),
+    studyReels: (context) => const StudyReelsScreen(),
+    profile: (context) => const ProfileScreen(),
+    home: (context) => const HomeScreen(),
   };
 }
