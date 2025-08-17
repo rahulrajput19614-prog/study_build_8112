@@ -1,56 +1,64 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  // Light Colors
+  static const Color primaryLight = Color(0xFF1976D2);
+  static const Color secondaryLight = Color(0xFF42A5F5);
+  static const Color accentLight = Color(0xFFFFC107);
+  static const Color backgroundLight = Color(0xFFF5F5F5);
+  static const Color surfaceLight = Color(0xFFFFFFFF);
+  static const Color dividerLight = Color(0xFFBDBDBD);
+  static const Color errorLight = Color(0xFFD32F2F);
+
+  static const Color textPrimaryLight = Color(0xFF212121);
+  static const Color textSecondaryLight = Color(0xFF757575);
+
+  // Dark Colors (optional, agar tum use kar rahe ho)
+  static const Color primaryDark = Color(0xFF90CAF9);
+  static const Color secondaryDark = Color(0xFF64B5F6);
+  static const Color accentDark = Color(0xFFFFD54F);
+  static const Color backgroundDark = Color(0xFF303030);
+  static const Color surfaceDark = Color(0xFF424242);
+  static const Color dividerDark = Color(0xFF616161);
+  static const Color errorDark = Color(0xFFEF5350);
+
+  static const Color textPrimaryDark = Color(0xFFFFFFFF);
+  static const Color textSecondaryDark = Color(0xFFB0BEC5);
+
+  // Light theme
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+    primaryColor: primaryLight,
+    colorScheme: ColorScheme.fromSeed(seedColor: primaryLight, brightness: Brightness.light),
+    scaffoldBackgroundColor: backgroundLight,
+    dividerColor: dividerLight,
     tabBarTheme: const TabBarThemeData(
-      labelColor: Colors.blue,
-      unselectedLabelColor: Colors.grey,
+      labelColor: primaryLight,
+      unselectedLabelColor: textSecondaryLight,
     ),
     dialogTheme: const DialogThemeData(
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-      ),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(Colors.blue),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
-      ),
+      backgroundColor: surfaceLight,
     ),
   );
 
+  // Dark theme
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue, brightness: Brightness.dark),
+    primaryColor: primaryDark,
+    colorScheme: ColorScheme.fromSeed(seedColor: primaryDark, brightness: Brightness.dark),
+    scaffoldBackgroundColor: backgroundDark,
+    dividerColor: dividerDark,
     tabBarTheme: const TabBarThemeData(
-      labelColor: Colors.white,
-      unselectedLabelColor: Colors.grey,
+      labelColor: primaryDark,
+      unselectedLabelColor: textSecondaryDark,
     ),
     dialogTheme: const DialogThemeData(
-      backgroundColor: Colors.black,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-      ),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(Colors.blue),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
-      ),
+      backgroundColor: surfaceDark,
     ),
   );
 
-  /// Example utility method for new `.withValues()` replacement
+  /// Fix for withOpacity → withValues
   static Color withOpacityFix(Color color, double opacity) {
     return color.withValues(alpha: opacity);
   }
-
-  /// Example utility for new color channel access
-  static int extractAlpha(Color color) => (color.a * 255).round() & 0xff;
-  static int extractRed(Color color) => (color.r * 255).round() & 0xff;
-  static int extractGreen(Color color) => (color.g * 255).round() & 0xff;
-  static int extractBlue(Color color) => (color.b * 255).round() & 0xff;
 }
