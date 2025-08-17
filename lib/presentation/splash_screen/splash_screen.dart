@@ -41,43 +41,37 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
     );
 
-    _logoScaleAnimation = Tween<double>(
-      begin: 0.5,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _logoAnimationController,
-      curve: Curves.elasticOut,
-    ));
+    _logoScaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _logoAnimationController,
+        curve: Curves.elasticOut,
+      ),
+    );
 
-    _logoFadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _logoAnimationController,
-      curve: const Interval(0.0, 0.8, curve: Curves.easeIn),
-    ));
+    _logoFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _logoAnimationController,
+        curve: const Interval(0.0, 0.8, curve: Curves.easeIn),
+      ),
+    );
 
-    _textFadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _textAnimationController,
-      curve: Curves.easeIn,
-    ));
+    _textFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _textAnimationController,
+        curve: Curves.easeIn,
+      ),
+    );
 
     _textSlideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.5),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _textAnimationController,
-      curve: Curves.easeOutCubic,
-    ));
+    ).animate(
+      CurvedAnimation(parent: _textAnimationController, curve: Curves.easeOutCubic),
+    );
 
     _logoAnimationController.forward();
     Future.delayed(const Duration(milliseconds: 800), () {
-      if (mounted) {
-        _textAnimationController.forward();
-      }
+      if (mounted) _textAnimationController.forward();
     });
   }
 
@@ -92,9 +86,7 @@ class _SplashScreenState extends State<SplashScreen>
 
       await Future.delayed(const Duration(milliseconds: 2500));
 
-      if (mounted) {
-        _navigateToNextScreen();
-      }
+      if (mounted) _navigateToNextScreen();
     } catch (e) {
       if (mounted) {
         setState(() {
@@ -105,21 +97,17 @@ class _SplashScreenState extends State<SplashScreen>
     }
   }
 
-  Future<void> _checkAuthenticationStatus() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-  }
+  Future<void> _checkAuthenticationStatus() async =>
+      Future.delayed(const Duration(milliseconds: 500));
 
-  Future<void> _loadUserPreferences() async {
-    await Future.delayed(const Duration(milliseconds: 300));
-  }
+  Future<void> _loadUserPreferences() async =>
+      Future.delayed(const Duration(milliseconds: 300));
 
-  Future<void> _fetchExamCategories() async {
-    await Future.delayed(const Duration(milliseconds: 700));
-  }
+  Future<void> _fetchExamCategories() async =>
+      Future.delayed(const Duration(milliseconds: 700));
 
-  Future<void> _prepareCachedData() async {
-    await Future.delayed(const Duration(milliseconds: 400));
-  }
+  Future<void> _prepareCachedData() async =>
+      Future.delayed(const Duration(milliseconds: 400));
 
   void _navigateToNextScreen() {
     Navigator.pushReplacementNamed(context, '/exam-category-dashboard');
@@ -153,15 +141,14 @@ class _SplashScreenState extends State<SplashScreen>
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                AppTheme.lightTheme.primaryColor,
-                AppTheme.lightTheme.colorScheme.secondary,
+                Color(0xFF005C97), // deep blue
+                Color(0xFF363795), // indigo
               ],
-              stops: const [0.0, 1.0],
             ),
           ),
           child: SafeArea(
@@ -182,40 +169,35 @@ class _SplashScreenState extends State<SplashScreen>
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                // App Logo
+                                // App Logo Box
                                 Container(
                                   width: 25.w,
                                   height: 25.w,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.circular(4.w),
+                                    borderRadius: BorderRadius.circular(5.w),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withValues(alpha: 0.2),
-                                        blurRadius: 20,
-                                        offset: const Offset(0, 10),
+                                        color: Colors.black.withValues(alpha: 0.15),
+                                        blurRadius: 18,
+                                        offset: const Offset(0, 8),
                                       ),
                                     ],
                                   ),
                                   child: Center(
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         CustomIconWidget(
                                           iconName: 'school',
-                                          color:
-                                              AppTheme.lightTheme.primaryColor,
-                                          size: 8.w,
+                                          color: AppTheme.lightTheme.primaryColor,
+                                          size: 9.w,
                                         ),
                                         SizedBox(height: 1.h),
                                         Text(
                                           'SB',
-                                          style: AppTheme
-                                              .lightTheme.textTheme.titleLarge
-                                              ?.copyWith(
-                                            color: AppTheme
-                                                .lightTheme.primaryColor,
+                                          style: AppTheme.lightTheme.textTheme.titleLarge?.copyWith(
+                                            color: AppTheme.lightTheme.primaryColor,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14.sp,
                                           ),
@@ -228,24 +210,21 @@ class _SplashScreenState extends State<SplashScreen>
                                 // App Name
                                 Text(
                                   'Study Build',
-                                  style: AppTheme
-                                      .lightTheme.textTheme.headlineMedium
-                                      ?.copyWith(
+                                  style: AppTheme.lightTheme.textTheme.headlineMedium?.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 18.sp,
+                                    fontSize: 20.sp,
+                                    letterSpacing: 1,
                                   ),
                                 ),
                                 SizedBox(height: 1.h),
                                 // Tagline
                                 Text(
                                   'Master Your Government Exam',
-                                  style: AppTheme
-                                      .lightTheme.textTheme.bodyLarge
-                                      ?.copyWith(
+                                  style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
                                     color: Colors.white.withValues(alpha: 0.9),
                                     fontSize: 12.sp,
-                                    letterSpacing: 0.5,
+                                    letterSpacing: 0.8,
                                   ),
                                 ),
                               ],
@@ -267,12 +246,9 @@ class _SplashScreenState extends State<SplashScreen>
                           ? GestureDetector(
                               onTap: _retryInitialization,
                               child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 6.w,
-                                  vertical: 2.h,
-                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.2),
+                                  color: Colors.red.withValues(alpha: 0.15),
                                   borderRadius: BorderRadius.circular(2.w),
                                   border: Border.all(
                                     color: Colors.white.withValues(alpha: 0.3),
@@ -290,11 +266,9 @@ class _SplashScreenState extends State<SplashScreen>
                                     SizedBox(width: 2.w),
                                     Text(
                                       'Retry',
-                                      style: AppTheme
-                                          .lightTheme.textTheme.bodyMedium
-                                          ?.copyWith(
+                                      style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
                                         color: Colors.white,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ],
@@ -302,12 +276,12 @@ class _SplashScreenState extends State<SplashScreen>
                               ),
                             )
                           : SizedBox(
-                              width: 6.w,
-                              height: 6.w,
+                              width: 7.w,
+                              height: 7.w,
                               child: CircularProgressIndicator(
-                                strokeWidth: 2,
+                                strokeWidth: 3,
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.white.withValues(alpha: 0.8),
+                                  Colors.white.withValues(alpha: 0.85),
                                 ),
                               ),
                             ),
@@ -325,10 +299,8 @@ class _SplashScreenState extends State<SplashScreen>
                               child: Text(
                                 _loadingText,
                                 textAlign: TextAlign.center,
-                                style: AppTheme
-                                    .lightTheme.textTheme.bodyMedium
-                                    ?.copyWith(
-                                  color: Colors.white.withValues(alpha: 0.8),
+                                style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
+                                  color: Colors.white.withValues(alpha: 0.85),
                                   fontSize: 11.sp,
                                 ),
                               ),
