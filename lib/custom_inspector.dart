@@ -70,7 +70,8 @@ class CustomInspector {
     return {
       'type': 'Switch',
       'value': widget.value,
-      'activeColor': _colorToHex(widget.activeColor),
+      'activeTrackColor': _colorToHex(widget.activeTrackColor),
+      'activeThumbColor': _colorToHex(widget.activeThumbColor),
       'inactiveThumbColor': _colorToHex(widget.inactiveThumbColor),
       'inactiveTrackColor': _colorToHex(widget.inactiveTrackColor),
       'materialTapTargetSize': widget.materialTapTargetSize?.toString(),
@@ -97,7 +98,7 @@ class CustomInspector {
       'max': widget.max,
       'divisions': widget.divisions,
       'label': widget.label,
-      'activeColor': _colorToHex(widget.activeColor),
+      'activeTrackColor': _colorToHex(widget.activeColor), // ✅ Updated
       'inactiveColor': _colorToHex(widget.inactiveColor),
     };
   }
@@ -129,6 +130,6 @@ class CustomInspector {
   /// Helper to convert Color to hex string
   static String? _colorToHex(Color? color) {
     if (color == null) return null;
-    return '#${color.value.toRadixString(16).padLeft(8, '0')}';
+    return '#${color.toARGB32().toRadixString(16).padLeft(8, '0')}'; // ✅ Updated
   }
 }
