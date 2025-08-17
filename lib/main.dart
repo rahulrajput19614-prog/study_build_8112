@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'widgets/custom_error_widget.dart';
 import 'presentation/bottom_nav.dart';
@@ -90,6 +91,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           home: const SplashScreen(),
           routes: {
+            '/login': (context) => const LoginScreen(),
             '/home': (context) => const BottomNav(),
             '/main-home': (context) => const HomeScreen(),
             '/profile': (context) => const ProfileScreen(),
@@ -114,6 +116,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// ----------------------------
+/// ✅ SplashScreen
+/// ----------------------------
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -131,7 +136,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _navigate() async {
     await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/login');
     }
   }
 
@@ -140,6 +145,110 @@ class _SplashScreenState extends State<SplashScreen> {
     return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(color: Colors.deepPurple),
+      ),
+    );
+  }
+}
+
+/// ----------------------------
+/// ✅ LoginScreen
+/// ----------------------------
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool _isSigningIn = false;
+
+  Future<void> _handleGoogleSignIn() async {
+    setState(() => _isSigningIn = true);
+
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser != null && mounted) {
+        Navigator.pushReplacementNamed(context, '/home');
+      }
+    } catch (e) {
+      debugPrint("⚠️ Google Sign-In Failed: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Login Failed: $e")),
+        );
+      }
+    } finally {
+      setState(() => _isSigningIn = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 8.w),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.deepPurple, Colors.indigo],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.school, size: 100, color: Colors.white),
+            SizedBox(height: 5.h),
+            const Text(
+              "Study Build",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8.h),
+
+            // 🔹 Google Sign-In Button
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                minimumSize: Size(double.infinity, 6.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: _isSigningIn ? null : _handleGoogleSignIn,
+              icon: const Icon(Icons.login),
+              label: _isSigningIn
+                  ? const CircularProgressIndicator()
+                  : const Text("Continue with Google"),
+            ),
+            SizedBox(height: 2.h),
+
+            // 🔹 Mobile Login Placeholder
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orangeAccent,
+                minimumSize: Size(double.infinity, 6.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () {
+                // TODO: Add mobile login (OTP Firebase Auth)
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Mobile login coming soon 🚀")),
+                );
+              },
+              child: const Text("Continue with Mobile"),
+            ),
+          ],
+        ),
       ),
     );
   }
