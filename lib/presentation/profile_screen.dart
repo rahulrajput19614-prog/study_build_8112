@@ -9,38 +9,36 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('My Profile'),
         centerTitle: true,
+        backgroundColor: Colors.deepPurple,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // User Profile Picture
+            // 🔹 Profile Picture
             const CircleAvatar(
-              radius: 50,
-              // Agar asset use karna hai to niche wala use karo
-              // backgroundImage: AssetImage('assets/images/user.png'),
-
-              // Test ke liye network image
-              backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+              radius: 60,
+              backgroundImage: AssetImage('assets/images/user.png'),
             ),
+            const SizedBox(height: 15),
 
-            const SizedBox(height: 10),
-
-            // User Name
-            const Text(
+            // 🔹 User Info
+            Text(
               'Rahul Sharma',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
-
-            // Email
-            const Text(
+            Text(
               'rahul@example.com',
-              style: TextStyle(color: Colors.grey),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.grey[600],
+                  ),
             ),
 
             const SizedBox(height: 30),
 
-            // Stats Row
+            // 🔹 Stats Section
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: const [
@@ -52,20 +50,32 @@ class ProfileScreen extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            // Options
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {
-                // TODO: Add navigation to settings screen
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Logout'),
-              onTap: () {
-                // TODO: Add logout logic
-              },
+            // 🔹 Options List
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.settings, color: Colors.deepPurple),
+                    title: const Text('Settings'),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.book, color: Colors.deepPurple),
+                    title: const Text('My Saved Notes'),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.history, color: Colors.deepPurple),
+                    title: const Text('Activity History'),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.logout, color: Colors.red),
+                    title: const Text('Logout'),
+                    onTap: () {},
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -86,12 +96,9 @@ class _StatItem extends StatelessWidget {
       children: [
         Text(
           value,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        Text(
-          label,
-          style: const TextStyle(color: Colors.grey),
-        ),
+        Text(label, style: const TextStyle(color: Colors.grey)),
       ],
     );
   }
