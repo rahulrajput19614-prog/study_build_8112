@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sizer/sizer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../core/app_export.dart';
 import '../../theme/app_theme.dart';
-import './widgets/app_logo_widget.dart';
-import './widgets/login_form_widget.dart';
-import './widgets/social_login_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,113 +14,81 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
-  final FocusNode _focusNode = FocusNode();
 
-  // Mock credentials for testing
-  final Map<String, String> _mockCredentials = {
-    'admin@studybuild.com': 'admin123',
-    'student@studybuild.com': 'student123',
-    'test@studybuild.com': 'test123',
-  };
+  // Firebase instances
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _phoneController = TextEditingController();
 
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
+  // ✅ Google Login
+  Future<void> _handleGoogleLogin() async {
+    try {
+      setState(() => _isLoading = true);
 
-  void _handleLogin(String email, String password) async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    // Add haptic feedback
-    HapticFeedback.lightImpact();
-
-    // Simulate authentication delay
-    await Future.delayed(const Duration(seconds: 2));
-
-    // Check mock credentials
-    if (_mockCredentials.containsKey(email) &&
-        _mockCredentials[email] == password) {
-      // Success - navigate to dashboard
-      if (mounted) {
-        HapticFeedback.lightImpact();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Login successful! Welcome back.'),
-            backgroundColor: AppTheme.lightTheme.colorScheme.secondary,
-            duration: const Duration(seconds: 2),
-          ),
-        );
-
-        // Navigate to exam category dashboard
-        Navigator.pushReplacementNamed(context, '/exam-category-dashboard');
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        setState(() => _isLoading = false);
+        return;
       }
-    } else {
-      // Failed authentication
-      if (mounted) {
-        HapticFeedback.heavyImpact();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Invalid email or password. Please try again.'),
-            backgroundColor: AppTheme.lightTheme.colorScheme.error,
-            duration: const Duration(seconds: 3),
-          ),
-        );
-      }
-    }
 
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
-  void _handleGoogleLogin() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    HapticFeedback.lightImpact();
-
-    // Simulate Google Sign-In process
-    await Future.delayed(const Duration(seconds: 2));
-
-    if (mounted) {
-      HapticFeedback.lightImpact();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Google Sign-In successful!'),
-          backgroundColor: AppTheme.lightTheme.colorScheme.secondary,
-          duration: const Duration(seconds: 2),
-        ),
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
-      Navigator.pushReplacementNamed(context, '/exam-category-dashboard');
-    }
+      await _auth.signInWithCredential(credential);
 
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/exam-category-dashboard');
+      }
+    } catch (e) {
+      _showSnack("Google login failed: $e", isError: true);
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
-  void _handleMobileOtpLogin() {
-    HapticFeedback.lightImpact();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Mobile OTP login feature coming soon!'),
-        duration: Duration(seconds: 2),
-      ),
+  // ✅ Mobile OTP Login
+  Future<void> _handleMobileOtpLogin() async {
+    String phone = _phoneController.text.trim();
+    if (phone.isEmpty || phone.length < 10) {
+      _showSnack("Enter valid phone number", isError: true);
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    await _auth.verifyPhoneNumber(
+      phoneNumber: "+91$phone",
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        await _auth.signInWithCredential(credential);
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, '/exam-category-dashboard');
+        }
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        _showSnack("Verification failed: ${e.message}", isError: true);
+        setState(() => _isLoading = false);
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        Navigator.pushNamed(context, '/otp-screen', arguments: verificationId);
+        setState(() => _isLoading = false);
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
     );
   }
 
-  void _navigateToSignUp() {
-    HapticFeedback.lightImpact();
-    Navigator.pushNamed(context, '/registration-screen');
+  void _showSnack(String msg, {bool isError = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        backgroundColor: isError
+            ? AppTheme.lightTheme.colorScheme.error
+            : AppTheme.lightTheme.colorScheme.secondary,
+      ),
+    );
   }
 
   @override
@@ -131,81 +96,53 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: AppTheme.lightTheme.scaffoldBackgroundColor,
       body: SafeArea(
-        child: GestureDetector(
-          onTap: () {
-            // Dismiss keyboard when tapping outside
-            FocusScope.of(context).unfocus();
-          },
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height -
-                    MediaQuery.of(context).padding.top -
-                    MediaQuery.of(context).padding.bottom,
-              ),
-              child: IntrinsicHeight(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(height: 4.h),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Study Build",
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.lightTheme.colorScheme.primary,
+                      )),
+              const SizedBox(height: 30),
 
-                    // App Logo and Welcome Text
-                    const AppLogoWidget(),
-
-                    SizedBox(height: 6.h),
-
-                    // Login Form
-                    LoginFormWidget(
-                      onLogin: _handleLogin,
-                      isLoading: _isLoading,
-                    ),
-
-                    SizedBox(height: 4.h),
-
-                    // Social Login Options
-                    SocialLoginWidget(
-                      onGoogleLogin: _handleGoogleLogin,
-                      onMobileOtpLogin: _handleMobileOtpLogin,
-                      isLoading: _isLoading,
-                    ),
-
-                    const Spacer(),
-
-                    SizedBox(height: 4.h),
-
-                    // Sign Up Link
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'New to Study Build? ',
-                          style: AppTheme.lightTheme.textTheme.bodyMedium
-                              ?.copyWith(
-                            color: AppTheme
-                                .lightTheme.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: _isLoading ? null : _navigateToSignUp,
-                          child: Text(
-                            'Sign Up',
-                            style: AppTheme.lightTheme.textTheme.bodyMedium
-                                ?.copyWith(
-                              color: AppTheme.lightTheme.colorScheme.primary,
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 2.h),
-                  ],
+              // ✅ Phone Input
+              TextField(
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Mobile Number",
                 ),
               ),
-            ),
+              const SizedBox(height: 20),
+
+              ElevatedButton(
+                onPressed: _isLoading ? null : _handleMobileOtpLogin,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                child: _isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text("Login with Mobile OTP"),
+              ),
+
+              const SizedBox(height: 20),
+
+              // ✅ Google Login Button
+              ElevatedButton.icon(
+                onPressed: _isLoading ? null : _handleGoogleLogin,
+                icon: const Icon(Icons.login),
+                label: const Text("Login with Google"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+              ),
+            ],
           ),
         ),
       ),
