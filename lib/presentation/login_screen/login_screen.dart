@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -15,11 +14,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
-  // Firebase instances
+  // Firebase instance
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _phoneController = TextEditingController();
 
-  // ✅ Google Login
+  /// ✅ Google Login
   Future<void> _handleGoogleLogin() async {
     try {
       setState(() => _isLoading = true);
@@ -27,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
         setState(() => _isLoading = false);
-        return;
+        return; // user cancelled
       }
 
       final GoogleSignInAuthentication googleAuth =
@@ -50,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // ✅ Mobile OTP Login
+  /// ✅ Mobile OTP Login
   Future<void> _handleMobileOtpLogin() async {
     String phone = _phoneController.text.trim();
     if (phone.isEmpty || phone.length < 10) {
@@ -101,11 +100,13 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Study Build",
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.lightTheme.colorScheme.primary,
-                      )),
+              Text(
+                "Study Build",
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.lightTheme.colorScheme.primary,
+                    ),
+              ),
               const SizedBox(height: 30),
 
               // ✅ Phone Input
@@ -119,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
 
+              // ✅ OTP Login Button
               ElevatedButton(
                 onPressed: _isLoading ? null : _handleMobileOtpLogin,
                 style: ElevatedButton.styleFrom(
