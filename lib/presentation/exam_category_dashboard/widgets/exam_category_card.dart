@@ -25,10 +25,9 @@ class ExamCategoryCard extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
         decoration: BoxDecoration(
           color: AppTheme.lightTheme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.08),
+              color: AppTheme.lightTheme.colorScheme.onSurface.withValues(alpha: 0.08),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -75,7 +74,7 @@ class ExamCategoryCard extends StatelessWidget {
                         Text(
                           examData["fullName"] as String,
                           style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                            color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                            color: AppTheme.lightTheme.colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -116,7 +115,7 @@ class ExamCategoryCard extends StatelessWidget {
                         Text(
                           "Active Tests",
                           style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                            color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                            color: AppTheme.lightTheme.colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                         ),
                       ],
@@ -142,7 +141,7 @@ class ExamCategoryCard extends StatelessWidget {
                         Text(
                           "Completed",
                           style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                            color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                            color: AppTheme.lightTheme.colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                         ),
                       ],
@@ -166,7 +165,7 @@ class ExamCategoryCard extends StatelessWidget {
                       Text(
                         "Progress",
                         style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                          color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                          color: AppTheme.lightTheme.colorScheme.onSurface.withValues(alpha: 0.6),
                         ),
                       ),
                       Text(
