@@ -88,7 +88,7 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
               ? _buildEmptyState()
               : ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 4.w),
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemCount: filteredQuestions.length,
                   itemBuilder: (context, index) {
                     final question = filteredQuestions[index];
@@ -177,10 +177,8 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
                 padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
                 decoration: BoxDecoration(
                   color: question.isCorrect
-                      ? AppTheme.secondaryLight.withValues(
-                          alpha: (0.1 * 255).toInt())
-                      : AppTheme.errorLight.withValues(
-                          alpha: (0.1 * 255).toInt()),
+                      ? AppTheme.secondaryLight.withAlpha((0.1 * 255).round())
+                      : AppTheme.errorLight.withAlpha((0.1 * 255).round()),
                   borderRadius: BorderRadius.circular(2.w),
                 ),
                 child: Text(
@@ -199,8 +197,7 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryLight.withValues(
-                      alpha: (0.1 * 255).toInt()),
+                  color: AppTheme.primaryLight.withAlpha((0.1 * 255).round()),
                   borderRadius: BorderRadius.circular(1.w),
                 ),
                 child: Text(
@@ -216,8 +213,8 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
                 decoration: BoxDecoration(
-                  color: _getDifficultyColor(question.difficulty).withValues(
-                      alpha: (0.1 * 255).toInt()),
+                  color: _getDifficultyColor(question.difficulty)
+                      .withAlpha((0.1 * 255).round()),
                   borderRadius: BorderRadius.circular(1.w),
                 ),
                 child: Text(
@@ -311,10 +308,10 @@ class _QuestionAnalysisTabWidgetState extends State<QuestionAnalysisTabWidget> {
             Container(
               padding: EdgeInsets.all(3.w),
               decoration: BoxDecoration(
-                color: AppTheme.primaryLight.withValues(alpha: (0.05 * 255).toInt()),
+                color: AppTheme.primaryLight.withAlpha((0.05 * 255).round()),
                 borderRadius: BorderRadius.circular(2.w),
                 border: Border.all(
-                  color: AppTheme.primaryLight.withValues(alpha: (0.2 * 255).toInt()),
+                  color: AppTheme.primaryLight.withAlpha((0.2 * 255).round()),
                 ),
               ),
               child: Column(
