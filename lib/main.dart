@@ -14,11 +14,17 @@ import 'presentation/ai_doubt_solver/ai_doubt_solver_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    debugPrint("⚠️ Firebase Init Failed: $e");
+  }
 
+  // Global error widget
   ErrorWidget.builder = (FlutterErrorDetails details) =>
       CustomErrorWidget(errorDetails: details);
 
+  // Force portrait mode
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
@@ -29,39 +35,46 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  /// ✅ Firebase Remote Config Update Check
   Future<void> checkForUpdate(BuildContext context) async {
-    final remoteConfig = FirebaseRemoteConfig.instance;
+    try {
+      final remoteConfig = FirebaseRemoteConfig.instance;
 
-    await remoteConfig.setDefaults({'latest_version': '1.0.0'});
-    await remoteConfig.fetchAndActivate();
+      await remoteConfig.setDefaults({'latest_version': '1.0.0'});
+      await remoteConfig.fetchAndActivate();
 
-    final latestVersion = remoteConfig.getString('latest_version');
-    final packageInfo = await PackageInfo.fromPlatform();
-    final currentVersion = packageInfo.version;
+      final latestVersion = remoteConfig.getString('latest_version');
+      final packageInfo = await PackageInfo.fromPlatform();
+      final currentVersion = packageInfo.version;
 
-    if (currentVersion != latestVersion) {
-      // ignore: use_build_context_synchronously
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) => AlertDialog(
-          title: const Text('Update Available'),
-          content: const Text('A new version of Study Build is available.'),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                final url = Uri.parse(
-                  'https://play.google.com/store/apps/details?id=com.your.package',
-                );
-                if (await canLaunchUrl(url)) {
-                  await launchUrl(url, mode: LaunchMode.externalApplication);
-                }
-              },
-              child: const Text('Update Now'),
+      if (currentVersion != latestVersion) {
+        if (context.mounted) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => AlertDialog(
+              title: const Text('Update Available'),
+              content:
+                  const Text('A new version of Study Build is available.'),
+              actions: [
+                TextButton(
+                  onPressed: () async {
+                    final url = Uri.parse(
+                        'https://play.google.com/store/apps/details?id=com.your.package');
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url,
+                          mode: LaunchMode.externalApplication);
+                    }
+                  },
+                  child: const Text('Update Now'),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint("⚠️ Update Check Failed: $e");
     }
   }
 
@@ -75,7 +88,7 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.darkTheme,
           themeMode: ThemeMode.light,
           debugShowCheckedModeBanner: false,
-          home: const SplashScreen(), // ✅ पहले Splash दिखेगा
+          home: const SplashScreen(),
           routes: {
             '/home': (context) => const BottomNav(),
             '/ai': (context) => const AiDoubtSolverScreen(),
@@ -109,7 +122,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _navigate() async {
-    await Future.delayed(const Duration(seconds: 2)); // splash delay
+    await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
       Navigator.pushReplacementNamed(context, '/home');
     }
@@ -119,9 +132,8 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(), // simple loader
+        child: CircularProgressIndicator(color: Colors.deepPurple),
       ),
     );
   }
 }
-
