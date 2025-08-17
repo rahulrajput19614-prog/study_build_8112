@@ -132,11 +132,11 @@ class _ExamCategoryDashboardState extends State<ExamCategoryDashboard> {
                     colors: [
                       Theme.of(context)
                           .primaryColor
-                          .withOpacity(0.1), // FIXED HERE
+                          .withValues(alpha: (0.1 * 255).toInt()),
                       Theme.of(context)
                           .colorScheme
                           .secondary
-                          .withOpacity(0.1), // FIXED HERE
+                          .withValues(alpha: (0.1 * 255).toInt()),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -145,7 +145,7 @@ class _ExamCategoryDashboardState extends State<ExamCategoryDashboard> {
                   border: Border.all(
                     color: Theme.of(context)
                         .primaryColor
-                        .withOpacity(0.2), // FIXED HERE
+                        .withValues(alpha: (0.2 * 255).toInt()),
                     width: 1,
                   ),
                 ),
