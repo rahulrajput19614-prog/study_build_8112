@@ -326,7 +326,7 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
             child: CustomIconWidget(
               iconName: 'search',
               color:
-                  AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
+                  AppTheme.lightTheme.colorScheme.onSurface.withValues(alpha: 0.6),
               size: 20,
             ),
           ),
@@ -339,7 +339,7 @@ class _TestCategoriesScreenState extends State<TestCategoriesScreen> {
                   icon: CustomIconWidget(
                     iconName: 'clear',
                     color: AppTheme.lightTheme.colorScheme.onSurface
-                        .withOpacity(0.6),
+                        .withValues(alpha: 0.6),
                     size: 20,
                   ),
                 )
