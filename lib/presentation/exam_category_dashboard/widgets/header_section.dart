@@ -34,7 +34,7 @@ class HeaderSection extends StatelessWidget {
         color: AppTheme.lightTheme.scaffoldBackgroundColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: (0.05 * 255).toInt()), // fixed
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -91,8 +91,7 @@ class HeaderSection extends StatelessWidget {
                         onPressed: onNotificationTap,
                         icon: CustomIconWidget(
                           iconName: 'notifications',
-                          color:
-                              AppTheme.lightTheme.colorScheme.onSurfaceVariant,
+                          color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
                           size: 6.w,
                         ),
                         style: IconButton.styleFrom(
@@ -145,7 +144,7 @@ class HeaderSection extends StatelessWidget {
                     "Search tests, topics, or questions...",
                     style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
                       color: AppTheme.lightTheme.colorScheme.onSurfaceVariant
-                          .withOpacity(0.7),
+                          .withValues(alpha: (0.7 * 255).toInt()), // fixed
                     ),
                   ),
                 ),
