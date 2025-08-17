@@ -10,7 +10,7 @@ import 'core/app_export.dart';
 import 'widgets/custom_error_widget.dart';
 import 'presentation/bottom_nav.dart';
 
-// 👇 Import all screens here
+// 👇 Import all screens
 import 'presentation/home/home_screen.dart';
 import 'presentation/profile/profile_screen.dart';
 import 'presentation/ai_doubt_solver/ai_doubt_solver_screen.dart';
@@ -28,11 +28,9 @@ Future<void> main() async {
     debugPrint("⚠️ Firebase Init Failed: $e");
   }
 
-  // Global error widget
   ErrorWidget.builder = (FlutterErrorDetails details) =>
       CustomErrorWidget(errorDetails: details);
 
-  // Force portrait mode
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
@@ -43,11 +41,9 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  /// ✅ Firebase Remote Config Update Check
   Future<void> checkForUpdate(BuildContext context) async {
     try {
       final remoteConfig = FirebaseRemoteConfig.instance;
-
       await remoteConfig.setDefaults({'latest_version': '1.0.0'});
       await remoteConfig.fetchAndActivate();
 
@@ -62,8 +58,7 @@ class MyApp extends StatelessWidget {
             barrierDismissible: false,
             builder: (_) => AlertDialog(
               title: const Text('Update Available'),
-              content:
-                  const Text('A new version of Study Build is available.'),
+              content: const Text('A new version of Study Build is available.'),
               actions: [
                 TextButton(
                   onPressed: () async {
@@ -92,16 +87,13 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation, deviceType) {
         return MaterialApp(
           title: 'Study Build',
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
           themeMode: ThemeMode.light,
           debugShowCheckedModeBanner: false,
           home: const SplashScreen(),
           routes: {
-            // ✅ Bottom Nav / Main Home
             '/home': (context) => const BottomNav(),
-
-            // ✅ Direct Pages
             '/main-home': (context) => const HomeScreen(),
             '/profile': (context) => const ProfileScreen(),
             '/ai-doubt': (context) => const AiDoubtSolverScreen(),
@@ -123,7 +115,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/// ✅ Simple Splash Screen
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
