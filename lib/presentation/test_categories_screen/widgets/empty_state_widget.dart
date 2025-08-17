@@ -29,7 +29,7 @@ class EmptyStateWidget extends StatelessWidget {
             height: 40.w,
             decoration: BoxDecoration(
               color: AppTheme.lightTheme.colorScheme.primary
-                  .withOpacity(0.1),
+                  .withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: CustomIconWidget(
@@ -52,7 +52,7 @@ class EmptyStateWidget extends StatelessWidget {
             subtitle,
             style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
               color: AppTheme.lightTheme.colorScheme.onSurface
-                  .withOpacity(0.7),
+                  .withValues(alpha: 0.7),
               height: 1.5,
             ),
             textAlign: TextAlign.center,
