@@ -33,7 +33,6 @@ class _TestResultsScreenState extends State<TestResultsScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Get test result from navigation arguments
     final args = ModalRoute.of(context)?.settings.arguments;
     if (args != null && args is TestResultModel) {
       testResult = args;
@@ -53,7 +52,6 @@ class _TestResultsScreenState extends State<TestResultsScreen>
       isLoading = true;
     });
 
-    // Simulate loading delay for real-world API call
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted) {
         setState(() {
@@ -380,7 +378,7 @@ class _TestResultsScreenState extends State<TestResultsScreen>
           Container(
             padding: EdgeInsets.all(4.w),
             decoration: BoxDecoration(
-              color: AppTheme.primaryLight.withOpacity(0.1),
+              color: AppTheme.primaryLight.withValues(alpha: (0.1 * 255).toInt()),
               borderRadius: BorderRadius.circular(3.w),
             ),
             child: Icon(
@@ -414,7 +412,6 @@ class _TestResultsScreenState extends State<TestResultsScreen>
   }
 
   void _onDownloadPDF() {
-    // Implement PDF download functionality
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('PDF download started'),
@@ -428,6 +425,6 @@ class _TestResultsScreenState extends State<TestResultsScreen>
   }
 
   void _onReviewAnswers() {
-    _tabController.animateTo(2); // Navigate to Questions tab
+    _tabController.animateTo(2);
   }
 }
