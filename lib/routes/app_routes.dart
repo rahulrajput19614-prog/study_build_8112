@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // Screens
 import '../presentation/splash_screen/splash_screen.dart';
 import '../presentation/test_categories_screen/test_categories_screen.dart';
-import '../presentation/exam_category_dashboard/exam_category_dashboard_screen.dart'; // Corrected import
+import '../presentation/exam_category_dashboard/exam_category_dashboard.dart'; // Corrected import
 import '../presentation/login_screen/login_screen.dart';
 import '../presentation/onboarding_flow/onboarding_flow.dart';
 import '../presentation/registration_screen/registration_screen.dart';
@@ -34,7 +34,7 @@ class AppRoutes {
     initial: (context) => const SplashScreen(),
     splash: (context) => const SplashScreen(),
     testCategories: (context) => const TestCategoriesScreen(),
-    examCategoryDashboard: (context) => const ExamCategoryDashboardScreen(), // Corrected class name
+    examCategoryDashboard: (context) => const ExamCategoryDashboard(), // Corrected class name
     login: (context) => const LoginScreen(),
     onboardingFlow: (context) => const OnboardingFlow(),
     registration: (context) => const RegistrationScreen(),
