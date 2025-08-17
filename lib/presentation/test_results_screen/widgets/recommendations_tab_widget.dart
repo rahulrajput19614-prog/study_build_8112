@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import '../../../models/test_result_model.dart';
-// import '../../../services/gemini_service.dart'; // Gemini ka code missing hai
 import '../../../theme/app_theme.dart';
 
 class RecommendationsTabWidget extends StatefulWidget {
@@ -27,15 +26,6 @@ class _RecommendationsTabWidgetState extends State<RecommendationsTabWidget> {
   @override
   void initState() {
     super.initState();
-    // Gemini wala part comment kiya, kyunki GeminiClient & GeminiService missing hain
-    // try {
-    //   _loadRecommendations();
-    // } catch (e) {
-    //   geminiClient = GeminiClient(
-    //     GeminiService().dio,
-    //     'mock_key',
-    //   );
-    // }
     _loadRecommendations();
   }
 
@@ -46,18 +36,6 @@ class _RecommendationsTabWidgetState extends State<RecommendationsTabWidget> {
     });
 
     try {
-      // Gemini wala part comment kiya
-      // final recommendations = await generateStudyRecommendations(
-      //   apiKey: 'mock_key',
-      //   overallScore: widget.testResult.overallScore,
-      //   subjectScores: widget.testResult.subjectResults.map(
-      //     (key, value) => MapEntry(key, value.score),
-      //   ),
-      //   weakTopics: widget.testResult.weakTopics,
-      //   timeSpent: widget.testResult.timeSpent,
-      //   accuracyRate: widget.testResult.accuracyRate,
-      // );
-
       final recommendations = _generateFallbackRecommendations();
       final insights = _generateFallbackInsights();
 
@@ -120,13 +98,13 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  AppTheme.primaryLight.withOpacity(0.1),
-                  AppTheme.accentLight.withOpacity(0.05),
+                  AppTheme.primaryLight.withValues(alpha: (0.1 * 255).toInt()),
+                  AppTheme.accentLight.withValues(alpha: (0.05 * 255).toInt()),
                 ],
               ),
               borderRadius: BorderRadius.circular(3.w),
               border: Border.all(
-                color: AppTheme.primaryLight.withOpacity(0.3),
+                color: AppTheme.primaryLight.withValues(alpha: (0.3 * 255).toInt()),
               ),
             ),
             child: Column(
@@ -339,9 +317,11 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
         margin: EdgeInsets.symmetric(vertical: 1.h),
         padding: EdgeInsets.all(3.w),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: (0.1 * 255).toInt()),
           borderRadius: BorderRadius.circular(2.w),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(
+            color: color.withValues(alpha: (0.3 * 255).toInt()),
+          ),
         ),
         child: Row(
           children: [
@@ -376,15 +356,7 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
     );
   }
 
-  void _onRetakeTest() {
-    // TODO: Implement navigation to retake test screen
-  }
-
-  void _onPracticeWeakTopics() {
-    // TODO: Implement navigation to topic-wise practice screen
-  }
-
-  void _onCreateSchedule() {
-    // TODO: Implement navigation to study planner screen
-  }
+  void _onRetakeTest() {}
+  void _onPracticeWeakTopics() {}
+  void _onCreateSchedule() {}
 }
