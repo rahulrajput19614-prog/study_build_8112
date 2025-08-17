@@ -49,14 +49,15 @@ class FeaturedSection extends StatelessWidget {
             itemCount: featuredItems.length,
             itemBuilder: (context, index) {
               final item = featuredItems[index];
+              final primaryColor = item["primaryColor"] as Color;
               return Container(
                 width: 70.w,
                 margin: EdgeInsets.only(right: 3.w),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      item["primaryColor"] as Color,
-                      (item["primaryColor"] as Color).withOpacity(0.8),
+                      primaryColor,
+                      primaryColor.withAlpha((0.8 * 255).round()),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -72,7 +73,7 @@ class FeaturedSection extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                             horizontal: 2.w, vertical: 0.5.h),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withAlpha((0.2 * 255).round()),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
@@ -106,7 +107,7 @@ class FeaturedSection extends StatelessWidget {
                             item["description"] as String,
                             style: AppTheme.lightTheme.textTheme.bodySmall
                                 ?.copyWith(
-                              color: Colors.white.withOpacity(0.9),
+                              color: Colors.white.withAlpha((0.9 * 255).round()),
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -124,7 +125,8 @@ class FeaturedSection extends StatelessWidget {
                                 "${item["participants"]} enrolled",
                                 style: AppTheme.lightTheme.textTheme.bodySmall
                                     ?.copyWith(
-                                  color: Colors.white.withOpacity(0.9),
+                                  color:
+                                      Colors.white.withAlpha((0.9 * 255).round()),
                                 ),
                               ),
                             ],
