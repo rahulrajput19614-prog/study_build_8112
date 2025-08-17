@@ -1,46 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/app_export.dart';
-import '../../../models/onboarding_content.dart'; // Corrected import path
+import '../models/onboarding_content.dart'; // Correct import path
 
 class OnboardingPageWidget extends StatelessWidget {
-  final OnboardingContent content;
+  final String imageUrl;
+  final String title;
+  final String description;
 
   const OnboardingPageWidget({
     Key? key,
-    required this.content,
+    required this.imageUrl,
+    required this.title,
+    required this.description,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.w),
+      padding: EdgeInsets.symmetric(horizontal: 6.w),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            content.image,
-            height: 40.h,
-            fit: BoxFit.contain,
+          Container(
+            height: 60.h,
+            width: 85.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: (0.1 * 255).toInt()),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: CustomImageWidget(
+                imageUrl: imageUrl,
+                width: 85.w,
+                height: 60.h,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 4.h),
           Text(
-            content.title,
-            style: GoogleFonts.inter(
-              fontSize: 22.sp,
+            title,
+            style: AppTheme.lightTheme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.w700,
-              color: AppTheme.textPrimaryLight,
+              color: AppTheme.lightTheme.colorScheme.onSurface,
             ),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 2.h),
           Text(
-            content.description,
-            style: GoogleFonts.roboto(
-              fontSize: 14.sp,
-              color: AppTheme.textSecondaryLight,
+            description,
+            style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
+              color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
+              height: 1.5,
             ),
             textAlign: TextAlign.center,
           ),
