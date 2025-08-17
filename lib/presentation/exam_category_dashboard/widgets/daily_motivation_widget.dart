@@ -23,8 +23,10 @@ class DailyMotivationWidget extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppTheme.lightTheme.colorScheme.primary.withOpacity(0.1),
-            AppTheme.lightTheme.colorScheme.secondary.withOpacity(0.1),
+            AppTheme.lightTheme.colorScheme.primary.withValues(
+                alpha: (0.1 * 255).toInt()), // replaced with .withValues()
+            AppTheme.lightTheme.colorScheme.secondary.withValues(
+                alpha: (0.1 * 255).toInt()), // replaced with .withValues()
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
