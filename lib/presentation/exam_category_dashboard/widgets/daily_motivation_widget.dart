@@ -18,17 +18,15 @@ class DailyMotivationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-      padding: EdgeInsets.all(4.w),
+      margin: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
+      padding: EdgeInsets.all(4.0.w),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
             AppTheme.lightTheme.colorScheme.primary.withValues(
-              alpha: (0.1 * 255).toInt(),
-            ),
+                alpha: (0.1 * 255).toInt()), // replaced with .withValues()
             AppTheme.lightTheme.colorScheme.secondary.withValues(
-              alpha: (0.1 * 255).toInt(),
-            ),
+                alpha: (0.1 * 255).toInt()), // replaced with .withValues()
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -47,9 +45,9 @@ class DailyMotivationWidget extends StatelessWidget {
               CustomIconWidget(
                 iconName: 'format_quote',
                 color: AppTheme.lightTheme.colorScheme.primary,
-                size: 6.w,
+                size: 6.0.w,
               ),
-              SizedBox(width: 2.w),
+              SizedBox(width: 2.0.w),
               Text(
                 "Daily Motivation",
                 style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
@@ -59,7 +57,7 @@ class DailyMotivationWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 2.h),
+          SizedBox(height: 2.0.h),
           Text(
             quote,
             style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
@@ -67,7 +65,7 @@ class DailyMotivationWidget extends StatelessWidget {
               height: 1.4,
             ),
           ),
-          SizedBox(height: 1.h),
+          SizedBox(height: 1.0.h),
           Text(
             "- $author",
             style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
@@ -75,20 +73,20 @@ class DailyMotivationWidget extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          SizedBox(height: 2.h),
+          SizedBox(height: 2.0.h),
           Divider(
             color: AppTheme.lightTheme.dividerColor,
             thickness: 1.0,
           ),
-          SizedBox(height: 1.h),
+          SizedBox(height: 1.0.h),
           Row(
             children: [
               CustomIconWidget(
                 iconName: 'local_fire_department',
                 color: AppTheme.lightTheme.colorScheme.tertiary,
-                size: 5.w,
+                size: 5.0.w,
               ),
-              SizedBox(width: 2.w),
+              SizedBox(width: 2.0.w),
               Text(
                 "Study Streak: ",
                 style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
@@ -104,7 +102,7 @@ class DailyMotivationWidget extends StatelessWidget {
               ),
               const Spacer(),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
+                padding: EdgeInsets.symmetric(horizontal: 3.0.w, vertical: 1.0.h),
                 decoration: BoxDecoration(
                   color: AppTheme.lightTheme.colorScheme.secondary,
                   borderRadius: BorderRadius.circular(20.0),
