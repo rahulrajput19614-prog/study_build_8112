@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../core/app_export.dart'; // If needed for theme or navigation
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,29 +10,94 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Study Build Home'),
         centerTitle: true,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AppRoutes.profileScreen);
-              },
-              child: const Text('Open Profile'),
+            // 🔹 Daily Test
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 3,
+              child: ListTile(
+                leading: const Icon(Icons.assignment, color: Colors.blue),
+                title: const Text("Daily Test"),
+                subtitle: const Text("Attempt daily quizzes & PYQs"),
+                onTap: () {
+                  // Daily Test screen navigation
+                  Navigator.pushNamed(context, '/daily-test');
+                },
+              ),
             ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AppRoutes.aiDoubtScreen);
-              },
-              child: const Text('AI Doubt Solver'),
+            const SizedBox(height: 12),
+
+            // 🔹 Current Affairs
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 3,
+              child: ListTile(
+                leading: const Icon(Icons.newspaper, color: Colors.green),
+                title: const Text("Current Affairs"),
+                subtitle: const Text("Stay updated with daily news"),
+                onTap: () {
+                  Navigator.pushNamed(context, '/current-affairs');
+                },
+              ),
             ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AppRoutes.studyReelsScreen);
-              },
-              child: const Text('Study Reels'),
+            const SizedBox(height: 12),
+
+            // 🔹 Book Revision
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 3,
+              child: ListTile(
+                leading: const Icon(Icons.menu_book, color: Colors.orange),
+                title: const Text("Book Revision"),
+                subtitle: const Text("Revise important notes & books"),
+                onTap: () {
+                  Navigator.pushNamed(context, '/book-revision');
+                },
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            // 🔹 AI Doubt Solver
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 3,
+              child: ListTile(
+                leading: const Icon(Icons.psychology, color: Colors.purple),
+                title: const Text("AI Doubt Solver"),
+                subtitle: const Text("Ask questions & clear your doubts"),
+                onTap: () {
+                  Navigator.pushNamed(context, '/ai-doubt');
+                },
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            // 🔹 Study Reels
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 3,
+              child: ListTile(
+                leading: const Icon(Icons.video_library, color: Colors.red),
+                title: const Text("Study Reels"),
+                subtitle: const Text("Watch short study related videos"),
+                onTap: () {
+                  Navigator.pushNamed(context, '/reels');
+                },
+              ),
             ),
           ],
         ),
