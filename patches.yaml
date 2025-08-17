@@ -7,3 +7,6 @@ patches:
 
   firebase_core_android:
     path: patches/firebase_core_namespace.patch
+patches:
+  camera_android:
+    path: patches/camera_android_namespace.patch
