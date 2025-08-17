@@ -56,7 +56,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-    - assets/images/
+    - assets/Gemini_Generated_Image_uf53g0uf53g0uf53.png
 
   plugin:
     platforms:
