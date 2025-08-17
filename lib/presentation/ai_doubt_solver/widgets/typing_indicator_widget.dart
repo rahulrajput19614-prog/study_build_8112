@@ -33,11 +33,14 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // ✅ AI Icon
           Container(
             width: 32,
             height: 32,
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              color: Theme.of(context)
+                  .primaryColor
+                  .withValues(alpha: 0.1), // ✅ FIXED
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
@@ -47,6 +50,8 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
             ),
           ),
           const SizedBox(width: 8),
+
+          // ✅ Typing Bubble
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -59,16 +64,19 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // ✅ "AI is typing"
                   Text(
                     'AI is typing',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context)
                               .colorScheme
                               .onSurfaceVariant
-                              .withOpacity(0.7),
+                              .withValues(alpha: 0.7), // ✅ FIXED
                         ),
                   ),
                   const SizedBox(width: 8),
+
+                  // ✅ Animated 3 Dots
                   AnimatedBuilder(
                     animation: _animationController,
                     builder: (context, child) {
@@ -108,3 +116,4 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
     );
   }
 }
+
