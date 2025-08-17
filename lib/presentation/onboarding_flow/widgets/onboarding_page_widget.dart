@@ -22,7 +22,6 @@ class OnboardingPageWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Illustration taking 60% of screen height
           Container(
             height: 60.h,
             width: 85.w,
@@ -30,6 +29,7 @@ class OnboardingPageWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
+                  // 'withOpacity' is deprecated, so we use 'withValues'
                   color: Colors.black.withValues(alpha: (0.1 * 255).toInt()),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
@@ -46,10 +46,7 @@ class OnboardingPageWidget extends StatelessWidget {
               ),
             ),
           ),
-
           SizedBox(height: 4.h),
-
-          // Title
           Text(
             title,
             style: AppTheme.lightTheme.textTheme.headlineMedium?.copyWith(
@@ -58,10 +55,7 @@ class OnboardingPageWidget extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-
           SizedBox(height: 2.h),
-
-          // Description
           Text(
             description,
             style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
