@@ -2,5 +2,5 @@
 +++ b/android/build.gradle
 @@
 +android {
-+    namespace 'com.example.camera_android'
++    namespace 'io.flutter.plugins.camera'
 +}
