@@ -6,11 +6,10 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'core/app_export.dart';
 import 'widgets/custom_error_widget.dart';
 import 'presentation/bottom_nav.dart';
 
-// 👇 Import all screens
+// ✅ Import all screens
 import 'presentation/home/home_screen.dart';
 import 'presentation/profile/profile_screen.dart';
 import 'presentation/ai_doubt_solver/ai_doubt_solver_screen.dart';
@@ -51,30 +50,28 @@ class MyApp extends StatelessWidget {
       final packageInfo = await PackageInfo.fromPlatform();
       final currentVersion = packageInfo.version;
 
-      if (currentVersion != latestVersion) {
-        if (context.mounted) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => AlertDialog(
-              title: const Text('Update Available'),
-              content: const Text('A new version of Study Build is available.'),
-              actions: [
-                TextButton(
-                  onPressed: () async {
-                    final url = Uri.parse(
-                        'https://play.google.com/store/apps/details?id=com.your.package');
-                    if (await canLaunchUrl(url)) {
-                      await launchUrl(url,
-                          mode: LaunchMode.externalApplication);
-                    }
-                  },
-                  child: const Text('Update Now'),
-                ),
-              ],
-            ),
-          );
-        }
+      if (currentVersion != latestVersion && context.mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => AlertDialog(
+            title: const Text('Update Available'),
+            content: const Text('A new version of Study Build is available.'),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  final url = Uri.parse(
+                      'https://play.google.com/store/apps/details?id=com.your.package');
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url,
+                        mode: LaunchMode.externalApplication);
+                  }
+                },
+                child: const Text('Update Now'),
+              ),
+            ],
+          ),
+        );
       }
     } catch (e) {
       debugPrint("⚠️ Update Check Failed: $e");
