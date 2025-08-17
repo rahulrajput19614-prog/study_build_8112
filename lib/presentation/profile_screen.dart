@@ -14,20 +14,33 @@ class ProfileScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            // User Profile Picture
             const CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage('assets/images/user.png'), // Placeholder image
+              // Agar asset use karna hai to niche wala use karo
+              // backgroundImage: AssetImage('assets/images/user.png'),
+
+              // Test ke liye network image
+              backgroundImage: NetworkImage('https://via.placeholder.com/150'),
             ),
+
             const SizedBox(height: 10),
-            Text(
+
+            // User Name
+            const Text(
               'Rahul Sharma',
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            Text(
+
+            // Email
+            const Text(
               'rahul@example.com',
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: TextStyle(color: Colors.grey),
             ),
+
             const SizedBox(height: 30),
+
+            // Stats Row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: const [
@@ -36,16 +49,23 @@ class ProfileScreen extends StatelessWidget {
                 _StatItem(label: 'Streak', value: '7 days'),
               ],
             ),
+
             const SizedBox(height: 30),
+
+            // Options
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),
-              onTap: () {},
+              onTap: () {
+                // TODO: Add navigation to settings screen
+              },
             ),
             ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
-              onTap: () {},
+              onTap: () {
+                // TODO: Add logout logic
+              },
             ),
           ],
         ),
@@ -64,8 +84,14 @@ class _StatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        Text(label, style: const TextStyle(color: Colors.grey)),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          label,
+          style: const TextStyle(color: Colors.grey),
+        ),
       ],
     );
   }
