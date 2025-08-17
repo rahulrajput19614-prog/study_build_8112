@@ -191,7 +191,7 @@ class _SplashScreenState extends State<SplashScreen>
                                     borderRadius: BorderRadius.circular(4.w),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
+                                        color: Colors.black.withValues(alpha: 0.2),
                                         blurRadius: 20,
                                         offset: const Offset(0, 10),
                                       ),
@@ -243,7 +243,7 @@ class _SplashScreenState extends State<SplashScreen>
                                   style: AppTheme
                                       .lightTheme.textTheme.bodyLarge
                                       ?.copyWith(
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: Colors.white.withValues(alpha: 0.9),
                                     fontSize: 12.sp,
                                     letterSpacing: 0.5,
                                   ),
@@ -272,10 +272,10 @@ class _SplashScreenState extends State<SplashScreen>
                                   vertical: 2.h,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.white.withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(2.w),
                                   border: Border.all(
-                                    color: Colors.white.withOpacity(0.3),
+                                    color: Colors.white.withValues(alpha: 0.3),
                                     width: 1,
                                   ),
                                 ),
@@ -307,7 +307,7 @@ class _SplashScreenState extends State<SplashScreen>
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.white.withOpacity(0.8),
+                                  Colors.white.withValues(alpha: 0.8),
                                 ),
                               ),
                             ),
@@ -328,7 +328,7 @@ class _SplashScreenState extends State<SplashScreen>
                                 style: AppTheme
                                     .lightTheme.textTheme.bodyMedium
                                     ?.copyWith(
-                                  color: Colors.white.withOpacity(0.8),
+                                  color: Colors.white.withValues(alpha: 0.8),
                                   fontSize: 11.sp,
                                 ),
                               ),
