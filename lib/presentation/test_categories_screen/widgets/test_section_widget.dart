@@ -35,7 +35,7 @@ class _TestSectionWidgetState extends State<TestSectionWidget> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -76,7 +76,7 @@ class _TestSectionWidgetState extends State<TestSectionWidget> {
                             horizontal: 2.w, vertical: 0.5.h),
                         decoration: BoxDecoration(
                           color: AppTheme.lightTheme.colorScheme.primary
-                              .withOpacity(0.1),
+                              .withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
@@ -107,7 +107,7 @@ class _TestSectionWidgetState extends State<TestSectionWidget> {
               height: 8.w,
               decoration: BoxDecoration(
                 color: AppTheme.lightTheme.colorScheme.primary
-                    .withOpacity(0.1),
+                    .withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: CustomIconWidget(
@@ -148,8 +148,8 @@ class _TestSectionWidgetState extends State<TestSectionWidget> {
         direction: DismissDirection.startToEnd,
         background: Container(
           decoration: BoxDecoration(
-            color:
-                AppTheme.lightTheme.colorScheme.primary.withOpacity(0.1),
+            color: AppTheme.lightTheme.colorScheme.primary
+                .withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           alignment: Alignment.centerLeft,
@@ -203,7 +203,7 @@ class _TestSectionWidgetState extends State<TestSectionWidget> {
                       padding: EdgeInsets.symmetric(
                           horizontal: 2.w, vertical: 0.5.h),
                       decoration: BoxDecoration(
-                        color: Colors.amber.withOpacity(0.2),
+                        color: Colors.amber.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
@@ -225,7 +225,7 @@ class _TestSectionWidgetState extends State<TestSectionWidget> {
                     CustomIconWidget(
                       iconName: 'schedule',
                       color: AppTheme.lightTheme.colorScheme.onSurface
-                          .withOpacity(0.6),
+                          .withValues(alpha: 0.6),
                       size: 14,
                     ),
                     '${test['duration']} min',
@@ -235,7 +235,7 @@ class _TestSectionWidgetState extends State<TestSectionWidget> {
                     CustomIconWidget(
                       iconName: 'quiz',
                       color: AppTheme.lightTheme.colorScheme.onSurface
-                          .withOpacity(0.6),
+                          .withValues(alpha: 0.6),
                       size: 14,
                     ),
                     '${test['questions']} Qs',
@@ -257,7 +257,7 @@ class _TestSectionWidgetState extends State<TestSectionWidget> {
                   padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
                   decoration: BoxDecoration(
                     color: AppTheme.lightTheme.colorScheme.secondary
-                        .withOpacity(0.1),
+                        .withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Row(
@@ -301,7 +301,7 @@ class _TestSectionWidgetState extends State<TestSectionWidget> {
           text,
           style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
             color: AppTheme.lightTheme.colorScheme.onSurface
-                .withOpacity(0.7),
+                .withValues(alpha: 0.7),
           ),
         ),
       ],
@@ -327,7 +327,7 @@ class _TestSectionWidgetState extends State<TestSectionWidget> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
       decoration: BoxDecoration(
-        color: chipColor.withOpacity(0.1),
+        color: chipColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
@@ -341,3 +341,4 @@ class _TestSectionWidgetState extends State<TestSectionWidget> {
     );
   }
 }
+
