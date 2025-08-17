@@ -24,17 +24,19 @@ class DailyMotivationWidget extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             AppTheme.lightTheme.colorScheme.primary.withValues(
-                alpha: (0.1 * 255).toInt()), // replaced with .withValues()
+              alpha: (0.1 * 255).toInt(),
+            ),
             AppTheme.lightTheme.colorScheme.secondary.withValues(
-                alpha: (0.1 * 255).toInt()), // replaced with .withValues()
+              alpha: (0.1 * 255).toInt(),
+            ),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.0),
         border: Border.all(
           color: AppTheme.lightTheme.dividerColor,
-          width: 1,
+          width: 1.0,
         ),
       ),
       child: Column(
@@ -76,7 +78,7 @@ class DailyMotivationWidget extends StatelessWidget {
           SizedBox(height: 2.h),
           Divider(
             color: AppTheme.lightTheme.dividerColor,
-            thickness: 1,
+            thickness: 1.0,
           ),
           SizedBox(height: 1.h),
           Row(
@@ -105,7 +107,7 @@ class DailyMotivationWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
                 decoration: BoxDecoration(
                   color: AppTheme.lightTheme.colorScheme.secondary,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: Text(
                   "Keep Going!",
