@@ -23,8 +23,12 @@ class DailyMotivationWidget extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppTheme.lightTheme.colorScheme.primary.withOpacity(0.1),
-            AppTheme.lightTheme.colorScheme.secondary.withOpacity(0.1),
+            AppTheme.lightTheme.colorScheme.primary.withValues(
+              alpha: (0.1 * 255).toInt(),
+            ),
+            AppTheme.lightTheme.colorScheme.secondary.withValues(
+              alpha: (0.1 * 255).toInt(),
+            ),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -67,7 +71,9 @@ class DailyMotivationWidget extends StatelessWidget {
           Text(
             "- $author",
             style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-              color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.7),
+              color: AppTheme.lightTheme.colorScheme.onSurface.withValues(
+                alpha: (0.7 * 255).toInt(),
+              ),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -100,10 +106,7 @@ class DailyMotivationWidget extends StatelessWidget {
               ),
               const Spacer(),
               Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 3.0.w,
-                  vertical: 1.0.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 3.0.w, vertical: 1.0.h),
                 decoration: BoxDecoration(
                   color: AppTheme.lightTheme.colorScheme.secondary,
                   borderRadius: BorderRadius.circular(20.0),
@@ -111,7 +114,7 @@ class DailyMotivationWidget extends StatelessWidget {
                 child: Text(
                   "Keep Going!",
                   style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                    color: Colors.white,
+                    color: Colors.white.withValues(alpha: 255),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
