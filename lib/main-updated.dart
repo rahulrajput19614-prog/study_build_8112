@@ -1,243 +1,151 @@
-import 'dart:async'; // Timer ke liye
-import 'package:flutter/foundation.dart'; // DiagnosticsTreeStyle ke liye
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sizer/sizer.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class TrackingWidget extends StatefulWidget {
-  final Widget child;
-  const TrackingWidget({Key? key, required this.child}) : super(key: key);
+import 'widgets/custom_error_widget.dart';
+import 'presentation/bottom_nav.dart';
 
-  @override
-  State<TrackingWidget> createState() => _TrackingWidgetState();
+// ✅ Import all screens
+import 'presentation/home/home_screen.dart';
+import 'presentation/profile/profile_screen.dart';
+import 'presentation/ai_doubt_solver/ai_doubt_solver_screen.dart';
+import 'presentation/study_reels/study_reels_screen.dart';
+import 'presentation/daily_test/daily_test_screen.dart';
+import 'presentation/book_revision/book_revision_screen.dart';
+import 'presentation/current_affairs/current_affairs_screen.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    debugPrint("⚠️ Firebase Init Failed: $e");
+  }
+
+  // ✅ Custom error widget
+  ErrorWidget.builder = (FlutterErrorDetails details) =>
+      CustomErrorWidget(errorDetails: details);
+
+  // ✅ Force portrait mode
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+
+  runApp(const MyApp());
 }
 
-class _TrackingWidgetState extends State<TrackingWidget> {
-  final GlobalKey _childKey = GlobalKey();
-  RenderObject? _selectedRenderObject;
-  Element? _selectedElement;
-  Timer? _debounce;
-  Timer? _scrollDebounce;
-  String currentPage = 'home';
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  final Map<Type, String> knownWidgetTypes = {
-    SliverFillRemaining: 'SliverFillRemaining',
-    SliverPadding: 'SliverPadding',
-    SliverFixedExtentList: 'SliverFixedExtentList',
-    SliverFillViewport: 'SliverFillViewport',
-    SliverPersistentHeader: 'SliverPersistentHeader',
-  };
-
-  String? findNearestKnownWidget(Element? element) {
-    if (element == null) return null;
-    Widget widget = element.widget;
-    return knownWidgetTypes[widget.runtimeType] ?? _getCustomWidgetType(widget);
-  }
-
-  String? _getCustomWidgetType(Widget widget) => null;
-
-  void trackInteraction(String eventType, PointerEvent? event) {
+  /// ✅ Remote Config Update Checker
+  Future<void> checkForUpdate(BuildContext context) async {
     try {
-      if (eventType == 'mouseleave') {
-        Future.delayed(const Duration(milliseconds: 300), () {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus &&
-              currentFocus.focusedChild != null) {
-            currentFocus.unfocus();
-          }
-        });
+      final remoteConfig = FirebaseRemoteConfig.instance;
+      await remoteConfig.setDefaults({'latest_version': '1.0.0'});
+      await remoteConfig.fetchAndActivate();
+
+      final latestVersion = remoteConfig.getString('latest_version');
+      final packageInfo = await PackageInfo.fromPlatform();
+      final currentVersion = packageInfo.version;
+
+      if (currentVersion != latestVersion && context.mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => AlertDialog(
+            title: const Text('Update Available'),
+            content: const Text('A new version of Study Build is available.'),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  final url = Uri.parse(
+                      'https://play.google.com/store/apps/details?id=com.your.package');
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url,
+                        mode: LaunchMode.externalApplication);
+                  }
+                },
+                child: const Text('Update Now'),
+              ),
+            ],
+          ),
+        );
       }
-
-      RenderBox? renderBox = _selectedRenderObject is RenderBox
-          ? _selectedRenderObject as RenderBox
-          : null;
-
-      final offset = renderBox?.localToGlobal(Offset.zero);
-      final size = renderBox?.size;
-      final mousePosition = event?.position;
-      final scrollPosition = _getScrollPosition(_selectedRenderObject);
-
-      final interactionData = {
-        'eventType': eventType,
-        'timestamp': DateTime.now().toIso8601String(),
-        'element': {
-          'tag': findNearestKnownWidget(_selectedElement),
-          'id': _selectedElement?.widget.key?.toString() ??
-              widget.child.key?.toString(),
-          'position': offset != null
-              ? {
-                  'x': offset.dx.round(),
-                  'y': offset.dy.round(),
-                  'width': size?.width.round(),
-                  'height': size?.height.round(),
-                }
-              : null,
-          'viewport': {
-            'width': MediaQuery.of(context).size.width.round(),
-            'height': MediaQuery.of(context).size.height.round(),
-          },
-          'scroll': {
-            'x': scrollPosition.dx.round(),
-            'y': scrollPosition.dy.round(),
-          },
-          'mouse': mousePosition != null
-              ? {
-                  'viewport': {
-                    'x': mousePosition.dx.round(),
-                    'y': mousePosition.dy.round(),
-                  },
-                  'page': {
-                    'x': (mousePosition.dx + scrollPosition.dx).round(),
-                    'y': (mousePosition.dy + scrollPosition.dy).round(),
-                  },
-                  'element': offset != null
-                      ? {
-                          'x': (mousePosition.dx - offset.dx).round(),
-                          'y': (mousePosition.dy - offset.dy).round(),
-                        }
-                      : null,
-                }
-              : null,
-        },
-        'page': '/#$currentPage',
-      };
-
-      // Interaction data print to remove unused variable warning
-      debugPrint(interactionData.toString());
-
-    } catch (error) {
-      debugPrint('Error tracking interaction: $error');
+    } catch (e) {
+      debugPrint("⚠️ Update Check Failed: $e");
     }
-  }
-
-  Offset _getScrollPosition(RenderObject? renderObject) {
-    if (renderObject == null) return Offset.zero;
-    final element = _findElementForRenderObject(renderObject);
-    if (element == null) return Offset.zero;
-    final scrollableState = Scrollable.maybeOf(element);
-    if (scrollableState != null) {
-      final position = scrollableState.position;
-      return Offset(position.pixels, position.pixels);
-    }
-    return Offset.zero;
-  }
-
-  void _debouncedMouseMove(PointerHoverEvent event) {
-    _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 10), () {
-      _onHover(event);
-      trackInteraction('mousemove', event);
-    });
-  }
-
-  void _onHover(PointerHoverEvent event) {
-    final RenderObject? userRender =
-        _childKey.currentContext?.findRenderObject();
-    if (userRender == null) return;
-    final RenderObject? target =
-        _findRenderObjectAtPosition(event.position, userRender);
-    if (target != null && target != userRender) {
-      if (_selectedRenderObject != target) {
-        final Element? element = _findElementForRenderObject(target);
-        setState(() {
-          _selectedRenderObject = target;
-          _selectedElement = element;
-        });
-      }
-    } else if (_selectedRenderObject != null) {
-      setState(() {
-        _selectedRenderObject = null;
-        _selectedElement = null;
-      });
-    }
-  }
-
-  RenderObject? _findRenderObjectAtPosition(
-      Offset position, RenderObject root) {
-    final List<RenderObject> hits = <RenderObject>[];
-    _hitTestHelper(hits, position, root, root.getTransformTo(null));
-    if (hits.isEmpty) return null;
-    hits.sort((a, b) {
-      final sizeA = a.semanticBounds.size;
-      final sizeB = b.semanticBounds.size;
-      return (sizeA.width * sizeA.height).compareTo(sizeB.width * sizeB.height);
-    });
-    return hits.first;
-  }
-
-  bool _hitTestHelper(List<RenderObject> hits, Offset position,
-      RenderObject object, Matrix4 transform) {
-    bool hit = false;
-    final Matrix4? inverse = Matrix4.tryInvert(transform);
-    if (inverse == null) return false;
-    final Offset localPosition = MatrixUtils.transformPoint(inverse, position);
-    final List<DiagnosticsNode> children = object.debugDescribeChildren();
-    for (int i = children.length - 1; i >= 0; i--) {
-      final DiagnosticsNode diagnostics = children[i];
-      if (diagnostics.style == DiagnosticsTreeStyle.offstage ||
-          diagnostics.value is! RenderObject) continue;
-      final RenderObject child = diagnostics.value! as RenderObject;
-      final Rect? paintClip = object.describeApproximatePaintClip(child);
-      if (paintClip != null && !paintClip.contains(localPosition)) continue;
-      final Matrix4 childTransform = transform.clone();
-      object.applyPaintTransform(child, childTransform);
-      if (_hitTestHelper(hits, position, child, childTransform)) hit = true;
-    }
-    final Rect bounds = object.semanticBounds;
-    if (bounds.contains(localPosition)) {
-      hit = true;
-      hits.add(object);
-    }
-    return hit;
-  }
-
-  Element? _findElementForRenderObject(RenderObject renderObject) {
-    Element? result;
-    void visitor(Element element) {
-      if (element.renderObject == renderObject) {
-        result = element;
-        return;
-      }
-      element.visitChildren(visitor);
-    }
-
-    WidgetsBinding.instance.rootElement?.visitChildren(visitor);
-    return result;
-  }
-
-  @override
-  void dispose() {
-    _debounce?.cancel();
-    _scrollDebounce?.cancel();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Listener(
-      onPointerHover: _debouncedMouseMove,
-      onPointerDown: (event) => trackInteraction('click', event),
-      onPointerMove: (event) => trackInteraction('touchmove', event),
-      onPointerUp: (event) => trackInteraction('touchend', event),
-      child: MouseRegion(
-        onEnter: (event) => trackInteraction('mouseenter', event),
-        onExit: (event) => trackInteraction('mouseleave', event),
-        child: GestureDetector(
-          onDoubleTap: () => trackInteraction('dblclick', null),
-          onTap: () => trackInteraction('click', null),
-          onPanStart: (_) => trackInteraction('touchstart', null),
-          onPanUpdate: (_) => trackInteraction('touchmove', null),
-          onPanEnd: (_) => trackInteraction('touchend', null),
-          child: FocusScope(
-            key: _childKey,
-            onKeyEvent: (_, event) {
-              if (event is RawKeyDownEvent) {
-                trackInteraction('keydown', null);
-              }
-              return KeyEventResult.ignored;
-            },
-            child: widget.child,
-          ),
-        ),
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return MaterialApp(
+          title: 'Study Build',
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          themeMode: ThemeMode.light,
+          debugShowCheckedModeBanner: false,
+          home: const SplashScreen(),
+          routes: {
+            '/home': (context) => const BottomNav(),
+            '/main-home': (context) => const HomeScreen(),
+            '/profile': (context) => const ProfileScreen(),
+            '/ai-doubt': (context) => const AiDoubtSolverScreen(),
+            '/reels': (context) => const StudyReelsScreen(),
+            '/daily-test': (context) => const DailyTestScreen(),
+            '/book-revision': (context) => const BookRevisionScreen(),
+            '/current-affairs': (context) => const CurrentAffairsScreen(),
+          },
+          builder: (context, child) {
+            final mediaQuery = MediaQuery.of(context);
+            // ❌ OLD: textScaleFactor
+            // ✅ NEW: textScaler (Flutter 3.12+)
+            return MediaQuery(
+              data: mediaQuery.copyWith(
+                textScaler: const TextScaler.linear(1.0),
+              ),
+              child: child ?? const SizedBox.shrink(),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+/// ✅ Splash Screen
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigate();
+  }
+
+  Future<void> _navigate() async {
+    await Future.delayed(const Duration(seconds: 2));
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, '/home');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(color: Colors.deepPurple),
       ),
     );
   }
