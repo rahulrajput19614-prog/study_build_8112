@@ -1,67 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../core/app_export.dart';
-import '../models/onboarding_content.dart'; // Correct import path
+import '../models/onboarding_content.dart';
 
 class OnboardingPageWidget extends StatelessWidget {
-  final String imageUrl;
-  final String title;
-  final String description;
+  final OnboardingContent content;
 
-  const OnboardingPageWidget({
-    Key? key,
-    required this.imageUrl,
-    required this.title,
-    required this.description,
-  }) : super(key: key);
+  const OnboardingPageWidget({required this.content, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 6.w),
+      padding: EdgeInsets.all(4.w),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // Image placeholder
           Container(
-            height: 60.h,
-            width: 85.w,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: (0.1 * 255).toInt()),
-                  blurRadius: 20,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: CustomImageWidget(
-                imageUrl: imageUrl,
-                width: 85.w,
-                height: 60.h,
-                fit: BoxFit.cover,
-              ),
-            ),
+            height: 30.h,
+            width: 50.w,
+            color: Colors.grey.shade300,
+            child: Center(child: Text('Image Placeholder')),
           ),
-          SizedBox(height: 4.h),
+          SizedBox(height: 3.h),
           Text(
-            title,
-            style: AppTheme.lightTheme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppTheme.lightTheme.colorScheme.onSurface,
-            ),
+            content.title,
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 2.h),
           Text(
-            description,
-            style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
-              color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
-              height: 1.5,
-            ),
+            content.description,
+            style: TextStyle(fontSize: 12.sp),
             textAlign: TextAlign.center,
           ),
         ],
