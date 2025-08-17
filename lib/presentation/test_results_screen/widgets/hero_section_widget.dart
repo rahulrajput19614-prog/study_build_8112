@@ -23,8 +23,8 @@ class HeroSectionWidget extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppTheme.primaryLight.withOpacity(0.1),
-            AppTheme.secondaryLight.withOpacity(0.05),
+            AppTheme.primaryLight.withValues(alpha: 0.1),
+            AppTheme.secondaryLight.withValues(alpha: 0.05),
           ],
         ),
         borderRadius: BorderRadius.circular(3.w),
