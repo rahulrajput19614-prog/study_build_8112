@@ -1,6 +1,6 @@
 name: study_build
 description: A scalable, student-focused education app.
-publish_to: 'none'
+publish_to: 'none' # Remove this line if you want to publish on pub.dev
 version: 1.0.0+1
 
 environment:
@@ -26,7 +26,7 @@ dependencies:
   video_player: ^2.7.2
   image_picker: ^1.0.4
   camera: ^0.10.5+5
-  speech_to_text: ^6.6.0   # ✅ updated version
+  speech_to_text: ^6.6.0
 
   # 🔹 Charts & Feedback
   fl_chart: ^0.63.0
@@ -54,6 +54,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
   assets:
-    - assets/
     - assets/images/
