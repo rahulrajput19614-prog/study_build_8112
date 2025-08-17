@@ -3,7 +3,7 @@ import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/app_export.dart';
-import '../../../models/onboarding_content.dart';
+import '../../../models/onboarding_content.dart'; // Corrected import path
 
 class OnboardingPageWidget extends StatelessWidget {
   final OnboardingContent content;
