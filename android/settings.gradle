@@ -23,10 +23,3 @@ pluginManagement {
 }
 
 include(":app")
-
-// ✅ scope ke liye dobara define karna hoga
-def properties = new Properties()
-file("local.properties").withInputStream { properties.load(it) }
-def flutterSdkPath = properties.getProperty("flutter.sdk")
-
-apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
