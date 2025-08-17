@@ -29,13 +29,13 @@ class HeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+      padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 2.0.h),
       decoration: BoxDecoration(
         color: AppTheme.lightTheme.scaffoldBackgroundColor,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: (0.05 * 255).toInt()), // fixed
-            blurRadius: 4,
+            blurRadius: 4.0,
             offset: const Offset(0, 2),
           ),
         ],
@@ -52,7 +52,8 @@ class HeaderSection extends StatelessWidget {
                     Text(
                       "${_getGreeting()},",
                       style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
+                        color: AppTheme.lightTheme.colorScheme.onSurfaceVariant
+                            .withValues(alpha: (0.7 * 255).toInt()), // fixed
                       ),
                     ),
                     SizedBox(height: 0.5.h),
@@ -75,39 +76,40 @@ class HeaderSection extends StatelessWidget {
                     icon: CustomIconWidget(
                       iconName: 'search',
                       color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
-                      size: 6.w,
+                      size: 6.0.w,
                     ),
                     style: IconButton.styleFrom(
                       backgroundColor: AppTheme.lightTheme.colorScheme.surface,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
                   ),
-                  SizedBox(width: 2.w),
+                  SizedBox(width: 2.0.w),
                   Stack(
                     children: [
                       IconButton(
                         onPressed: onNotificationTap,
                         icon: CustomIconWidget(
                           iconName: 'notifications',
-                          color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
-                          size: 6.w,
+                          color:
+                              AppTheme.lightTheme.colorScheme.onSurfaceVariant,
+                          size: 6.0.w,
                         ),
                         style: IconButton.styleFrom(
                           backgroundColor:
                               AppTheme.lightTheme.colorScheme.surface,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.0),
                           ),
                         ),
                       ),
                       Positioned(
-                        top: 8,
-                        right: 8,
+                        top: 8.0,
+                        right: 8.0,
                         child: Container(
-                          width: 3.w,
-                          height: 3.w,
+                          width: 3.0.w,
+                          height: 3.0.w,
                           decoration: BoxDecoration(
                             color: AppTheme.lightTheme.colorScheme.error,
                             shape: BoxShape.circle,
@@ -120,15 +122,15 @@ class HeaderSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 2.h),
+          SizedBox(height: 2.0.h),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
+            padding: EdgeInsets.symmetric(horizontal: 4.0.w, vertical: 1.5.h),
             decoration: BoxDecoration(
               color: AppTheme.lightTheme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.0),
               border: Border.all(
                 color: AppTheme.lightTheme.dividerColor,
-                width: 1,
+                width: 1.0,
               ),
             ),
             child: Row(
@@ -136,9 +138,9 @@ class HeaderSection extends StatelessWidget {
                 CustomIconWidget(
                   iconName: 'search',
                   color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
-                  size: 5.w,
+                  size: 5.0.w,
                 ),
-                SizedBox(width: 3.w),
+                SizedBox(width: 3.0.w),
                 Expanded(
                   child: Text(
                     "Search tests, topics, or questions...",
