@@ -188,7 +188,7 @@ class SubjectWiseTabWidget extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
                 decoration: BoxDecoration(
-                  color: _getSubjectColor(result.score).withOpacity(0.1),
+                  color: _getSubjectColor(result.score).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(2.w),
                 ),
                 child: Text(
