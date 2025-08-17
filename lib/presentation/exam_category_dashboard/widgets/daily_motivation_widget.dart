@@ -24,9 +24,11 @@ class DailyMotivationWidget extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             AppTheme.lightTheme.colorScheme.primary.withValues(
-                alpha: (0.1 * 255).toInt()), // replaced with .withValues()
+              alpha: (0.1 * 255).toInt(),
+            ),
             AppTheme.lightTheme.colorScheme.secondary.withValues(
-                alpha: (0.1 * 255).toInt()), // replaced with .withValues()
+              alpha: (0.1 * 255).toInt(),
+            ),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
