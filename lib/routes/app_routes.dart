@@ -13,8 +13,9 @@ import '../presentation/study_reels_screen.dart';
 import '../presentation/profile_screen.dart';
 import '../presentation/home_screen.dart';
 
+/// Centralized route management
 class AppRoutes {
-  // Route names
+  // 🔹 Route names (use constants for easy navigation)
   static const String initial = '/';
   static const String splash = '/splash-screen';
   static const String testCategories = '/test-categories-screen';
@@ -28,7 +29,7 @@ class AppRoutes {
   static const String profile = '/profile-screen';
   static const String home = '/home-screen';
 
-  // Route map
+  /// 🔹 All route mappings
   static Map<String, WidgetBuilder> routes = {
     initial: (context) => const SplashScreen(),
     splash: (context) => const SplashScreen(),
