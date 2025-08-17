@@ -24,7 +24,7 @@ class QuickStatsWidget extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             AppTheme.lightTheme.colorScheme.primary,
-            AppTheme.lightTheme.colorScheme.primary.withOpacity(0.8),
+            AppTheme.lightTheme.colorScheme.primary.withValues(alpha: 0.8),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -33,7 +33,7 @@ class QuickStatsWidget extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color:
-                AppTheme.lightTheme.colorScheme.primary.withOpacity(0.3),
+                AppTheme.lightTheme.colorScheme.primary.withValues(alpha: 0.3),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -55,7 +55,7 @@ class QuickStatsWidget extends StatelessWidget {
           Container(
             width: 1,
             height: 6.h,
-            color: Colors.white.withOpacity(0.3),
+            color: Colors.white.withValues(alpha: 0.3),
           ),
           Expanded(
             child: _buildStatItem(
@@ -71,7 +71,7 @@ class QuickStatsWidget extends StatelessWidget {
           Container(
             width: 1,
             height: 6.h,
-            color: Colors.white.withOpacity(0.3),
+            color: Colors.white.withValues(alpha: 0.3),
           ),
           Expanded(
             child: _buildStatItem(
@@ -108,7 +108,7 @@ class QuickStatsWidget extends StatelessWidget {
           style: TextStyle(
             fontSize: 11.sp,
             fontWeight: FontWeight.w500,
-            color: Colors.white.withOpacity(0.9),
+            color: Colors.white.withValues(alpha: 0.9),
           ),
           textAlign: TextAlign.center,
         ),
