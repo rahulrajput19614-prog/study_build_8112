@@ -378,7 +378,8 @@ class _TestResultsScreenState extends State<TestResultsScreen>
           Container(
             padding: EdgeInsets.all(4.w),
             decoration: BoxDecoration(
-              color: AppTheme.primaryLight.withOpacity(0.1),
+              // ✅ FIX: replaced withOpacity → withValues
+              color: AppTheme.primaryLight.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(3.w),
             ),
             child: Icon(
