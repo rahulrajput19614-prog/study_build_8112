@@ -1,27 +1,46 @@
 const express = require("express");
-const cors = require("cors");
-
+const { OAuth2Client } = require("google-auth-library");
 const app = express();
-app.use(cors());
+
 app.use(express.json());
 
-// Simple API route
+// 👇 yaha apna Google Client ID dalna
+const CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+const client = new OAuth2Client(CLIENT_ID);
+
+// Default route
 app.get("/", (req, res) => {
-  res.send("✅ Backend is working on Render!");
+  res.send("✅ Google Login Backend is working on Render!");
 });
 
-// Example login route
-app.post("/login", (req, res) => {
-  const { email, password } = req.body;
+// Google Login verify route
+app.post("/google-login", async (req, res) => {
+  const { token } = req.body;
 
-  if (email === "test@example.com" && password === "123456") {
-    return res.json({ success: true, message: "Login successful" });
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const userid = payload["sub"];
+
+    res.json({
+      success: true,
+      user: {
+        id: userid,
+        email: payload.email,
+        name: payload.name,
+        picture: payload.picture,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: "Invalid token" });
   }
-
-  res.status(401).json({ success: false, message: "Invalid credentials" });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+// Render port
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
