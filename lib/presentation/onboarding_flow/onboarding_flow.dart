@@ -69,7 +69,9 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
                 controller: _pageController,
                 itemCount: _numPages,
                 itemBuilder: (context, index) {
-                  return OnboardingPageWidget(content: _onboardingContents[index]);
+                  return OnboardingPageWidget(
+                    content: _onboardingContents[index],
+                  );
                 },
               ),
             ),
@@ -79,13 +81,13 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(_numPages, (index) {
                 return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 2),
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
                   height: 8,
                   width: _currentPage == index ? 16 : 8,
                   decoration: BoxDecoration(
                     color: _currentPage == index
                         ? AppTheme.primaryLight
-                        : AppTheme.primaryLight.withValues(alpha: (0.3 * 255).toInt()),
+                        : AppTheme.primaryLight.withValues(alpha: 0.3), // ✅ fixed
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                 );
