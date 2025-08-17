@@ -1,215 +1,148 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
-import '../../theme/app_theme.dart';
-import './widgets/onboarding_navigation_widget.dart';
+import '../../models/onboarding_content.dart';
+import '../../routes/app_routes.dart';
 import './widgets/onboarding_page_widget.dart';
-import './widgets/page_indicator_widget.dart';
 
 class OnboardingFlow extends StatefulWidget {
-  const OnboardingFlow({Key? key}) : super(key: key);
+  const OnboardingFlow({super.key});
 
   @override
   State<OnboardingFlow> createState() => _OnboardingFlowState();
 }
 
-class _OnboardingFlowState extends State<OnboardingFlow>
-    with TickerProviderStateMixin {
-  late PageController _pageController;
+class _OnboardingFlowState extends State<OnboardingFlow> {
+  final PageController _pageController = PageController();
+  final int _numPages = 3;
   int _currentPage = 0;
-  Timer? _autoAdvanceTimer;
-  bool _userInteracted = false;
 
-  final List<Map<String, dynamic>> _onboardingData = [
-    {
-      "title": "AI-Powered Doubt Solver",
-      "description":
-          "Get instant solutions to your exam doubts with our advanced AI chat assistant. Available 24/7 to help you understand complex concepts and solve problems step-by-step.",
-      "imageUrl":
-          "https://images.unsplash.com/photo-1677442136019-21780ecad995?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YWklMjBjaGF0Ym90fGVufDB8fDB8fHww",
-    },
-    {
-      "title": "Comprehensive Test Series",
-      "description":
-          "Practice with full-length mock tests, sectional tests, and previous year questions. Experience real exam conditions with our advanced test interface and timer system.",
-      "imageUrl":
-          "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZXhhbXxlbnwwfHwwfHx8MA%3D%3D",
-    },
-    {
-      "title": "Performance Analytics",
-      "description":
-          "Track your progress with detailed performance analysis, rank comparison, and personalized study recommendations. Identify your strengths and areas for improvement.",
-      "imageUrl":
-          "https://images.unsplash.com/photo-1551288049-bebda4e38f71?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YW5hbHl0aWNzfGVufDB8fDB8fHww",
-    },
+  final List<OnboardingContent> _onboardingPages = [
+    OnboardingContent(
+      title: 'Your Ultimate Exam Prep Partner',
+      description: 'Find mock tests, past papers, and study materials for every competitive exam.',
+      image: ImageConstant.imgOnboarding1,
+    ),
+    OnboardingContent(
+      title: 'Real-time Performance Analysis',
+      description: 'Get instant feedback on your tests and track your progress with in-depth reports.',
+      image: ImageConstant.imgOnboarding2,
+    ),
+    OnboardingContent(
+      title: 'AI-Powered Doubt Solver',
+      description: 'Snap a picture of your question and get instant, detailed answers from our AI assistant.',
+      image: ImageConstant.imgOnboarding3,
+    ),
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-    _startAutoAdvance();
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    _autoAdvanceTimer?.cancel();
-    super.dispose();
-  }
-
-  void _startAutoAdvance() {
-    _autoAdvanceTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      if (!_userInteracted && mounted) {
-        if (_currentPage < _onboardingData.length - 1) {
-          _nextPage();
-        } else {
-          timer.cancel();
-        }
-      }
-    });
-  }
-
-  void _pauseAutoAdvance() {
-    setState(() {
-      _userInteracted = true;
-    });
-    _autoAdvanceTimer?.cancel();
-  }
-
-  void _nextPage() {
-    if (_currentPage < _onboardingData.length - 1) {
-      _pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-      _triggerHapticFeedback();
-    }
-  }
-
-  void _skipOnboarding() {
-    _pauseAutoAdvance();
-    _completeOnboarding();
-  }
-
-  void _completeOnboarding() {
-    // Store onboarding completion flag
-    _storeOnboardingCompletion();
-
-    // Navigate to exam category dashboard
-    Navigator.pushReplacementNamed(context, '/exam-category-dashboard');
-  }
-
-  void _storeOnboardingCompletion() {
-    // This would typically use SharedPreferences or similar storage
-    // For now, we'll just mark it as completed in memory
-    // In a real app, you would do:
-    // SharedPreferences.getInstance().then((prefs) => prefs.setBool('onboarding_completed', true));
-  }
-
-  void _triggerHapticFeedback() {
-    HapticFeedback.lightImpact();
-  }
-
-  void _onPageChanged(int page) {
-    setState(() {
-      _currentPage = page;
-    });
-    _triggerHapticFeedback();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.lightTheme.scaffoldBackgroundColor,
-      body: SafeArea(
-        child: GestureDetector(
-          onTap: _pauseAutoAdvance,
-          onPanStart: (_) => _pauseAutoAdvance(),
-          child: Column(
-            children: [
-              // Top bar with skip button
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Progress indicator text
-                    Text(
-                      '${_currentPage + 1}/${_onboardingData.length}',
-                      style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
-                        fontWeight: FontWeight.w500,
+      body: Stack(
+        children: [
+          PageView.builder(
+            controller: _pageController,
+            itemCount: _numPages,
+            onPageChanged: (int page) {
+              setState(() {
+                _currentPage = page;
+              });
+            },
+            itemBuilder: (context, index) {
+              return OnboardingPageWidget(
+                content: _onboardingPages[index],
+              );
+            },
+          ),
+          _buildBottomSection(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomSection() {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 5.h,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 5.w),
+        child: Column(
+          children: [
+            SmoothPageIndicator(
+              controller: _pageController,
+              count: _numPages,
+              effect: ExpandingDotsEffect(
+                dotColor: AppTheme.primaryLight.withOpacity(0.3),
+                activeDotColor: AppTheme.primaryLight,
+                dotHeight: 1.h,
+                dotWidth: 2.w,
+                expansionFactor: 3,
+                spacing: 2.w,
+              ),
+            ),
+            SizedBox(height: 4.h),
+            _currentPage == _numPages - 1
+                ? ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, AppRoutes.login);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(double.infinity, 6.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.w),
                       ),
                     ),
-
-                    // Skip button
-                    if (_currentPage < _onboardingData.length - 1)
+                    child: Text(
+                      'Get Started',
+                      style: GoogleFonts.inter(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       TextButton(
-                        onPressed: _skipOnboarding,
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 4.w, vertical: 1.h),
-                        ),
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, AppRoutes.login);
+                        },
                         child: Text(
                           'Skip',
-                          style:
-                              AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
-                            color: AppTheme.lightTheme.colorScheme.primary,
+                          style: GoogleFonts.inter(
+                            fontSize: 14.sp,
+                            color: AppTheme.textSecondaryLight,
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          _pageController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeIn,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(25.w, 5.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.w),
+                          ),
+                        ),
+                        child: Text(
+                          'Next',
+                          style: GoogleFonts.inter(
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
-                  ],
-                ),
-              ),
-
-              // Page view with onboarding screens
-              Expanded(
-                child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: _onPageChanged,
-                  itemCount: _onboardingData.length,
-                  itemBuilder: (context, index) {
-                    final data = _onboardingData[index];
-                    return OnboardingPageWidget(
-                      imageUrl: data["imageUrl"] as String,
-                      title: data["title"] as String,
-                      description: data["description"] as String,
-                    );
-                  },
-                ),
-              ),
-
-              // Page indicator dots
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 2.h),
-                child: PageIndicatorWidget(
-                  currentPage: _currentPage,
-                  totalPages: _onboardingData.length,
-                ),
-              ),
-
-              // Navigation buttons
-              OnboardingNavigationWidget(
-                currentPage: _currentPage,
-                totalPages: _onboardingData.length,
-                onNext: () {
-                  _pauseAutoAdvance();
-                  _nextPage();
-                },
-                onSkip: _skipOnboarding,
-                onGetStarted: () {
-                  _pauseAutoAdvance();
-                  _completeOnboarding();
-                },
-              ),
-            ],
-          ),
+                    ],
+                  ),
+          ],
         ),
       ),
     );
