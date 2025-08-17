@@ -9,7 +9,15 @@ import 'package:url_launcher/url_launcher.dart';
 import 'core/app_export.dart';
 import 'widgets/custom_error_widget.dart';
 import 'presentation/bottom_nav.dart';
+
+// 👇 Import all screens here
+import 'presentation/home/home_screen.dart';
+import 'presentation/profile/profile_screen.dart';
 import 'presentation/ai_doubt_solver/ai_doubt_solver_screen.dart';
+import 'presentation/study_reels/study_reels_screen.dart';
+import 'presentation/daily_test/daily_test_screen.dart';
+import 'presentation/book_revision/book_revision_screen.dart';
+import 'presentation/current_affairs/current_affairs_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -90,8 +98,17 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           home: const SplashScreen(),
           routes: {
+            // ✅ Bottom Nav / Main Home
             '/home': (context) => const BottomNav(),
-            '/ai': (context) => const AiDoubtSolverScreen(),
+
+            // ✅ Direct Pages
+            '/main-home': (context) => const HomeScreen(),
+            '/profile': (context) => const ProfileScreen(),
+            '/ai-doubt': (context) => const AiDoubtSolverScreen(),
+            '/reels': (context) => const StudyReelsScreen(),
+            '/daily-test': (context) => const DailyTestScreen(),
+            '/book-revision': (context) => const BookRevisionScreen(),
+            '/current-affairs': (context) => const CurrentAffairsScreen(),
           },
           builder: (context, child) {
             final mediaQuery = MediaQuery.of(context);
