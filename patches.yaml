@@ -1,3 +1,9 @@
 patches:
   camera_android:
     path: patches/camera_android_namespace.patch
+
+  speech_to_text_android:
+    path: patches/speech_to_text_namespace.patch
+
+  firebase_core_android:
+    path: patches/firebase_core_namespace.patch
