@@ -70,7 +70,7 @@ class _MainDashboardScreenState extends State<MainDashboardScreen> {
                 final align = isUser ? Alignment.centerRight : Alignment.centerLeft;
                 final bubbleColor = isUser
                     ? Theme.of(context).colorScheme.primaryContainer
-                    : Theme.of(context).colorScheme.surfaceVariant;
+                    : Theme.of(context).colorScheme.surfaceContainerHighest;
 
                 return Align(
                   alignment: align,
