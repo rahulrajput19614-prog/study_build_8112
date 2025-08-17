@@ -115,7 +115,7 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
               child: CustomIconWidget(
                 iconName: 'close',
                 color: AppTheme.lightTheme.colorScheme.onSurface
-                    .withOpacity(0.6),
+                    .withValues(alpha: (0.6 * 255).toInt()),
                 size: 24,
               ),
             ),
