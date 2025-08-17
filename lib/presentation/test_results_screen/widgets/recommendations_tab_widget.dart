@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import '../../../models/test_result_model.dart';
+// import '../../../services/gemini_service.dart'; // Gemini ka code missing hai
 import '../../../theme/app_theme.dart';
 
 class RecommendationsTabWidget extends StatefulWidget {
@@ -98,13 +99,13 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  AppTheme.primaryLight.withValues(alpha: (0.1 * 255).toInt()),
-                  AppTheme.accentLight.withValues(alpha: (0.05 * 255).toInt()),
+                  AppTheme.primaryLight.withAlpha((0.1 * 255).round()),
+                  AppTheme.accentLight.withAlpha((0.05 * 255).round()),
                 ],
               ),
-              borderRadius: BorderRadius.circular(3.w),
+              borderRadius: BorderRadius.circular(3.w.toDouble()),
               border: Border.all(
-                color: AppTheme.primaryLight.withValues(alpha: (0.3 * 255).toInt()),
+                color: AppTheme.primaryLight.withAlpha((0.3 * 255).round()),
               ),
             ),
             child: Column(
@@ -115,9 +116,9 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
                     Icon(
                       Icons.auto_awesome,
                       color: AppTheme.primaryLight,
-                      size: 5.w,
+                      size: 5.w.toDouble(),
                     ),
-                    SizedBox(width: 2.w),
+                    SizedBox(width: 2.w.toDouble()),
                     Text(
                       'AI Powered by Gemini',
                       style: GoogleFonts.inter(
@@ -128,7 +129,7 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
                     ),
                   ],
                 ),
-                SizedBox(height: 2.h),
+                SizedBox(height: 2.h.toDouble()),
                 if (isLoadingInsights)
                   _buildLoadingWidget()
                 else
@@ -143,15 +144,15 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
               ],
             ),
           ),
-          SizedBox(height: 3.h),
+          SizedBox(height: 3.h.toDouble()),
           _buildSectionTitle('Personalized Study Plan', Icons.school),
-          SizedBox(height: 2.h),
+          SizedBox(height: 2.h.toDouble()),
           Container(
             width: double.infinity,
-            padding: EdgeInsets.all(4.w),
+            padding: EdgeInsets.all(4.w.toDouble()),
             decoration: BoxDecoration(
               color: AppTheme.surfaceLight,
-              borderRadius: BorderRadius.circular(3.w),
+              borderRadius: BorderRadius.circular(3.w.toDouble()),
               border: Border.all(color: AppTheme.dividerLight),
             ),
             child: Column(
@@ -171,10 +172,10 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
               ],
             ),
           ),
-          SizedBox(height: 3.h),
+          SizedBox(height: 3.h.toDouble()),
           if (widget.testResult.weakTopics.isNotEmpty) ...[
             _buildSectionTitle('Priority Topics', Icons.priority_high),
-            SizedBox(height: 2.h),
+            SizedBox(height: 2.h.toDouble()),
             ...widget.testResult.weakTopics.map(
               (topic) => _buildTopicCard(
                 topic,
@@ -182,11 +183,11 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
                 true,
               ),
             ),
-            SizedBox(height: 3.h),
+            SizedBox(height: 3.h.toDouble()),
           ],
           if (widget.testResult.strongTopics.isNotEmpty) ...[
             _buildSectionTitle('Strong Areas', Icons.star),
-            SizedBox(height: 2.h),
+            SizedBox(height: 2.h.toDouble()),
             ...widget.testResult.strongTopics.take(3).map(
               (topic) => _buildTopicCard(
                 topic,
@@ -194,10 +195,10 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
                 false,
               ),
             ),
-            SizedBox(height: 3.h),
+            SizedBox(height: 3.h.toDouble()),
           ],
           _buildSectionTitle('Suggested Actions', Icons.assignment),
-          SizedBox(height: 2.h),
+          SizedBox(height: 2.h.toDouble()),
           _buildActionCard(
             'Retake Test',
             'Take this test again to track improvement',
@@ -230,9 +231,9 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
         Icon(
           icon,
           color: AppTheme.primaryLight,
-          size: 5.w,
+          size: 5.w.toDouble(),
         ),
-        SizedBox(width: 2.w),
+        SizedBox(width: 2.w.toDouble()),
         Text(
           title,
           style: GoogleFonts.inter(
@@ -249,14 +250,14 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
     return Row(
       children: [
         SizedBox(
-          width: 4.w,
-          height: 4.w,
+          width: 4.w.toDouble(),
+          height: 4.w.toDouble(),
           child: CircularProgressIndicator(
             strokeWidth: 2,
             valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryLight),
           ),
         ),
-        SizedBox(width: 3.w),
+        SizedBox(width: 3.w.toDouble()),
         Text(
           'Generating AI insights...',
           style: GoogleFonts.roboto(
@@ -271,11 +272,11 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
 
   Widget _buildTopicCard(String topic, double score, bool isWeak) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 1.h),
-      padding: EdgeInsets.all(3.w),
+      margin: EdgeInsets.symmetric(vertical: 1.h.toDouble()),
+      padding: EdgeInsets.all(3.w.toDouble()),
       decoration: BoxDecoration(
         color: isWeak ? Colors.red.shade50 : Colors.green.shade50,
-        borderRadius: BorderRadius.circular(2.w),
+        borderRadius: BorderRadius.circular(2.w.toDouble()),
         border: Border.all(
           color: isWeak ? Colors.red.shade200 : Colors.green.shade200,
         ),
@@ -305,28 +306,21 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
   }
 
   Widget _buildActionCard(
-    String title,
-    String subtitle,
-    IconData icon,
-    Color color,
-    VoidCallback onTap,
-  ) {
+      String title, String subtitle, IconData icon, Color color, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 1.h),
-        padding: EdgeInsets.all(3.w),
+        margin: EdgeInsets.symmetric(vertical: 1.h.toDouble()),
+        padding: EdgeInsets.all(3.w.toDouble()),
         decoration: BoxDecoration(
-          color: color.withValues(alpha: (0.1 * 255).toInt()),
-          borderRadius: BorderRadius.circular(2.w),
-          border: Border.all(
-            color: color.withValues(alpha: (0.3 * 255).toInt()),
-          ),
+          color: color.withAlpha((0.1 * 255).round()),
+          borderRadius: BorderRadius.circular(2.w.toDouble()),
+          border: Border.all(color: color.withAlpha((0.3 * 255).round())),
         ),
         child: Row(
           children: [
-            Icon(icon, color: color, size: 6.w),
-            SizedBox(width: 3.w),
+            Icon(icon, color: color, size: 6.w.toDouble()),
+            SizedBox(width: 3.w.toDouble()),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -339,7 +333,7 @@ Next steps: ${widget.testResult.overallScore >= 85 ? 'Maintain excellence and he
                       color: AppTheme.textPrimaryLight,
                     ),
                   ),
-                  SizedBox(height: 0.5.h),
+                  SizedBox(height: 0.5.h.toDouble()),
                   Text(
                     subtitle,
                     style: GoogleFonts.roboto(
