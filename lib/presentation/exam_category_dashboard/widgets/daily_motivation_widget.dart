@@ -15,6 +15,17 @@ class DailyMotivationWidget extends StatelessWidget {
     required this.studyStreak,
   }) : super(key: key);
 
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return "Good morning";
+    } else if (hour < 17) {
+      return "Good afternoon";
+    } else {
+      return "Good evening";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,8 +34,8 @@ class DailyMotivationWidget extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppTheme.lightTheme.colorScheme.primary.withOpacity(0.1),
-            AppTheme.lightTheme.colorScheme.secondary.withOpacity(0.1),
+            AppTheme.lightTheme.colorScheme.primary.withValues(alpha: 0.1),
+            AppTheme.lightTheme.colorScheme.secondary.withValues(alpha: 0.1),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -67,7 +78,7 @@ class DailyMotivationWidget extends StatelessWidget {
           Text(
             "- $author",
             style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-              color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.7),
+              color: AppTheme.lightTheme.colorScheme.onSurface.withValues(alpha: 0.7),
               fontWeight: FontWeight.w500,
             ),
           ),
