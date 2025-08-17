@@ -3,6 +3,43 @@ import 'package:sizer/sizer.dart';
 
 import '../../../core/app_export.dart';
 
+/// Ye aapki main screen hogi jisko route me use karoge
+class ExamCategoryDashboard extends StatelessWidget {
+  const ExamCategoryDashboard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Exam Category Dashboard"),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Yaha apka DailyMotivationWidget call hoga
+            DailyMotivationWidget(
+              quote: "Success is not final, failure is not fatal.",
+              author: "Winston Churchill",
+              studyStreak: 5,
+            ),
+
+            // Aap aur widgets bhi add kar sakte ho
+            SizedBox(height: 2.h),
+            Center(
+              child: Text(
+                "Exam Categories aa jayenge yaha...",
+                style: AppTheme.lightTheme.textTheme.titleMedium,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Ye widget already aapne banaya tha
 class DailyMotivationWidget extends StatelessWidget {
   final String quote;
   final String author;
@@ -108,9 +145,9 @@ class DailyMotivationWidget extends StatelessWidget {
                 child: Text(
                   "Keep Going!",
                   style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
               ),
             ],
