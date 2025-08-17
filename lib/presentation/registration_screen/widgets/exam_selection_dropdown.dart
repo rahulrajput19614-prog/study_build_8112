@@ -163,9 +163,9 @@ class _ExamSelectionDropdownState extends State<ExamSelectionDropdown> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 8,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
@@ -188,7 +188,7 @@ class _ExamSelectionDropdownState extends State<ExamSelectionDropdown> {
                         EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
                     color: isSelected
                         ? AppTheme.lightTheme.colorScheme.primaryContainer
-                            .withOpacity(0.3)
+                            .withValues(alpha: 0.3)
                         : Colors.transparent,
                     child: Row(
                       children: [
