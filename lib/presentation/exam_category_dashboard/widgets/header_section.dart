@@ -34,7 +34,7 @@ class HeaderSection extends StatelessWidget {
         color: AppTheme.lightTheme.scaffoldBackgroundColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: (0.05 * 255).toInt()),
+            color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.05),
             blurRadius: 4.0,
             offset: const Offset(0.0, 2.0),
           ),
@@ -52,8 +52,7 @@ class HeaderSection extends StatelessWidget {
                     Text(
                       "${_getGreeting()},",
                       style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.lightTheme.colorScheme.onSurfaceVariant
-                            .withValues(alpha: (0.7 * 255).toInt()),
+                        color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.7),
                       ),
                     ),
                     SizedBox(height: 0.5.h),
@@ -75,7 +74,7 @@ class HeaderSection extends StatelessWidget {
                     onPressed: onSearchTap,
                     icon: CustomIconWidget(
                       iconName: 'search',
-                      color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
+                      color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.8),
                       size: 6.0.w,
                     ),
                     style: IconButton.styleFrom(
@@ -92,13 +91,11 @@ class HeaderSection extends StatelessWidget {
                         onPressed: onNotificationTap,
                         icon: CustomIconWidget(
                           iconName: 'notifications',
-                          color:
-                              AppTheme.lightTheme.colorScheme.onSurfaceVariant,
+                          color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.8),
                           size: 6.0.w,
                         ),
                         style: IconButton.styleFrom(
-                          backgroundColor:
-                              AppTheme.lightTheme.colorScheme.surface,
+                          backgroundColor: AppTheme.lightTheme.colorScheme.surface,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0),
                           ),
@@ -137,7 +134,7 @@ class HeaderSection extends StatelessWidget {
               children: [
                 CustomIconWidget(
                   iconName: 'search',
-                  color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
+                  color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
                   size: 5.0.w,
                 ),
                 SizedBox(width: 3.0.w),
@@ -145,8 +142,7 @@ class HeaderSection extends StatelessWidget {
                   child: Text(
                     "Search tests, topics, or questions...",
                     style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                      color: AppTheme.lightTheme.colorScheme.onSurfaceVariant
-                          .withValues(alpha: (0.7 * 255).toInt()),
+                      color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.6),
                     ),
                   ),
                 ),
