@@ -19,10 +19,11 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Release APK build
       - name: Build Release APK
         run: flutter build apk --release
 
-      # Release AAB build (Play Store ke liye)
-      - name: Build Release AAB
-        run: flutter build appbundle --release
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
