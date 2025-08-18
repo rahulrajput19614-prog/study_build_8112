@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace "com.study_build.app"
+    namespace "com.study_build.app"   // ✅ must match AndroidManifest + google-services.json
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.study_build.app"
+        applicationId "com.study_build.app"  // ✅ must match
         minSdk 21
         targetSdk 34
         versionCode 1
