@@ -35,22 +35,25 @@ jobs:
     - name: Analyze project
       run: flutter analyze
 
+    # ✅ Debug keystore generate karega (Firebase ke liye SHA keys milenge)
     - name: Create debug keystore
       run: |
         cd android/app
         keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,OU=Android,O=Android,L=Mountain View,ST=California,C=US"
         cd ../..
 
+    # ✅ Debug APK banayega
     - name: Build Debug APK
       run: flutter build apk --debug
 
+    # ✅ Artifact upload karega (GitHub Actions → build me download available hoga)
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       with:
         name: debug-apk
         path: build/app/outputs/flutter-apk/app-debug.apk
 
-    # ✅ SHA1 / SHA256 keys print karega (Firebase ke liye)
+    # ✅ Firebase ke liye SHA1 / SHA256 print karega
     - name: Print SHA1 / SHA256 Keys
       run: |
         cd android
