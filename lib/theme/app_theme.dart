@@ -23,7 +23,8 @@ class AppTheme {
   static const Color errorDark = Color(0xFFEF5350);
 
   static const Color textPrimaryDark = Color(0xFFFFFFFF);
-  static const const Color textSecondaryDark = Color(0xFFB0BEC5);
+  // ✅ यहाँ से अतिरिक्त 'const' हटाया गया है
+  static const Color textSecondaryDark = Color(0xFFB0BEC5);
 
   // Light theme
   static ThemeData lightTheme = ThemeData(
