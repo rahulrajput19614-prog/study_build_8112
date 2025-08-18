@@ -178,7 +178,7 @@ class _SplashScreenState extends State<SplashScreen>
                                     borderRadius: BorderRadius.circular(5.w),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withValues(alpha: 0.15),
+                                        color: Colors.black.withOpacity(0.15), // ✅ withValues को withOpacity से बदला गया
                                         blurRadius: 18,
                                         offset: const Offset(0, 8),
                                       ),
@@ -222,7 +222,7 @@ class _SplashScreenState extends State<SplashScreen>
                                 Text(
                                   'Master Your Government Exam',
                                   style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
-                                    color: Colors.white.withValues(alpha: 0.9),
+                                    color: Colors.white.withOpacity(0.9), // ✅ withValues को withOpacity से बदला गया
                                     fontSize: 12.sp,
                                     letterSpacing: 0.8,
                                   ),
@@ -248,10 +248,10 @@ class _SplashScreenState extends State<SplashScreen>
                               child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
                                 decoration: BoxDecoration(
-                                  color: Colors.red.withValues(alpha: 0.15),
+                                  color: Colors.red.withOpacity(0.15), // ✅ withValues को withOpacity से बदला गया
                                   borderRadius: BorderRadius.circular(2.w),
                                   border: Border.all(
-                                    color: Colors.white.withValues(alpha: 0.3),
+                                    color: Colors.white.withOpacity(0.3), // ✅ withValues को withOpacity से बदला गया
                                     width: 1,
                                   ),
                                 ),
@@ -281,7 +281,7 @@ class _SplashScreenState extends State<SplashScreen>
                               child: CircularProgressIndicator(
                                 strokeWidth: 3,
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.white.withValues(alpha: 0.85),
+                                  Colors.white.withOpacity(0.85), // ✅ withValues को withOpacity से बदला गया
                                 ),
                               ),
                             ),
@@ -300,7 +300,7 @@ class _SplashScreenState extends State<SplashScreen>
                                 _loadingText,
                                 textAlign: TextAlign.center,
                                 style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                                  color: Colors.white.withValues(alpha: 0.85),
+                                  color: Colors.white.withOpacity(0.85), // ✅ withValues को withOpacity से बदला गया
                                   fontSize: 11.sp,
                                 ),
                               ),
