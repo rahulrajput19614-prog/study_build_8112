@@ -2,15 +2,15 @@ plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
     id "dev.flutter.flutter-gradle-plugin"
-    id "com.google.gms.google-services" // ✅ Firebase/Google auth के लिए
+    id "com.google.gms.google-services"   // ✅ Firebase plugin
 }
 
 android {
-    namespace "com.study_build.app"   // ✅ same as Manifest package
+    namespace "com.study_build.app"
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.study_build.app"   // ✅ same as Manifest package
+        applicationId "com.study_build.app"
         minSdk 21
         targetSdk 34
         versionCode 1
