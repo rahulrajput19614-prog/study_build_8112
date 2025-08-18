@@ -1,14 +1,14 @@
-name: Flutter APK Build
+name: Flutter Debug APK Build
 
 on:
-  workflow_dispatch:   # Manual trigger ke liye
+  workflow_dispatch:
 
 jobs:
-  build:
+  build-debug:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout source code
         uses: actions/checkout@v3
 
       - name: Setup JDK
@@ -17,18 +17,18 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Flutter
+      - name: Setup Flutter SDK
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0'   # apna flutter version
+          flutter-version: '3.19.0'
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build APK
+      - name: Build Debug APK
         run: flutter build apk --debug
 
-      - name: Upload APK Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: app-debug
