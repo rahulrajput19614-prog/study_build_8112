@@ -2,15 +2,15 @@ plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
     id "dev.flutter.flutter-gradle-plugin"
-    id "com.google.gms.google-services"   // ✅ Firebase plugin
+    id "com.google.gms.google-services"
 }
 
 android {
-    namespace "com.study_build.app"   // ✅ must match AndroidManifest + google-services.json
+    namespace "com.study_build.app"   // ✅ must match your MainActivity + google-services.json
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.study_build.app"  // ✅ must match
+        applicationId "com.study_build.app"
         minSdk 21
         targetSdk 34
         versionCode 1
@@ -54,4 +54,5 @@ flutter {
 
 dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
