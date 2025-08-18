@@ -87,7 +87,8 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
                   decoration: BoxDecoration(
                     color: _currentPage == index
                         ? AppTheme.primaryLight
-                        : AppTheme.primaryLight.withValues(alpha: 0.3), // ✅ fixed
+                        // ✅ FIX: replaced .withValues with .withOpacity
+                        : AppTheme.primaryLight.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                 );
