@@ -4,8 +4,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // Google Services Plugin (Firebase)
-        classpath 'com.google.gms:google-services:4.4.2'
+        // ✅ Latest AGP compatible with Flutter
+        classpath "com.android.tools.build:gradle:8.6.0"
+
+        // ✅ Google Services for Firebase
+        classpath "com.google.gms:google-services:4.4.2"
     }
 }
 
@@ -14,16 +17,4 @@ allprojects {
         google()
         mavenCentral()
     }
-}
-
-rootProject.buildDir = "../build"
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(":app")
-}
-
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
 }
