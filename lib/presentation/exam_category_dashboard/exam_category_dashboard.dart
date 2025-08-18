@@ -60,8 +60,10 @@ class DailyMotivationWidget extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppTheme.lightTheme.colorScheme.primary.withValues(alpha: 0.1),
-            AppTheme.lightTheme.colorScheme.secondary.withValues(alpha: 0.1),
+            // ✅ `withValues` को `withOpacity` से बदला गया
+            AppTheme.lightTheme.colorScheme.primary.withOpacity(0.1),
+            // ✅ `withValues` को `withOpacity` से बदला गया
+            AppTheme.lightTheme.colorScheme.secondary.withOpacity(0.1),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -145,9 +147,9 @@ class DailyMotivationWidget extends StatelessWidget {
                 child: Text(
                   "Keep Going!",
                   style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
