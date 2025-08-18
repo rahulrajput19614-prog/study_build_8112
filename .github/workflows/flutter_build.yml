@@ -35,5 +35,3 @@ jobs:
         path: build/app/outputs/flutter-apk/app-debug.apk
 
 
-      - name: Get SHA-1 and SHA-256
-        run: ./gradlew signingReport
