@@ -14,17 +14,16 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0' # apni flutter version dalna
+          flutter-version: '3.19.0' # apna flutter version daalo
 
       - name: Install dependencies
         run: flutter pub get
 
-      # 👇 APK build karne ke liye android folder me jao
+      # Debug APK build
       - name: Build Debug APK
         run: flutter build apk --debug
-        working-directory: .
 
-      # 👇 SHA1 / SHA256 print karne ke liye android folder use karo
+      # SHA1 / SHA256 Keys print karna
       - name: Print SHA Keys
         run: ./gradlew signingReport
         working-directory: android
