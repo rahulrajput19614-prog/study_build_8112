@@ -1,3 +1,4 @@
+
 name: Flutter Build
 
 on:
@@ -25,3 +26,4 @@ jobs:
       # 👇 Ye step SHA1 / SHA256 print karega
       - name: Print SHA Keys
         run: ./gradlew signingReport
+        working-directory: android
