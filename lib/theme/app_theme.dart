@@ -13,7 +13,7 @@ class AppTheme {
   static const Color textPrimaryLight = Color(0xFF212121);
   static const Color textSecondaryLight = Color(0xFF757575);
 
-  // Dark Colors (optional, agar tum use kar rahe ho)
+  // Dark Colors
   static const Color primaryDark = Color(0xFF90CAF9);
   static const Color secondaryDark = Color(0xFF64B5F6);
   static const Color accentDark = Color(0xFFFFD54F);
@@ -23,7 +23,7 @@ class AppTheme {
   static const Color errorDark = Color(0xFFEF5350);
 
   static const Color textPrimaryDark = Color(0xFFFFFFFF);
-  static const Color textSecondaryDark = Color(0xFFB0BEC5);
+  static const const Color textSecondaryDark = Color(0xFFB0BEC5);
 
   // Light theme
   static ThemeData lightTheme = ThemeData(
@@ -32,11 +32,13 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(seedColor: primaryLight, brightness: Brightness.light),
     scaffoldBackgroundColor: backgroundLight,
     dividerColor: dividerLight,
-    tabBarTheme: const TabBarThemeData(
+    // ✅ Class का नाम सही किया गया है
+    tabBarTheme: const TabBarTheme(
       labelColor: primaryLight,
       unselectedLabelColor: textSecondaryLight,
     ),
-    dialogTheme: const DialogThemeData(
+    // ✅ Class का नाम सही किया गया है
+    dialogTheme: const DialogTheme(
       backgroundColor: surfaceLight,
     ),
   );
@@ -48,17 +50,19 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(seedColor: primaryDark, brightness: Brightness.dark),
     scaffoldBackgroundColor: backgroundDark,
     dividerColor: dividerDark,
-    tabBarTheme: const TabBarThemeData(
+    // ✅ Class का नाम सही किया गया है
+    tabBarTheme: const TabBarTheme(
       labelColor: primaryDark,
       unselectedLabelColor: textSecondaryDark,
     ),
-    dialogTheme: const DialogThemeData(
+    // ✅ Class का नाम सही किया गया है
+    dialogTheme: const DialogTheme(
       backgroundColor: surfaceDark,
     ),
   );
 
-  /// Fix for withOpacity → withValues
+  /// ✅ withValues को withOpacity से बदला गया है
   static Color withOpacityFix(Color color, double opacity) {
-    return color.withValues(alpha: opacity);
+    return color.withOpacity(opacity);
   }
 }
