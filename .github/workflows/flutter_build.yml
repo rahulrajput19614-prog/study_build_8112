@@ -19,10 +19,12 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      # 👇 APK build karne ke liye android folder me jao
       - name: Build Debug APK
         run: flutter build apk --debug
+        working-directory: .
 
-      # 👇 Ye step SHA1 / SHA256 print karega
+      # 👇 SHA1 / SHA256 print karne ke liye android folder use karo
       - name: Print SHA Keys
         run: ./gradlew signingReport
         working-directory: android
