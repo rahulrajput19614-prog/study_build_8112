@@ -17,7 +17,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.35.1' # ✅ Dart 3.9.0
+        flutter-version: '3.35.1' # ✅ Dart 3.9.0 compatible
 
     - name: Install dependencies
       run: flutter pub get
@@ -31,10 +31,19 @@ jobs:
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       with:
-        name: debug-apk
+        name: app-debug
         path: build/app/outputs/flutter-apk/app-debug.apk
 
-    # ✅ SHA1 / SHA256 print karega
+    - name: Build Release APK
+      run: flutter build apk --release
+
+    - name: Upload Release APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-release
+        path: build/app/outputs/flutter-apk/app-release.apk
+
+    # ✅ SHA1 / SHA256 print karega (Google/Firebase ke liye)
     - name: Print SHA1 / SHA256 Keys
       run: |
         cd android
