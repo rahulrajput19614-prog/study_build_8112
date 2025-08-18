@@ -1,12 +1,12 @@
 plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
-    id "dev.flutter.flutter-gradle-plugin"
     id "com.google.gms.google-services"
+    id "dev.flutter.flutter-gradle-plugin"
 }
 
 android {
-    namespace "com.study_build.app"   // ✅ must match your MainActivity + google-services.json
+    namespace "com.study_build.app"
     compileSdk 34
 
     defaultConfig {
@@ -54,5 +54,4 @@ flutter {
 
 dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
