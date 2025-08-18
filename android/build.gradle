@@ -4,10 +4,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // ✅ Latest AGP compatible with Flutter
+        // ✅ Latest Android Gradle Plugin (Flutter ke saath compatible)
         classpath "com.android.tools.build:gradle:8.6.0"
 
-        // ✅ Google Services for Firebase
+        // ✅ Firebase / Google Services
         classpath "com.google.gms:google-services:4.4.2"
     }
 }
@@ -18,3 +18,6 @@ allprojects {
         mavenCentral()
     }
 }
+
+// ⚠️ Flutter 3.22+ ke liye yahan aur kuch add karne ki zarurat nahi hai.
+// Sab plugins `plugins {}` block ke through app/build.gradle me lagte hain.
