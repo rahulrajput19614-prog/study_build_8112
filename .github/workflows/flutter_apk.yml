@@ -19,13 +19,14 @@ jobs:
       with:
         flutter-version: '3.35.1' # ✅ Dart 3.9.0
 
-    # ✅ Cache Flutter & Gradle dependencies (build fast karega)
+    # ✅ Cache Flutter & Gradle dependencies
     - name: Cache Flutter dependencies
       uses: actions/cache@v3
       with:
         path: |
           ~/.pub-cache
-          ~/.gradle
+          ~/.gradle/caches
+          ~/.gradle/wrapper
         key: ${{ runner.os }}-flutter-${{ hashFiles('pubspec.lock') }}
 
     - name: Install dependencies
@@ -45,7 +46,7 @@ jobs:
           build/app/outputs/flutter-apk/app-debug.apk
           build/app/outputs/apk/debug/app-debug.apk
 
-    # ✅ SHA1 / SHA256 keys print karega
+    # ✅ SHA1 / SHA256 keys print karega (Firebase ke liye)
     - name: Print SHA1 / SHA256 Keys
       run: |
         cd android
