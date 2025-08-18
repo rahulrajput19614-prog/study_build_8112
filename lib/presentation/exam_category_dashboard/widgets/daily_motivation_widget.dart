@@ -23,8 +23,8 @@ class DailyMotivationWidget extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppTheme.lightTheme.colorScheme.primary.withValues(alpha: 0.1),
-            AppTheme.lightTheme.colorScheme.secondary.withValues(alpha: 0.1),
+            AppTheme.lightTheme.colorScheme.primary.withOpacity(0.1), // ✅ withValues को withOpacity से बदला गया
+            AppTheme.lightTheme.colorScheme.secondary.withOpacity(0.1), // ✅ withValues को withOpacity से बदला गया
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -67,7 +67,7 @@ class DailyMotivationWidget extends StatelessWidget {
           Text(
             "- $author",
             style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
-              color: AppTheme.lightTheme.colorScheme.onSurface.withValues(alpha: 0.7),
+              color: AppTheme.lightTheme.colorScheme.onSurface.withOpacity(0.7), // ✅ withValues को withOpacity से बदला गया
               fontWeight: FontWeight.w500,
             ),
           ),
