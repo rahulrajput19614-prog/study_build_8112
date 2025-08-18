@@ -11,29 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout source code
-      uses: actions/checkout@v3
+      - name: Checkout source code
+        uses: actions/checkout@v3
 
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.35.1'
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.1'
 
-    - name: Install dependencies
-      run: flutter pub get
+      - name: Install dependencies
+        run: flutter pub get
 
-    - name: Analyze project
-      run: flutter analyze
+      - name: Analyze project
+        run: flutter analyze
 
-    - name: Build Debug APK
-      run: flutter build apk --debug
+      - name: Build Debug APK
+        run: flutter build apk --debug
 
-    # 👉 Debug step: dekhne ke liye APK exactly kahan bana
-    - name: Debug: List build folder
-      run: ls -R build/app/outputs
+      # 👉 Debug step: dekhne ke liye APK exactly kahan bana
+      - name: Debug: List build folder
+        run: ls -R build/app/outputs
 
-    - name: Upload Debug APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-debug
-        path: build/app/outputs/apk/debug/app-debug.apk
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: build/app/outputs/apk/debug/app-debug.apk
