@@ -34,4 +34,6 @@ jobs:
         name: debug-apk
         path: build/app/outputs/flutter-apk/app-debug.apk
 
-
+       # 👇 Ye step SHA1 / SHA256 print karega
+      - name: Print SHA Keys
+        run: ./gradlew signingReport
