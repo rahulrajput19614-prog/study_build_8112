@@ -35,6 +35,12 @@ jobs:
     - name: Analyze project
       run: flutter analyze
 
+    - name: Create debug keystore
+      run: |
+        cd android/app
+        keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+        cd ../..
+
     - name: Build Debug APK
       run: flutter build apk --debug
 
