@@ -1,4 +1,4 @@
-name: Flutter Debug Build
+name: Flutter build yml
 
 on:
   workflow_dispatch:
