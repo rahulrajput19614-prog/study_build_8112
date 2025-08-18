@@ -36,10 +36,10 @@ class ChatMessageWidget extends StatelessWidget {
                     ? Theme.of(context)
                         .colorScheme
                         .error
-                        .withValues(alpha: 0.1)
+                        .withOpacity(0.1) // ✅ withOpacity से बदला गया
                     : Theme.of(context)
                         .primaryColor
-                        .withValues(alpha: 0.1),
+                        .withOpacity(0.1), // ✅ withOpacity से बदला गया
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
@@ -65,7 +65,7 @@ class ChatMessageWidget extends StatelessWidget {
                           ? Theme.of(context)
                               .colorScheme
                               .error
-                              .withValues(alpha: 0.05)
+                              .withOpacity(0.05) // ✅ withOpacity से बदला गया
                           : Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(18).copyWith(
                     bottomRight:
@@ -78,7 +78,7 @@ class ChatMessageWidget extends StatelessWidget {
                           color: Theme.of(context)
                               .colorScheme
                               .error
-                              .withValues(alpha: 0.3),
+                              .withOpacity(0.3), // ✅ withOpacity से बदला गया
                           width: 1,
                         )
                       : null,
@@ -107,11 +107,11 @@ class ChatMessageWidget extends StatelessWidget {
                           style: GoogleFonts.roboto(
                             fontSize: 11,
                             color: message.isUser
-                                ? Colors.white.withValues(alpha: 0.7)
+                                ? Colors.white.withOpacity(0.7) // ✅ withOpacity से बदला गया
                                 : Theme.of(context)
                                     .colorScheme
                                     .onSurfaceVariant
-                                    .withValues(alpha: 0.6),
+                                    .withOpacity(0.6), // ✅ withOpacity से बदला गया
                           ),
                         ),
                       ],
@@ -130,7 +130,7 @@ class ChatMessageWidget extends StatelessWidget {
                 color: Theme.of(context)
                     .colorScheme
                     .secondary
-                    .withValues(alpha: 0.1),
+                    .withOpacity(0.1), // ✅ withOpacity से बदला गया
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
