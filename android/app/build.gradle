@@ -2,7 +2,6 @@ plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
     id "com.google.gms.google-services"
-    id "dev.flutter.flutter-gradle-plugin"
 }
 
 android {
@@ -48,9 +47,8 @@ android {
     }
 }
 
-flutter {
-    source '../..'
-}
+// यह सबसे महत्वपूर्ण लाइन है जो Flutter प्लगइन को सही तरीके से जोड़ती है।
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
