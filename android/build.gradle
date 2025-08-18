@@ -1,17 +1,14 @@
 buildscript {
-    ext.kotlin_version = "1.9.22" // ✅ Kotlin version declare करो
+    ext.kotlin_version = "1.9.22"
+
     repositories {
         google()
         mavenCentral()
     }
+
     dependencies {
-        // ✅ Android Gradle Plugin (Flutter compatible)
         classpath "com.android.tools.build:gradle:8.6.0"
-
-        // ✅ Kotlin Gradle Plugin (ये missing था)
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        // ✅ Firebase / Google Services
         classpath "com.google.gms:google-services:4.4.2"
     }
 }
@@ -22,6 +19,3 @@ allprojects {
         mavenCentral()
     }
 }
-
-// ⚠️ Flutter 3.22+ ke liye aur kuch add karne ki zarurat nahi hai.
-// Sab plugins `plugins {}` block ke through app/build.gradle me lagte hain.
