@@ -1,0 +1,29 @@
+name: Flutter Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0' # yaha apna flutter version daalo
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Debug APK build
+      - name: Build Debug APK
+        run: flutter build apk --debug
+
+      # SHA1 / SHA256 Keys print karna
+      - name: Print SHA Keys
+        run: ./gradlew signingReport
+        working-directory: android
