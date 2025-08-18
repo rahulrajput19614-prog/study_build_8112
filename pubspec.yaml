@@ -61,11 +61,3 @@ flutter:
   assets:
     - assets/
     - assets/Gemini_Generated_Image_uf53g0uf53g0uf53.png
-
-  plugin:
-    platforms:
-      android:
-        package: com.mr.flutter.plugin.filepicker
-        pluginClass: FilePickerPlugin
-      ios:
-        pluginClass: FilePickerPlugin
