@@ -1,0 +1,21 @@
+name: Get SHA Keys
+
+on:
+  workflow_dispatch:   # 👈 manually button se run hoga
+
+jobs:
+  generate-sha:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Get SHA-1 and SHA-256
+        run: ./gradlew signingReport
