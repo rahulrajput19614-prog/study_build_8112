@@ -70,10 +70,10 @@ class CustomInspector {
     return {
       'type': 'Switch',
       'value': widget.value,
-      'activeTrackColor': _colorToHex(widget.activeTrackColor),
-      'activeThumbColor': _colorToHex(widget.activeThumbColor),
-      'inactiveThumbColor': _colorToHex(widget.inactiveThumbColor),
-      'inactiveTrackColor': _colorToHex(widget.inactiveTrackColor),
+      // `activeThumbColor` और `activeTrackColor` जैसी पुरानी संपत्तियों को हटा दिया गया है।
+      // अब thumbColor और trackColor का उपयोग करें, जो MaterialStateProperty लेते हैं।
+      'thumbColor': widget.thumbColor?.toString(),
+      'trackColor': widget.trackColor?.toString(),
       'materialTapTargetSize': widget.materialTapTargetSize?.toString(),
     };
   }
@@ -98,7 +98,7 @@ class CustomInspector {
       'max': widget.max,
       'divisions': widget.divisions,
       'label': widget.label,
-      'activeTrackColor': _colorToHex(widget.activeColor), // ✅ Updated
+      'activeTrackColor': _colorToHex(widget.activeColor),
       'inactiveColor': _colorToHex(widget.inactiveColor),
     };
   }
@@ -130,6 +130,7 @@ class CustomInspector {
   /// Helper to convert Color to hex string
   static String? _colorToHex(Color? color) {
     if (color == null) return null;
-    return '#${color.toARGB32().toRadixString(16).padLeft(8, '0')}'; // ✅ Updated
+    // `toARGB32` एक अमान्य विधि है; इसके बजाय `value` का उपयोग करें।
+    return '#${color.value.toRadixString(16).padLeft(8, '0')}';
   }
 }
