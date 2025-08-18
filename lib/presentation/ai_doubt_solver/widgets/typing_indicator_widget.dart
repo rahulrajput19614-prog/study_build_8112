@@ -38,9 +38,8 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
             width: 32,
             height: 32,
             decoration: BoxDecoration(
-              color: Theme.of(context)
-                  .primaryColor
-                  .withValues(alpha: 0.1), // ✅ FIXED
+              // `withValues` को `withOpacity` से बदला गया
+              color: Theme.of(context).primaryColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
@@ -68,10 +67,11 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
                   Text(
                     'AI is typing',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          // `withValues` को `withOpacity` से बदला गया
                           color: Theme.of(context)
                               .colorScheme
                               .onSurfaceVariant
-                              .withValues(alpha: 0.7), // ✅ FIXED
+                              .withOpacity(0.7),
                         ),
                   ),
                   const SizedBox(width: 8),
@@ -116,4 +116,3 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
     );
   }
 }
-
