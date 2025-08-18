@@ -14,10 +14,12 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v3
 
+    # ✅ Flutter version को सही किया गया है
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.35.1' # ✅ Dart 3.9.0
+        # ✅ एक valid और stable version का इस्तेमाल करें
+        flutter-version: '3.22.1'
 
     # ✅ Cache Flutter & Gradle dependencies
     - name: Cache Flutter dependencies
