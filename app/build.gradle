@@ -1,10 +1,9 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
-    id "dev.flutter.flutter-gradle-plugin"
+    id "org.jetbrains.kotlin.android"
     id "com.google.gms.google-services"
+    id "dev.flutter.flutter-gradle-plugin"
 }
-
 android {
     namespace "com.studybuild.app"
     compileSdk 34
@@ -21,15 +20,9 @@ android {
         release {
             signingConfig signingConfigs.debug
             minifyEnabled false
-            shrinkResources false
         }
     }
 }
-
 flutter {
-    source "../.."
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
+    source '../..'
 }
